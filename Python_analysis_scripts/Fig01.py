@@ -50,8 +50,8 @@ nc5 = NetCDFFile(filename5, 'r')
 
 #===============================  DEFINE GEO FILES and specify resolution
 
-nc_dom1 = "../../WRF_V3.6/WPS/geo_em.d01.nc"
-nc_dom2 = "../../WRF_V3.6/WPS/geo_em.d02.nc"
+nc_dom1 = "/data/scihub-users/giyoung/WRF_V3.6/WPS/geo_em.d01.nc"
+nc_dom2 = "/data/scihub-users/giyoung/WRF_V3.6/WPS/geo_em.d02.nc"
 nc_dom3 = '/data/scihub-users/giyoung/PWRF_V3.6.1/RUNS/MAC_WRF/31_DeMott_WATSAT_eta70_MYNN/wrfout_d02_2015-11-27_00:00:00'
 
 #===============================  OPEN GEO FILES
@@ -846,7 +846,7 @@ plt.plot((np.nanpercentile(Nisg_3,99.7),np.nanpercentile(Nisg_3,99.7)),yl,'d-.',
 plt.plot((np.nanpercentile(Nisg_4,99.7),np.nanpercentile(Nisg_4,99.7)),yl,'d-.',color='blue')
 plt.plot((np.nanpercentile(Nisg_5,99.7),np.nanpercentile(Nisg_5,99.7)),yl,'d-.',color='dodgerblue')
 # plt.grid('on')
-plt.annotate('(b)',xy=(0.25,0.3),xytext=(0.26,0.31),fontsize=10)
+plt.annotate('(b)',xy=(0.25,0.3),xytext=(0.26,0.31),fontsize=14)
 
 #########################################################################################################
 
@@ -858,8 +858,8 @@ ax  = fig.add_axes([0.1,0.36,0.23,0.23])   # left, bottom, width, height
 ax.plot(newtemp27-273.15,newnisg27,'.',color='lightgrey',markersize=4,label='27-Nov-2015')
 ax.plot(newtemp28-273.15,newnisg28,'.',color='lightgrey',markersize=4)
 ax.plot(newtemp29-273.15,newnisg29,'.',color='lightgrey',markersize=4)
-ax.plot(MAC['Temp']-273.15, MAC['Ni'],color='k',label='Mean (MAC)',linewidth=3)
-ax.plot(MAC['Temp']-273.15, MAC['Ni_997'],'k--',label='99.7 (MAC)')
+ax.plot(MAC['Temp']-273.15, MAC['Ni'],color='k',label='Mean (entire MAC)',linewidth=3)
+ax.plot(MAC['Temp']-273.15, MAC['Ni_997'],'k--',label='99.7 (entire MAC)')
 ax.plot(T3D-273.15, niobs_nanmean,color='dimgrey',label='Mean (27-Nov)',linewidth=3)
 ax.plot(T3D-273.15, niobs_997,'--',color='dimgrey',label='99.7 (27-Nov)')
 ax.plot(T3D-273.15, ni1_nanmean,'r',label='Mean (PWRF)',linewidth=3)
@@ -869,8 +869,8 @@ ax.set_ylim([5e-3,1e2])
 ax.set_yscale("log", nonposy='clip')
 plt.ylabel('$N_{isg>80}$ [$L^{-1}$]')
 # plt.title(runlab1)
-plt.annotate('(c)',xy=(-9.0,0.5e2),xytext=(-8.9,0.5e2),fontsize=10)
-plt.annotate(runlab1,xy=(-4.5,6e-3),xytext=(-4.6,6.1e-3),fontsize=10)
+plt.annotate('(c)',xy=(-9.0,0.5e2),xytext=(-8.9,0.5e2),fontsize=14)
+plt.annotate(runlab1,xy=(-5.3,6e-3),xytext=(-5.4,6.1e-3),fontsize=14)
 
 
 
@@ -878,11 +878,11 @@ plt.annotate(runlab1,xy=(-4.5,6e-3),xytext=(-4.6,6.1e-3),fontsize=10)
 ##  NoThresh
 ###################################
 ax  = fig.add_axes([0.4,0.36,0.23,0.23])   # llighteft, bottom, width, height
-ax.plot(newtemp27-273.15,newnisg27,'.',color='lightgrey',markersize=4,label='Obs')
+ax.plot(newtemp27-273.15,newnisg27,'.',color='lightgrey',markersize=4,label='27-Nov-2015')
 ax.plot(newtemp28-273.15,newnisg28,'.',color='lightgrey',markersize=4)
 ax.plot(newtemp29-273.15,newnisg29,'.',color='lightgrey',markersize=4)
-ax.plot(MAC['Temp']-273.15, MAC['Ni'],color='k',label='Mean (MAC)',linewidth=3)
-ax.plot(MAC['Temp']-273.15, MAC['Ni_997'],'k--',label='99.7 (MAC)')
+ax.plot(MAC['Temp']-273.15, MAC['Ni'],color='k',label='Mean (entire MAC)',linewidth=3)
+ax.plot(MAC['Temp']-273.15, MAC['Ni_997'],'k--',label='99.7 (entire MAC)')
 ax.plot(T3D-273.15, niobs_nanmean,color='dimgrey',label='Mean (27-Nov)',linewidth=3)
 ax.plot(T3D-273.15, niobs_997,'--',color='dimgrey',label='99.7 (27-Nov)')
 ax.plot(T3D-273.15, ni2_nanmean,'r',label='Mean (PWRF)',linewidth=3)
@@ -891,19 +891,19 @@ ax.set_xlim([-9,-3])
 ax.set_ylim([5e-3,1e2])
 ax.set_yscale("log", nonposy='clip')
 # plt.title(runlab2)
-plt.annotate('(d)',xy=(-9.0,0.5e2),xytext=(-8.9,0.5e2),fontsize=10)
-plt.annotate(runlab2,xy=(-5.2,6e-3),xytext=(-5.1,6.1e-3),fontsize=10)
-plt.legend(bbox_to_anchor=(1.4, 0.11, 1., .102), loc=3, ncol=1)
+plt.annotate('(d)',xy=(-9.0,0.5e2),xytext=(-8.9,0.5e2),fontsize=14)
+plt.annotate(runlab2,xy=(-6.2,6e-3),xytext=(-6.1,6.1e-3),fontsize=14)
+plt.legend(bbox_to_anchor=(1.3, 0.11, 1., .102), loc=3, ncol=1)
 
 ###################################
 ## 	2xHM
 ###################################
 ax  = fig.add_axes([0.1,0.1,0.23,0.23])    # left, bottom, width, height
-ax.plot(newtemp27-273.15,newnisg27,'.',color='lightgrey',markersize=4,label='Obs')
+ax.plot(newtemp27-273.15,newnisg27,'.',color='lightgrey',markersize=4,label='27-Nov-2015')
 ax.plot(newtemp28-273.15,newnisg28,'.',color='lightgrey',markersize=4)
 ax.plot(newtemp29-273.15,newnisg29,'.',color='lightgrey',markersize=4)
-ax.plot(MAC['Temp']-273.15, MAC['Ni'],color='k',label='Mean (MAC)',linewidth=3)
-ax.plot(MAC['Temp']-273.15, MAC['Ni_997'],'k--',label='99.7 (MAC)')
+ax.plot(MAC['Temp']-273.15, MAC['Ni'],color='k',label='Mean (entire MAC)',linewidth=3)
+ax.plot(MAC['Temp']-273.15, MAC['Ni_997'],'k--',label='99.7 (entire MAC)')
 ax.plot(T3D-273.15, niobs_nanmean,color='dimgrey',label='Mean (27-Nov)',linewidth=3)
 ax.plot(T3D-273.15, niobs_997,'--',color='dimgrey',label='99.7 (27-Nov)')
 ax.plot(T3D-273.15, ni3_nanmean,'r',label='Mean (PWRF)',linewidth=3)
@@ -914,8 +914,8 @@ plt.ylabel('$N_{isg>80}$ [$L^{-1}$]')
 plt.xlabel('Temperature [$^{o}C$]')
 ax.set_yscale("log", nonposy='clip')
 # plt.title(runlab3)
-plt.annotate('(e)',xy=(-9.0,0.5e2),xytext=(-8.9,0.5e2),fontsize=10)
-plt.annotate(runlab3,xy=(-4.5,6e-3),xytext=(-4.6,6.1e-3),fontsize=10)
+plt.annotate('(e)',xy=(-9.0,0.5e2),xytext=(-8.9,0.5e2),fontsize=14)
+plt.annotate(runlab3,xy=(-5.0,6e-3),xytext=(-5.1,6.1e-3),fontsize=14)
 
 
 ###################################
@@ -923,11 +923,11 @@ plt.annotate(runlab3,xy=(-4.5,6e-3),xytext=(-4.6,6.1e-3),fontsize=10)
 ###################################
 
 ax  = fig.add_axes([0.4,0.1,0.23,0.23])    # left, bottom, width, height
-ax.plot(newtemp27-273.15,newnisg27,'.',color='lightgrey',markersize=4,label='Obs')
+ax.plot(newtemp27-273.15,newnisg27,'.',color='lightgrey',markersize=4,label='27-Nov-2015')
 ax.plot(newtemp28-273.15,newnisg28,'.',color='lightgrey',markersize=4)
 ax.plot(newtemp29-273.15,newnisg29,'.',color='lightgrey',markersize=4)
-ax.plot(MAC['Temp']-273.15, MAC['Ni'],color='k',label='Mean (MAC)',linewidth=3)
-ax.plot(MAC['Temp']-273.15, MAC['Ni_997'],'k--',label='99.7 (MAC)')
+ax.plot(MAC['Temp']-273.15, MAC['Ni'],color='k',label='Mean (entire MAC)',linewidth=3)
+ax.plot(MAC['Temp']-273.15, MAC['Ni_997'],'k--',label='99.7 (entire MAC)')
 ax.plot(T3D-273.15, niobs_nanmean,color='dimgrey',label='Mean (27-Nov)',linewidth=3)
 ax.plot(T3D-273.15, niobs_997,'--',color='dimgrey',label='99.7 (27-Nov)')
 ax.plot(T3D-273.15, ni4_nanmean,'r',label='Mean (PWRF)',linewidth=3)
@@ -937,18 +937,18 @@ ax.set_ylim([5e-3,1e2])
 plt.xlabel('Temperature [$^{o}C$]')
 ax.set_yscale("log", nonposy='clip')
 # plt.title(runlab4)
-plt.annotate('(f)',xy=(-9.0,0.5e2),xytext=(-8.9,0.5e2),fontsize=10)
-plt.annotate(runlab4,xy=(-4.5,6e-3),xytext=(-4.6,6.1e-3),fontsize=10)
+plt.annotate('(f)',xy=(-9.0,0.5e2),xytext=(-8.9,0.5e2),fontsize=14)
+plt.annotate(runlab4,xy=(-5.0,6e-3),xytext=(-5.1,6.1e-3),fontsize=14)
 
 ###################################
 ##  10xHM
 ###################################
 ax  = fig.add_axes([0.7,0.1,0.23,0.23])   # left, bottom, width, height
-ax.plot(newtemp27-273.15,newnisg27,'.',color='lightgrey',markersize=4,label='Obs')
+ax.plot(newtemp27-273.15,newnisg27,'.',color='lightgrey',markersize=4,label='27-Nov-2015')
 ax.plot(newtemp28-273.15,newnisg28,'.',color='lightgrey',markersize=4)
 ax.plot(newtemp29-273.15,newnisg29,'.',color='lightgrey',markersize=4)
-ax.plot(MAC['Temp']-273.15, MAC['Ni'],color='k',label='Mean (MAC)',linewidth=3)
-ax.plot(MAC['Temp']-273.15, MAC['Ni_997'],'k--',label='99.7 (MAC)')
+ax.plot(MAC['Temp']-273.15, MAC['Ni'],color='k',label='Mean (entire MAC)',linewidth=3)
+ax.plot(MAC['Temp']-273.15, MAC['Ni_997'],'k--',label='99.7 (entire MAC)')
 ax.plot(T3D-273.15, niobs_nanmean,color='dimgrey',label='Mean (27-Nov)',linewidth=3)
 ax.plot(T3D-273.15, niobs_997,'--',color='dimgrey',label='99.7 (27-Nov)')
 ax.plot(T3D-273.15, ni5_nanmean,'r',label='Mean (PWRF)',linewidth=3)
@@ -959,8 +959,8 @@ ax.set_yscale("log", nonposy='clip')
 # plt.ylabel('$N_{isg>80}$ [$L^{-1}$]')
 plt.xlabel('Temperature [$^{o}C$]')
 # plt.title(runlab5)
-plt.annotate('(g)',xy=(-9.0,0.5e2),xytext=(-8.9,0.5e2),fontsize=10)
-plt.annotate(runlab5,xy=(-4.5,6e-3),xytext=(-4.6,6.1e-3),fontsize=10)
+plt.annotate('(g)',xy=(-9.0,0.5e2),xytext=(-8.9,0.5e2),fontsize=14)
+plt.annotate(runlab5,xy=(-5.0,6e-3),xytext=(-5.1,6.1e-3),fontsize=14)
 
 
 ##################################################
@@ -976,7 +976,7 @@ plt.annotate(runlab5,xy=(-4.5,6e-3),xytext=(-4.6,6.1e-3),fontsize=10)
 # print runlab4," = Mean:",ni4_nanmean_tot," 99.7:",np.nanpercentile(Nisg_4,99.7)
 # print runlab5," = Mean:",ni5_nanmean_tot," 99.7:",np.nanpercentile(Nisg_5,99.7)
 
-# plt.savefig('/data/scihub-users/giyoung/PYTHON/WRF/FIGS/Misc/01_Domain_FreqDist_NisgvsT_v1.svg')
+plt.savefig('/data/scihub-users/giyoung/PYTHON/WRF/FIGS/Misc/01_Domain_FreqDist_NisgvsT_v2.svg')
 plt.show()
 
 
