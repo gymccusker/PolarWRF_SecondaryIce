@@ -823,6 +823,33 @@ NiceFreq = np.histogram(NiceFreq_tot,bins)
 NiceFreqNorm = NiceFreq[0]/float(np.nansum(NiceFreq[0]))
 NiceFreqNorm[NiceFreqNorm==0] = np.nan
 
+#### Calculate outliers: q[0.75] +1.5*IQR
+Nisg_Obs_q75, Nisg_Obs_q25 = np.percentile(NiceFreq_tot, [75 ,25])
+Nisg_Obs_iqr = Nisg_Obs_q75 - Nisg_Obs_q25
+Nisg_Obs_OUTLIER = Nisg_Obs_q75+(1.5*Nisg_Obs_iqr)
+
+Nisg_1_q75, Nisg_1_q25 = np.percentile(Nisg_1, [75 ,25])
+Nisg_1_iqr = Nisg_1_q75 - Nisg_1_q25
+Nisg_1_OUTLIER = Nisg_1_q75+(1.5*Nisg_1_iqr)
+
+Nisg_2_q75, Nisg_2_q25 = np.percentile(Nisg_2, [75 ,25])
+Nisg_2_iqr = Nisg_2_q75 - Nisg_2_q25
+Nisg_2_OUTLIER = Nisg_2_q75+(1.5*Nisg_2_iqr)
+
+Nisg_3_q75, Nisg_3_q25 = np.percentile(Nisg_3, [75 ,25])
+Nisg_3_iqr = Nisg_3_q75 - Nisg_3_q25
+Nisg_3_OUTLIER = Nisg_3_q75+(1.5*Nisg_3_iqr)
+
+Nisg_4_q75, Nisg_4_q25 = np.percentile(Nisg_4, [75 ,25])
+Nisg_4_iqr = Nisg_4_q75 - Nisg_4_q25
+Nisg_4_OUTLIER = Nisg_4_q75+(1.5*Nisg_4_iqr)
+
+Nisg_5_q75, Nisg_5_q25 = np.percentile(Nisg_5, [75 ,25])
+Nisg_5_iqr = Nisg_5_q75 - Nisg_5_q25
+Nisg_5_OUTLIER = Nisg_5_q75+(1.5*Nisg_5_iqr)
+
+#####
+
 plt.step(NiceFreq[1][:-1],NiceFreqNorm,color='k',linewidth=3,label='27-Nov')
 plt.step(NisgFreq_1[1][:-1],NisgFreq_1[0]/float(np.nansum(NisgFreq_1[0])),color='slategray',label=runlab1)
 plt.step(NisgFreq_2[1][:-1],NisgFreq_2[0]/float(np.nansum(NisgFreq_2[0])),color='indigo',label=runlab2)
