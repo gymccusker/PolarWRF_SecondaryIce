@@ -149,7 +149,7 @@ for i in range(0,np.size(Z,2)):
                         strgk = "%1.f" % (k+1) # string of altitude
                         if theta[k,j,i] < theta[k+1,j,i]-0.4:           # large inversion - typically ~1500m
                                 bl1_2[j,i] = Z[k,j,i]
-								temp1[j,i] = data1['Tk'][timeindex,k+1,j,i]
+						        temp1[j,i] = data1['Tk'][timeindex,k+1,j,i]
                                 allicebelow1[j,i] = np.nanpercentile(data1['qnisg'][timeindex,0:k,j,i],99.7)/float(1e3)
                                 break
 
