@@ -1005,19 +1005,19 @@ iceabove5[iceabove5<0.005] = np.nan
 # lm.score(X,y)
 
 
-plt.subplot(221)
+plt.subplot(321)
 plt.plot(np.ndarray.flatten(iceabove1),np.ndarray.flatten(allicebelow1),'.')
 
-plt.subplot(222)
+plt.subplot(322)
 plt.plot(np.ndarray.flatten(iceabove2),np.ndarray.flatten(allicebelow2),'b.')
 
-plt.subplot(224)
+plt.subplot(324)
 plt.plot(np.ndarray.flatten(iceabove3),np.ndarray.flatten(allicebelow3),'k.')
 
-plt.subplot(225)
+plt.subplot(325)
 plt.plot(np.ndarray.flatten(iceabove4),np.ndarray.flatten(allicebelow4),'g.')
 
-plt.subplot(226)
+plt.subplot(326)
 plt.plot(np.ndarray.flatten(iceabove5),np.ndarray.flatten(allicebelow5),'r.')
 
 plt.show()
