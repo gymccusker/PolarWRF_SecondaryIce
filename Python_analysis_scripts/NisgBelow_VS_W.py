@@ -966,7 +966,7 @@ plt.rc('legend',fontsize=SMALL_SIZE)
 
 
 
-bins = np.arange(np.round(np.nanmin(w2)),np.round(np.nanmax(w2)),0.1)
+bins = np.arange(-0.5,0.5,0.1)
 
 plt.subplot(231)
 index1 = np.where(np.ndarray.flatten(allicebelow1)>=0.5)
