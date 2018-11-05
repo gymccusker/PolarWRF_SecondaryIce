@@ -152,7 +152,7 @@ for i in range(0,np.size(Z,2)):
                                 bl1_2[j,i] = Z[k,j,i]
 			        temp1[j,i] = data1['Tk'][timeindex,k+1,j,i]
                                 allicebelow1[j,i] = np.nansum(data1['qnisg'][timeindex,0:k,j,i])/float(1e3)		# /L
-                                if allicebelow1[j,i]>0.005: icebelowfreq1[j,i]==1
+                                if allicebelow1[j,i]>0.005: icebelowfreq1[j,i]=1
                                 break
 
 runlab1 = 'CNTRL'
