@@ -11,15 +11,16 @@ import matplotlib.pyplot as plt
 import matplotlib.cm as mpl_cm
 from mpl_toolkits.basemap import Basemap, cm
 from sklearn.metrics import r2_score
+from sklearn import linear_model
 
 ###################################
 # Pick file
 ###################################
 filename1 = '/data/scihub-users/giyoung/PWRF_V3.6.1/RUNS/MAC_WRF/31_DeMott_WATSAT_eta70_MYNN/wrfout_d02_2015-11-27_00:00:00'
 filename2 = '/data/scihub-users/giyoung/PWRF_V3.6.1/RUNS/MAC_WRF/30_DeMott_WATSAT_HM_noThresh_eta70_MYNN/wrfout_d02_2015-11-27_00:00:00'
-# filename3 = '/data/scihub-users/giyoung/PWRF_V3.6.1/RUNS/MAC_WRF/36_DeMott_WATSAT_2xHM_noThresh_eta70_MYNN/wrfout_d02_2015-11-27_00:00:00'
-# filename4 = '/data/scihub-users/giyoung/PWRF_V3.6.1/RUNS/MAC_WRF/57_DeMott_WATSAT_5xHM_noThresh_eta70_MYNN/wrfout_d02_2015-11-27_00:00:00'
-# filename5 = '/data/scihub-users/giyoung/PWRF_V3.6.1/RUNS/MAC_WRF/56_DeMott_WATSAT_10xHM_noThresh_eta70_MYNN/wrfout_d02_2015-11-27_00:00:00'
+filename3 = '/data/scihub-users/giyoung/PWRF_V3.6.1/RUNS/MAC_WRF/36_DeMott_WATSAT_2xHM_noThresh_eta70_MYNN/wrfout_d02_2015-11-27_00:00:00'
+filename4 = '/data/scihub-users/giyoung/PWRF_V3.6.1/RUNS/MAC_WRF/57_DeMott_WATSAT_5xHM_noThresh_eta70_MYNN/wrfout_d02_2015-11-27_00:00:00'
+filename5 = '/data/scihub-users/giyoung/PWRF_V3.6.1/RUNS/MAC_WRF/56_DeMott_WATSAT_10xHM_noThresh_eta70_MYNN/wrfout_d02_2015-11-27_00:00:00'
 
 ###################################
 # Extract domain number: 
@@ -36,9 +37,9 @@ del domainno_end, domainno_start
 
 nc1 = NetCDFFile(filename1, 'r')
 nc2 = NetCDFFile(filename2, 'r')
-# nc3 = NetCDFFile(filename3, 'r')
-# nc4 = NetCDFFile(filename4, 'r')
-# nc5 = NetCDFFile(filename5, 'r')
+nc3 = NetCDFFile(filename3, 'r')
+nc4 = NetCDFFile(filename4, 'r')
+nc5 = NetCDFFile(filename5, 'r')
 
 ###################################
 # DEFINE TEMPERATURE BINNING
@@ -246,228 +247,231 @@ del data2
 
 runlab2 = 'NoThresh'
 
-# ###################################
-# # FILE #3
-# ###################################
-# data3 = {}
-# data3['theta'] = nc3.variables['T'][time_sci]+300 # potential temperature in K
-# data3['p'] = (nc3.variables['P'][time_sci]+nc3.variables['PB'][time_sci])   # pressure in Pa
-# tempvar = constants.R/float(1005)
-# tempvar0 = (data3['p']/100000)**tempvar       
-# data3['Tk'] = tempvar0*data3['theta']
-# data3['rho'] = data3['p']/(constants.R*data3['Tk'])
-# data3['nisg80'] = nc3.variables['NISG80'][time_sci,:,:,:]*(data3['rho'])*(data3['rho'])
-# # data3['nisg80'][data3['nisg80']<=0] = np.nan
-# # data3['qliq'] = nc3.variables['QCLOUD'][time_sci,:,:,:] + nc3.variables['QRAIN'][time_sci,:,:,:]
-# # data3['qliq'][data3['qliq']<0]=0
-# ph = nc3.variables['PH'][time_sci]
-# phb = nc3.variables['PHB'][time_sci]
-# tempvar1 = (ph+phb)/9.81
-# data3['Zsci'] = np.nanmean(0.5*(tempvar1[0:len(tempvar1)-2,:,:]+tempvar1[1:len(tempvar1)-1,:,:]),0)
+###################################
+# FILE #3
+###################################
+data3 = {}
+data3['theta'] = nc3.variables['T'][time_sci]+300 # potential temperature in K
+data3['p'] = (nc3.variables['P'][time_sci]+nc3.variables['PB'][time_sci])   # pressure in Pa
+tempvar = constants.R/float(1005)
+tempvar0 = (data3['p']/100000)**tempvar       
+data3['Tk'] = tempvar0*data3['theta']
+data3['rho'] = data3['p']/(constants.R*data3['Tk'])
+data3['nisg80'] = nc3.variables['NISG80'][time_sci,:,:,:]*(data3['rho'])*(data3['rho'])
+# data3['nisg80'][data3['nisg80']<=0] = np.nan
+# data3['qliq'] = nc3.variables['QCLOUD'][time_sci,:,:,:] + nc3.variables['QRAIN'][time_sci,:,:,:]
+# data3['qliq'][data3['qliq']<0]=0
+ph = nc3.variables['PH'][time_sci]
+phb = nc3.variables['PHB'][time_sci]
+tempvar1 = (ph+phb)/9.81
+data3['Zsci'] = np.nanmean(0.5*(tempvar1[0:len(tempvar1)-2,:,:]+tempvar1[1:len(tempvar1)-1,:,:]),0)
 
-# data3['qcloud'] = nc3.variables['QCLOUD'][time_sci]# Qcloud mean over M218 flight times @ lon=-29 [z,lat,lon]
-# data3['qcloud'][data3['qcloud']<0]=0
+data3['qcloud'] = nc3.variables['QCLOUD'][time_sci]# Qcloud mean over M218 flight times @ lon=-29 [z,lat,lon]
+data3['qcloud'][data3['qcloud']<0]=0
 
-# data3['qnisg'] = (nc3.variables['QNICE'][time_sci,:,:,:]+
-#         nc3.variables['QNSNOW'][time_sci,:,:,:]+
-#         nc3.variables['QNGRAUPEL'][time_sci,:,:,:])*(data3['rho'])
+data3['qnisg'] = (nc3.variables['QNICE'][time_sci,:,:,:]+
+        nc3.variables['QNSNOW'][time_sci,:,:,:]+
+        nc3.variables['QNGRAUPEL'][time_sci,:,:,:])*(data3['rho'])
 
-# data3['nisg50'] = data3['qnisg'] - (nc3.variables['NI50'][time_sci,:,:,:] - 
-#         nc3.variables['NG50'][time_sci,:,:,:])*(data3['rho'])*(data3['rho'])
+data3['nisg50'] = data3['qnisg'] - (nc3.variables['NI50'][time_sci,:,:,:] - 
+        nc3.variables['NG50'][time_sci,:,:,:])*(data3['rho'])*(data3['rho'])
 
-# data3['qrain'] = nc3.variables['QRAIN'][time_sci]# Qcloud mean over M218 flight times @ lon=-29 [z,lat,lon]
-# data3['qrain'][data3['qrain']<0]=0
-# data3['qliq'] = data3['qcloud'] + data3['qrain']
+data3['qrain'] = nc3.variables['QRAIN'][time_sci]# Qcloud mean over M218 flight times @ lon=-29 [z,lat,lon]
+data3['qrain'][data3['qrain']<0]=0
+data3['qliq'] = data3['qcloud'] + data3['qrain']
 
-# ind = {}
-# theta = data3['theta'][timeindex,:,:,:]
-# Z = data3['Zsci'][:,:,:]
-# bl3_1 = np.zeros(shape=(np.size(Z,1),np.size(Z,2)))
-# bl3_2 = np.zeros(shape=(np.size(Z,1),np.size(Z,2)))
-# temp3 = np.zeros(shape=(np.size(Z,1),np.size(Z,2)))
-# w3 = np.zeros(shape=(np.size(Z,1),np.size(Z,2)))
-# blindex3 = np.zeros(shape=(1,np.size(Z,1),np.size(Z,2)))
-# allicebelow3 = np.zeros(shape=(np.size(Z,1),np.size(Z,2)))
-# smallicebelow3 = np.zeros(shape=(np.size(Z,1),np.size(Z,2)))
-# largeicebelow3 = np.zeros(shape=(np.size(Z,1),np.size(Z,2)))
-# liqbelow3 = np.zeros(shape=(np.size(Z,1),np.size(Z,2)))
-# iceabove3 = np.zeros(shape=(np.size(Z,1),np.size(Z,2)))
-# for i in range(0,np.size(Z,2)):
-#         strgi = "%1.f" % (i+1) # string of longitude
-#         for j in range(0,np.size(Z,1)):
-#                 strgj = "%1.f" % (j+1) # string of latitude
-#                 for k in range(2,np.size(Z,0)-2):
-#                         strgk = "%1.f" % (k+1) # string of altitude
-#                         if theta[k,j,i] < theta[k+1,j,i]-0.2:           # small inversion - typically ~500m
-#                                 bl3_1[j,i] = Z[k,j,i]
-#                                 break
-#                 for k in range(2,np.size(Z,0)-2):
-#                         strgk = "%1.f" % (k+1) # string of altitude
-#                         if theta[k,j,i] < theta[k+1,j,i]-0.4:           # large inversion - typically ~1500m
-#                                 bl3_2[j,i] = Z[k,j,i]
-# 				temp3[j,i] = data3['Tk'][timeindex,k+1,j,i]
-#                                 # w3[j,i] = nc3.variables['W'][time_sci[timeindex],k,j,i]
-#                                 # blindex3[0,j,i] = k
-#                                 allicebelow3[j,i] = np.nanpercentile(data3['qnisg'][timeindex,0:k,j,i],99.7)/float(1e3)
-#                                 # smallicebelow3[j,i] = np.nanpercentile(data3['nisg50'][timeindex,0:k,j,i],99.7)/float(1e3)
-#                                 # largeicebelow3[j,i] = np.nanpercentile(data3['nisg80'][timeindex,0:k,j,i],99.7)/float(1e3)
-#                                 # liqbelow3[j,i] = np.nanmean(data3['qliq'][timeindex,0:k,j,i],0)*float(1e3)
-#                                 # iceabove3[j,i] = np.nanpercentile(data3['nisg80'][timeindex,k+1:k+2,j,i],99.7)/float(1e3)
-#                                 break
+ind = {}
+theta = data3['theta'][timeindex,:,:,:]
+Z = data3['Zsci'][:,:,:]
+bl3_1 = np.zeros(shape=(np.size(Z,1),np.size(Z,2)))
+bl3_2 = np.zeros(shape=(np.size(Z,1),np.size(Z,2)))
+temp3 = np.zeros(shape=(np.size(Z,1),np.size(Z,2)))
+w3 = np.zeros(shape=(np.size(Z,1),np.size(Z,2)))
+blindex3 = np.zeros(shape=(1,np.size(Z,1),np.size(Z,2)))
+allicebelow3 = np.zeros(shape=(np.size(Z,1),np.size(Z,2)))
+smallicebelow3 = np.zeros(shape=(np.size(Z,1),np.size(Z,2)))
+largeicebelow3 = np.zeros(shape=(np.size(Z,1),np.size(Z,2)))
+liqbelow3 = np.zeros(shape=(np.size(Z,1),np.size(Z,2)))
+iceabove3 = np.zeros(shape=(np.size(Z,1),np.size(Z,2)))
+for i in range(0,np.size(Z,2)):
+        strgi = "%1.f" % (i+1) # string of longitude
+        for j in range(0,np.size(Z,1)):
+                strgj = "%1.f" % (j+1) # string of latitude
+                for k in range(2,np.size(Z,0)-2):
+                        strgk = "%1.f" % (k+1) # string of altitude
+                        if theta[k,j,i] < theta[k+1,j,i]-0.2:           # small inversion - typically ~500m
+                                bl3_1[j,i] = Z[k,j,i]
+                                break
+                for k in range(2,np.size(Z,0)-2):
+                        strgk = "%1.f" % (k+1) # string of altitude
+                        if theta[k,j,i] < theta[k+1,j,i]-0.4:           # large inversion - typically ~1500m
+                                bl3_2[j,i] = Z[k,j,i]
+				temp3[j,i] = data3['Tk'][timeindex,k+1,j,i]
+                                # w3[j,i] = nc3.variables['W'][time_sci[timeindex],k,j,i]
+                                # blindex3[0,j,i] = k
+                                allicebelow3[j,i] = np.nanpercentile(data3['qnisg'][timeindex,0:k,j,i],99.7)/float(1e3)
+                                iceabove3[j,i] = data3['qnisg'][timeindex,k+1,j,i]/float(1e3)
+                                # smallicebelow3[j,i] = np.nanpercentile(data3['nisg50'][timeindex,0:k,j,i],99.7)/float(1e3)
+                                # largeicebelow3[j,i] = np.nanpercentile(data3['nisg80'][timeindex,0:k,j,i],99.7)/float(1e3)
+                                # liqbelow3[j,i] = np.nanmean(data3['qliq'][timeindex,0:k,j,i],0)*float(1e3)
+                                # iceabove3[j,i] = np.nanpercentile(data3['nisg80'][timeindex,k+1:k+2,j,i],99.7)/float(1e3)
+                                break
 
 
-# del nc3
-# del data3
+del nc3
+del data3
 
-# runlab3 = '2xHM'
+runlab3 = '2xHM'
 
-# ###################################
-# # FILE #4
-# ###################################
-# data4 = {}
-# data4['theta'] = nc4.variables['T'][time_sci]+300 # potential temperature in K
-# data4['p'] = (nc4.variables['P'][time_sci]+nc4.variables['PB'][time_sci])   # pressure in Pa
-# tempvar = constants.R/float(1005)
-# tempvar0 = (data4['p']/100000)**tempvar       
-# data4['Tk'] = tempvar0*data4['theta']
-# data4['rho'] = data4['p']/(constants.R*data4['Tk'])
-# data4['nisg80'] = nc4.variables['NISG80'][time_sci,:,:,:]*(data4['rho'])*(data4['rho'])
-# # data4['nisg80'][data4['nisg80']<=0] = np.nan
-# # data4['qliq'] = nc4.variables['QCLOUD'][time_sci,:,:,:] + nc4.variables['QRAIN'][time_sci,:,:,:]
-# # data4['qliq'][data4['qliq']<0]=0
-# ph = nc4.variables['PH'][time_sci]
-# phb = nc4.variables['PHB'][time_sci]
-# tempvar1 = (ph+phb)/9.81
-# data4['Zsci'] = np.nanmean(0.5*(tempvar1[0:len(tempvar1)-2,:,:]+tempvar1[1:len(tempvar1)-1,:,:]),0)
+###################################
+# FILE #4
+###################################
+data4 = {}
+data4['theta'] = nc4.variables['T'][time_sci]+300 # potential temperature in K
+data4['p'] = (nc4.variables['P'][time_sci]+nc4.variables['PB'][time_sci])   # pressure in Pa
+tempvar = constants.R/float(1005)
+tempvar0 = (data4['p']/100000)**tempvar       
+data4['Tk'] = tempvar0*data4['theta']
+data4['rho'] = data4['p']/(constants.R*data4['Tk'])
+data4['nisg80'] = nc4.variables['NISG80'][time_sci,:,:,:]*(data4['rho'])*(data4['rho'])
+# data4['nisg80'][data4['nisg80']<=0] = np.nan
+# data4['qliq'] = nc4.variables['QCLOUD'][time_sci,:,:,:] + nc4.variables['QRAIN'][time_sci,:,:,:]
+# data4['qliq'][data4['qliq']<0]=0
+ph = nc4.variables['PH'][time_sci]
+phb = nc4.variables['PHB'][time_sci]
+tempvar1 = (ph+phb)/9.81
+data4['Zsci'] = np.nanmean(0.5*(tempvar1[0:len(tempvar1)-2,:,:]+tempvar1[1:len(tempvar1)-1,:,:]),0)
 
-# data4['qcloud'] = nc4.variables['QCLOUD'][time_sci]# Qcloud mean over M218 flight times @ lon=-29 [z,lat,lon]
-# data4['qcloud'][data4['qcloud']<0]=0
+data4['qcloud'] = nc4.variables['QCLOUD'][time_sci]# Qcloud mean over M218 flight times @ lon=-29 [z,lat,lon]
+data4['qcloud'][data4['qcloud']<0]=0
 
-# data4['qnisg'] = (nc4.variables['QNICE'][time_sci,:,:,:]+
-#         nc4.variables['QNSNOW'][time_sci,:,:,:]+
-#         nc4.variables['QNGRAUPEL'][time_sci,:,:,:])*(data1['rho'])
+data4['qnisg'] = (nc4.variables['QNICE'][time_sci,:,:,:]+
+        nc4.variables['QNSNOW'][time_sci,:,:,:]+
+        nc4.variables['QNGRAUPEL'][time_sci,:,:,:])*(data1['rho'])
 
-# data4['nisg50'] = data4['qnisg'] - (nc4.variables['NI50'][time_sci,:,:,:] - 
-#         nc4.variables['NG50'][time_sci,:,:,:])*(data4['rho'])*(data4['rho'])
+data4['nisg50'] = data4['qnisg'] - (nc4.variables['NI50'][time_sci,:,:,:] - 
+        nc4.variables['NG50'][time_sci,:,:,:])*(data4['rho'])*(data4['rho'])
 
-# data4['qrain'] = nc4.variables['QRAIN'][time_sci]# Qcloud mean over M218 flight times @ lon=-29 [z,lat,lon]
-# data4['qrain'][data4['qrain']<0]=0
-# data4['qliq'] = data4['qcloud'] + data4['qrain']
+data4['qrain'] = nc4.variables['QRAIN'][time_sci]# Qcloud mean over M218 flight times @ lon=-29 [z,lat,lon]
+data4['qrain'][data4['qrain']<0]=0
+data4['qliq'] = data4['qcloud'] + data4['qrain']
 
-# ind = {}
-# theta = data4['theta'][timeindex,:,:,:]
-# Z = data4['Zsci'][:,:,:]
-# bl4_1 = np.zeros(shape=(np.size(Z,1),np.size(Z,2)))
-# bl4_2 = np.zeros(shape=(np.size(Z,1),np.size(Z,2)))
-# temp4 = np.zeros(shape=(np.size(Z,1),np.size(Z,2)))
-# w4 = np.zeros(shape=(np.size(Z,1),np.size(Z,2)))
-# blindex4 = np.zeros(shape=(1,np.size(Z,1),np.size(Z,2)))
-# allicebelow4 = np.zeros(shape=(np.size(Z,1),np.size(Z,2)))
-# smallicebelow4 = np.zeros(shape=(np.size(Z,1),np.size(Z,2)))
-# largeicebelow4 = np.zeros(shape=(np.size(Z,1),np.size(Z,2)))
-# liqbelow4 = np.zeros(shape=(np.size(Z,1),np.size(Z,2)))
-# iceabove4 = np.zeros(shape=(np.size(Z,1),np.size(Z,2)))
-# for i in range(0,np.size(Z,2)):
-#         strgi = "%1.f" % (i+1) # string of longitude
-#         for j in range(0,np.size(Z,1)):
-#                 strgj = "%1.f" % (j+1) # string of latitude
-#                 for k in range(2,np.size(Z,0)-2):
-#                         strgk = "%1.f" % (k+1) # string of altitude
-#                         if theta[k,j,i] < theta[k+1,j,i]-0.2:           # small inversion - typically ~500m
-#                                 bl4_1[j,i] = Z[k,j,i]
-#                                 break
-#                 for k in range(2,np.size(Z,0)-2):
-#                         strgk = "%1.f" % (k+1) # string of altitude
-#                         if theta[k,j,i] < theta[k+1,j,i]-0.4:           # large inversion - typically ~1500m
-#                                 bl4_2[j,i] = Z[k,j,i]
-#                                 temp4[j,i] = data4['Tk'][timeindex,k+1,j,i]
-#                                 # w4[j,i] = nc4.variables['W'][time_sci[timeindex],k,j,i]
-#                                 # blindex4[0,j,i] = k
-#                                 allicebelow4[j,i] = np.nanpercentile(data4['qnisg'][timeindex,0:k,j,i],99.7)/float(1e3)
-#                                 # smallicebelow4[j,i] = np.nanpercentile(data4['nisg50'][timeindex,0:k,j,i],99.7)/float(1e3)
-#                                 # largeicebelow4[j,i] = np.nanpercentile(data4['nisg80'][timeindex,0:k,j,i],99.7)/float(1e3)
-#                                 # liqbelow4[j,i] = np.nanmean(data4['qliq'][timeindex,0:k,j,i],0)*float(1e3)
-#                                 # iceabove4[j,i] = np.nanpercentile(data4['nisg80'][timeindex,k+1:k+2,j,i],99.7)/float(1e3)
-#                                 break
+ind = {}
+theta = data4['theta'][timeindex,:,:,:]
+Z = data4['Zsci'][:,:,:]
+bl4_1 = np.zeros(shape=(np.size(Z,1),np.size(Z,2)))
+bl4_2 = np.zeros(shape=(np.size(Z,1),np.size(Z,2)))
+temp4 = np.zeros(shape=(np.size(Z,1),np.size(Z,2)))
+w4 = np.zeros(shape=(np.size(Z,1),np.size(Z,2)))
+blindex4 = np.zeros(shape=(1,np.size(Z,1),np.size(Z,2)))
+allicebelow4 = np.zeros(shape=(np.size(Z,1),np.size(Z,2)))
+smallicebelow4 = np.zeros(shape=(np.size(Z,1),np.size(Z,2)))
+largeicebelow4 = np.zeros(shape=(np.size(Z,1),np.size(Z,2)))
+liqbelow4 = np.zeros(shape=(np.size(Z,1),np.size(Z,2)))
+iceabove4 = np.zeros(shape=(np.size(Z,1),np.size(Z,2)))
+for i in range(0,np.size(Z,2)):
+        strgi = "%1.f" % (i+1) # string of longitude
+        for j in range(0,np.size(Z,1)):
+                strgj = "%1.f" % (j+1) # string of latitude
+                for k in range(2,np.size(Z,0)-2):
+                        strgk = "%1.f" % (k+1) # string of altitude
+                        if theta[k,j,i] < theta[k+1,j,i]-0.2:           # small inversion - typically ~500m
+                                bl4_1[j,i] = Z[k,j,i]
+                                break
+                for k in range(2,np.size(Z,0)-2):
+                        strgk = "%1.f" % (k+1) # string of altitude
+                        if theta[k,j,i] < theta[k+1,j,i]-0.4:           # large inversion - typically ~1500m
+                                bl4_2[j,i] = Z[k,j,i]
+                                temp4[j,i] = data4['Tk'][timeindex,k+1,j,i]
+                                # w4[j,i] = nc4.variables['W'][time_sci[timeindex],k,j,i]
+                                # blindex4[0,j,i] = k
+                                allicebelow4[j,i] = np.nanpercentile(data4['qnisg'][timeindex,0:k,j,i],99.7)/float(1e3)
+                                iceabove4[j,i] = data4['qnisg'][timeindex,k+1,j,i]/float(1e3)
+                                # smallicebelow4[j,i] = np.nanpercentile(data4['nisg50'][timeindex,0:k,j,i],99.7)/float(1e3)
+                                # largeicebelow4[j,i] = np.nanpercentile(data4['nisg80'][timeindex,0:k,j,i],99.7)/float(1e3)
+                                # liqbelow4[j,i] = np.nanmean(data4['qliq'][timeindex,0:k,j,i],0)*float(1e3)
+                                # iceabove4[j,i] = np.nanpercentile(data4['nisg80'][timeindex,k+1:k+2,j,i],99.7)/float(1e3)
+                                break
 
-# del nc4
-# del data4
+del nc4
+del data4
 
-# runlab4 = '5xHM'
+runlab4 = '5xHM'
 
-# ###################################
-# # FILE #5
-# ###################################
-# data5 = {}
-# data5['theta'] = nc5.variables['T'][time_sci]+300 # potential temperature in K
-# data5['p'] = (nc5.variables['P'][time_sci]+nc5.variables['PB'][time_sci])   # pressure in Pa
-# tempvar = constants.R/float(1005)
-# tempvar0 = (data5['p']/100000)**tempvar       
-# data5['Tk'] = tempvar0*data5['theta']
-# data5['rho'] = data5['p']/(constants.R*data5['Tk'])
-# data5['nisg80'] = nc5.variables['NISG80'][time_sci,:,:,:]*(data5['rho'])*(data5['rho'])
-# # data5['nisg80'][data5['nisg80']<=0] = np.nan
-# # data5['qliq'] = nc5.variables['QCLOUD'][time_sci,:,:,:] + nc5.variables['QRAIN'][time_sci,:,:,:]
-# # data5['qliq'][data5['qliq']<0]=0
-# ph = nc5.variables['PH'][time_sci]
-# phb = nc5.variables['PHB'][time_sci]
-# tempvar1 = (ph+phb)/9.81
-# data5['Zsci'] = np.nanmean(0.5*(tempvar1[0:len(tempvar1)-2,:,:]+tempvar1[1:len(tempvar1)-1,:,:]),0)
+###################################
+# FILE #5
+###################################
+data5 = {}
+data5['theta'] = nc5.variables['T'][time_sci]+300 # potential temperature in K
+data5['p'] = (nc5.variables['P'][time_sci]+nc5.variables['PB'][time_sci])   # pressure in Pa
+tempvar = constants.R/float(1005)
+tempvar0 = (data5['p']/100000)**tempvar       
+data5['Tk'] = tempvar0*data5['theta']
+data5['rho'] = data5['p']/(constants.R*data5['Tk'])
+data5['nisg80'] = nc5.variables['NISG80'][time_sci,:,:,:]*(data5['rho'])*(data5['rho'])
+# data5['nisg80'][data5['nisg80']<=0] = np.nan
+# data5['qliq'] = nc5.variables['QCLOUD'][time_sci,:,:,:] + nc5.variables['QRAIN'][time_sci,:,:,:]
+# data5['qliq'][data5['qliq']<0]=0
+ph = nc5.variables['PH'][time_sci]
+phb = nc5.variables['PHB'][time_sci]
+tempvar1 = (ph+phb)/9.81
+data5['Zsci'] = np.nanmean(0.5*(tempvar1[0:len(tempvar1)-2,:,:]+tempvar1[1:len(tempvar1)-1,:,:]),0)
 
-# data5['qcloud'] = nc5.variables['QCLOUD'][time_sci]# Qcloud mean over M218 flight times @ lon=-29 [z,lat,lon]
-# data5['qcloud'][data5['qcloud']<0]=0
+data5['qcloud'] = nc5.variables['QCLOUD'][time_sci]# Qcloud mean over M218 flight times @ lon=-29 [z,lat,lon]
+data5['qcloud'][data5['qcloud']<0]=0
 
-# data5['qnisg'] = (nc5.variables['QNICE'][time_sci,:,:,:]+
-#         nc5.variables['QNSNOW'][time_sci,:,:,:]+
-#         nc5.variables['QNGRAUPEL'][time_sci,:,:,:])*(data1['rho'])
+data5['qnisg'] = (nc5.variables['QNICE'][time_sci,:,:,:]+
+        nc5.variables['QNSNOW'][time_sci,:,:,:]+
+        nc5.variables['QNGRAUPEL'][time_sci,:,:,:])*(data1['rho'])
 
-# data5['nisg50'] = data5['qnisg'] - (nc5.variables['NI50'][time_sci,:,:,:] - 
-#         nc5.variables['NG50'][time_sci,:,:,:])*(data5['rho'])*(data5['rho'])
+data5['nisg50'] = data5['qnisg'] - (nc5.variables['NI50'][time_sci,:,:,:] - 
+        nc5.variables['NG50'][time_sci,:,:,:])*(data5['rho'])*(data5['rho'])
 
-# data5['qrain'] = nc5.variables['QRAIN'][time_sci]# Qcloud mean over M218 flight times @ lon=-29 [z,lat,lon]
-# data5['qrain'][data5['qrain']<0]=0
-# data5['qliq'] = data5['qcloud'] + data5['qrain']
+data5['qrain'] = nc5.variables['QRAIN'][time_sci]# Qcloud mean over M218 flight times @ lon=-29 [z,lat,lon]
+data5['qrain'][data5['qrain']<0]=0
+data5['qliq'] = data5['qcloud'] + data5['qrain']
 
-# ind = {}
-# theta = data5['theta'][timeindex,:,:,:]
-# Z = data5['Zsci'][:,:,:]
-# bl5_1 = np.zeros(shape=(np.size(Z,1),np.size(Z,2)))
-# bl5_2 = np.zeros(shape=(np.size(Z,1),np.size(Z,2)))
-# temp5 = np.zeros(shape=(np.size(Z,1),np.size(Z,2)))
-# w5 = np.zeros(shape=(np.size(Z,1),np.size(Z,2)))
-# blindex5 = np.zeros(shape=(1,np.size(Z,1),np.size(Z,2)))
-# allicebelow5 = np.zeros(shape=(np.size(Z,1),np.size(Z,2)))
-# smallicebelow5 = np.zeros(shape=(np.size(Z,1),np.size(Z,2)))
-# largeicebelow5 = np.zeros(shape=(np.size(Z,1),np.size(Z,2)))
-# liqbelow5 = np.zeros(shape=(np.size(Z,1),np.size(Z,2)))
-# iceabove5 = np.zeros(shape=(np.size(Z,1),np.size(Z,2)))
-# for i in range(0,np.size(Z,2)):
-#         strgi = "%1.f" % (i+1) # string of longitude
-#         for j in range(0,np.size(Z,1)):
-#                 strgj = "%1.f" % (j+1) # string of latitude
-#                 for k in range(2,np.size(Z,0)-2):
-#                         strgk = "%1.f" % (k+1) # string of altitude
-#                         if theta[k,j,i] < theta[k+1,j,i]-0.2:           # small inversion - typically ~500m
-#                                 bl5_1[j,i] = Z[k,j,i]
-#                                 break
-#                 for k in range(2,np.size(Z,0)-2):
-#                         strgk = "%1.f" % (k+1) # string of altitude
-#                         if theta[k,j,i] < theta[k+1,j,i]-0.4:           # large inversion - typically ~1500m
-#                                 bl5_2[j,i] = Z[k,j,i]
-# 				temp5[j,i] = data5['Tk'][timeindex,k+1,j,i]
-#                                 # w5[j,i] = nc5.variables['W'][time_sci[timeindex],k,j,i]
-#                                 # blindex5[0,j,i] = k
-#                                 allicebelow5[j,i] = np.nanpercentile(data5['qnisg'][timeindex,0:k,j,i],99.7)/float(1e3)
-#                                 # smallicebelow5[j,i] = np.nanpercentile(data5['nisg50'][timeindex,0:k,j,i],99.7)/float(1e3)
-#                                 # largeicebelow5[j,i] = np.nanpercentile(data5['nisg80'][timeindex,0:k,j,i],99.7)/float(1e3)
-#                                 # liqbelow5[j,i] = np.nanmean(data5['qliq'][timeindex,0:k,j,i],0)*float(1e3)
-#                                 # iceabove5[j,i] = np.nanpercentile(data5['nisg80'][timeindex,k+1:k+2,j,i],99.7)/float(1e3)
-#                                 break
+ind = {}
+theta = data5['theta'][timeindex,:,:,:]
+Z = data5['Zsci'][:,:,:]
+bl5_1 = np.zeros(shape=(np.size(Z,1),np.size(Z,2)))
+bl5_2 = np.zeros(shape=(np.size(Z,1),np.size(Z,2)))
+temp5 = np.zeros(shape=(np.size(Z,1),np.size(Z,2)))
+w5 = np.zeros(shape=(np.size(Z,1),np.size(Z,2)))
+blindex5 = np.zeros(shape=(1,np.size(Z,1),np.size(Z,2)))
+allicebelow5 = np.zeros(shape=(np.size(Z,1),np.size(Z,2)))
+smallicebelow5 = np.zeros(shape=(np.size(Z,1),np.size(Z,2)))
+largeicebelow5 = np.zeros(shape=(np.size(Z,1),np.size(Z,2)))
+liqbelow5 = np.zeros(shape=(np.size(Z,1),np.size(Z,2)))
+iceabove5 = np.zeros(shape=(np.size(Z,1),np.size(Z,2)))
+for i in range(0,np.size(Z,2)):
+        strgi = "%1.f" % (i+1) # string of longitude
+        for j in range(0,np.size(Z,1)):
+                strgj = "%1.f" % (j+1) # string of latitude
+                for k in range(2,np.size(Z,0)-2):
+                        strgk = "%1.f" % (k+1) # string of altitude
+                        if theta[k,j,i] < theta[k+1,j,i]-0.2:           # small inversion - typically ~500m
+                                bl5_1[j,i] = Z[k,j,i]
+                                break
+                for k in range(2,np.size(Z,0)-2):
+                        strgk = "%1.f" % (k+1) # string of altitude
+                        if theta[k,j,i] < theta[k+1,j,i]-0.4:           # large inversion - typically ~1500m
+                                bl5_2[j,i] = Z[k,j,i]
+				temp5[j,i] = data5['Tk'][timeindex,k+1,j,i]
+                                # w5[j,i] = nc5.variables['W'][time_sci[timeindex],k,j,i]
+                                # blindex5[0,j,i] = k
+                                allicebelow5[j,i] = np.nanpercentile(data5['qnisg'][timeindex,0:k,j,i],99.7)/float(1e3)
+                                iceabove5[j,i] = data5['qnisg'][timeindex,k+1,j,i]/float(1e3)
+                                # smallicebelow5[j,i] = np.nanpercentile(data5['nisg50'][timeindex,0:k,j,i],99.7)/float(1e3)
+                                # largeicebelow5[j,i] = np.nanpercentile(data5['nisg80'][timeindex,0:k,j,i],99.7)/float(1e3)
+                                # liqbelow5[j,i] = np.nanmean(data5['qliq'][timeindex,0:k,j,i],0)*float(1e3)
+                                # iceabove5[j,i] = np.nanpercentile(data5['nisg80'][timeindex,k+1:k+2,j,i],99.7)/float(1e3)
+                                break
 
-# del nc5
-# del data5
+del nc5
+del data5
 
-# runlab5 = '10xHM'
+runlab5 = '10xHM'
 
 ###################################
 # LOAD FLIGHT DATA
@@ -978,19 +982,42 @@ fig = plt.figure(figsize=(8,9))
 # plt.subplot(1,2,2);plt.plot(bl5_1[40:50,25]);plt.plot(bl5_2[40:50,25]); plt.grid('on');plt.ylim([0,5000]);
 # plt.show()
 
-# allicebelow1[allicebelow1<0.005] = np.nan
-# allicebelow2[allicebelow2<0.005] = np.nan
+allicebelow1[allicebelow1<0.005] = np.nan
+allicebelow2[allicebelow2<0.005] = np.nan
+allicebelow3[allicebelow3<0.005] = np.nan
+allicebelow4[allicebelow4<0.005] = np.nan
+allicebelow5[allicebelow5<0.005] = np.nan
 
-# iceabove1[iceabove1<0.005] = np.nan
-# iceabove2[iceabove2<0.005] = np.nan
+iceabove1[iceabove1<0.005] = np.nan
+iceabove2[iceabove2<0.005] = np.nan
+iceabove3[iceabove3<0.005] = np.nan
+iceabove4[iceabove4<0.005] = np.nan
+iceabove5[iceabove5<0.005] = np.nan
 
-r2_score(np.ndarray.flatten(allicebelow1),np.ndarray.flatten(iceabove1))
-r2_score(np.ndarray.flatten(allicebelow2),np.ndarray.flatten(iceabove2))
+# r2_score(np.ndarray.flatten(allicebelow1),np.ndarray.flatten(iceabove1))
+# r2_score(np.ndarray.flatten(allicebelow2),np.ndarray.flatten(iceabove2))
 
-plt.subplot(121)
+
+# X = np.ndarray.flatten(allicebelow2)
+# y = np.ndarray.flatten(iceabove2)
+# lm = linear_model.LinearRegression()
+# model = lm.fit(X,y)
+# lm.score(X,y)
+
+
+plt.subplot(221)
 plt.plot(np.ndarray.flatten(iceabove1),np.ndarray.flatten(allicebelow1),'.')
 
-plt.subplot(122)
-plt.plot(np.ndarray.flatten(iceabove2),np.ndarray.flatten(allicebelow2),'.')
+plt.subplot(222)
+plt.plot(np.ndarray.flatten(iceabove2),np.ndarray.flatten(allicebelow2),'b.')
+
+plt.subplot(224)
+plt.plot(np.ndarray.flatten(iceabove3),np.ndarray.flatten(allicebelow3),'k.')
+
+plt.subplot(225)
+plt.plot(np.ndarray.flatten(iceabove4),np.ndarray.flatten(allicebelow4),'g.')
+
+plt.subplot(226)
+plt.plot(np.ndarray.flatten(iceabove5),np.ndarray.flatten(allicebelow5),'r.')
 
 plt.show()
