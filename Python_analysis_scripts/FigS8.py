@@ -136,6 +136,7 @@ smallicebelow1 = np.zeros(shape=(np.size(Z,1),np.size(Z,2)))
 largeicebelow1 = np.zeros(shape=(np.size(Z,1),np.size(Z,2)))
 liqbelow1 = np.zeros(shape=(np.size(Z,1),np.size(Z,2)))
 iceabove1 = np.zeros(shape=(np.size(Z,1),np.size(Z,2)))
+icebelowfreq1 = np.zeros(shape=(np.size(Z,1),np.size(Z,2)))
 for i in range(0,np.size(Z,2)):
         strgi = "%1.f" % (i+1) # string of longitude
         for j in range(0,np.size(Z,1)):
@@ -150,7 +151,8 @@ for i in range(0,np.size(Z,2)):
                         if theta[k,j,i] < theta[k+1,j,i]-0.4:           # large inversion - typically ~1500m
                                 bl1_2[j,i] = Z[k,j,i]
 			        temp1[j,i] = data1['Tk'][timeindex,k+1,j,i]
-                                allicebelow1[j,i] = np.nanpercentile(data1['qnisg'][timeindex,0:k,j,i],99.7)/float(1e3)
+                                allicebelow1[j,i] = np.nansum(data1['qnisg'][timeindex,0:k,j,i])/float(1e3)		# /L
+                                if allicebelow1[j,i]>0.005: icebelowfreq1[j,i]==1
                                 break
 
 runlab1 = 'CNTRL'
