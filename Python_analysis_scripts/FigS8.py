@@ -10,6 +10,7 @@ import matplotlib
 import matplotlib.pyplot as plt
 import matplotlib.cm as mpl_cm
 from mpl_toolkits.basemap import Basemap, cm
+from sklearn.metrics import r2_score
 
 ###################################
 # Pick file
@@ -977,12 +978,14 @@ fig = plt.figure(figsize=(8,9))
 # plt.subplot(1,2,2);plt.plot(bl5_1[40:50,25]);plt.plot(bl5_2[40:50,25]); plt.grid('on');plt.ylim([0,5000]);
 # plt.show()
 
-allicebelow1[allicebelow1<0.005] = np.nan
-allicebelow2[allicebelow2<0.005] = np.nan
+# allicebelow1[allicebelow1<0.005] = np.nan
+# allicebelow2[allicebelow2<0.005] = np.nan
 
-iceabove1[iceabove1<0.005] = np.nan
-iceabove2[iceabove2<0.005] = np.nan
+# iceabove1[iceabove1<0.005] = np.nan
+# iceabove2[iceabove2<0.005] = np.nan
 
+r2_score(np.ndarray.flatten(allicebelow1),np.ndarray.flatten(iceabove1))
+r2_score(np.ndarray.flatten(allicebelow2),np.ndarray.flatten(iceabove2))
 
 plt.subplot(121)
 plt.plot(np.ndarray.flatten(iceabove1),np.ndarray.flatten(allicebelow1),'.')
