@@ -124,7 +124,7 @@ data1['qrain'][data1['qrain']<0]=0
 data1['qliq'] = data1['qcloud'] + data1['qrain']
 
 # W_THETA(i,j,k) = 0.5*(W(i,j,k) + W(i,j,k+1))
-w_theta1 = 0.5*(nc1.variables['W'][time_sci[timeindex],0:-1,:,:,:] + nc1.variables['W'][time_sci[timeindex],1:,:,:])
+w_theta1 = 0.5*(nc1.variables['W'][time_sci[timeindex],0:-1,:,:] + nc1.variables['W'][time_sci[timeindex],1:,:,:])
 
 ind = {}
 theta = data1['theta'][timeindex,:,:,:]
@@ -207,7 +207,7 @@ data2['qrain'] = nc2.variables['QRAIN'][time_sci]# Qcloud mean over M218 flight 
 data2['qrain'][data2['qrain']<0]=0
 data2['qliq'] = data2['qcloud'] + data2['qrain']
 
-w_theta2 = 0.5*(nc2.variables['W'][time_sci[timeindex],0:-1,:,:,:] + nc2.variables['W'][time_sci[timeindex],1:,:,:])
+w_theta2 = 0.5*(nc2.variables['W'][time_sci[timeindex],0:-1,:,:] + nc2.variables['W'][time_sci[timeindex],1:,:,:])
 
 ind = {}
 theta = data2['theta'][timeindex,:,:,:]
@@ -277,7 +277,7 @@ data3['qrain'] = nc3.variables['QRAIN'][time_sci]# Qcloud mean over M218 flight 
 data3['qrain'][data3['qrain']<0]=0
 data3['qliq'] = data3['qcloud'] + data3['qrain']
 
-w_theta3 = 0.5*(nc3.variables['W'][time_sci[timeindex],0:-1,:,:,:] + nc3.variables['W'][time_sci[timeindex],1:,:,:])
+w_theta3 = 0.5*(nc3.variables['W'][time_sci[timeindex],0:-1,:,:] + nc3.variables['W'][time_sci[timeindex],1:,:,:])
 
 ind = {}
 theta = data3['theta'][timeindex,:,:,:]
@@ -348,7 +348,7 @@ data4['qrain'] = nc4.variables['QRAIN'][time_sci]# Qcloud mean over M218 flight 
 data4['qrain'][data4['qrain']<0]=0
 data4['qliq'] = data4['qcloud'] + data4['qrain']
 
-w_theta4 = 0.5*(nc4.variables['W'][time_sci[timeindex],0:-1,:,:,:] + nc4.variables['W'][time_sci[timeindex],1:,:,:])
+w_theta4 = 0.5*(nc4.variables['W'][time_sci[timeindex],0:-1,:,:] + nc4.variables['W'][time_sci[timeindex],1:,:,:])
 
 ind = {}
 theta = data4['theta'][timeindex,:,:,:]
@@ -418,7 +418,7 @@ data5['qrain'] = nc5.variables['QRAIN'][time_sci]# Qcloud mean over M218 flight 
 data5['qrain'][data5['qrain']<0]=0
 data5['qliq'] = data5['qcloud'] + data5['qrain']
 
-w_theta5 = 0.5*(nc5.variables['W'][time_sci[timeindex],0:-1,:,:,:] + nc5.variables['W'][time_sci[timeindex],1:,:,:])
+w_theta5 = 0.5*(nc5.variables['W'][time_sci[timeindex],0:-1,:,:] + nc5.variables['W'][time_sci[timeindex],1:,:,:])
 
 ind = {}
 theta = data5['theta'][timeindex,:,:,:]
