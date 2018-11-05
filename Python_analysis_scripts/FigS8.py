@@ -15,7 +15,7 @@ from mpl_toolkits.basemap import Basemap, cm
 # Pick file
 ###################################
 filename1 = '/data/scihub-users/giyoung/PWRF_V3.6.1/RUNS/MAC_WRF/31_DeMott_WATSAT_eta70_MYNN/wrfout_d02_2015-11-27_00:00:00'
-# filename2 = '/data/scihub-users/giyoung/PWRF_V3.6.1/RUNS/MAC_WRF/30_DeMott_WATSAT_HM_noThresh_eta70_MYNN/wrfout_d02_2015-11-27_00:00:00'
+filename2 = '/data/scihub-users/giyoung/PWRF_V3.6.1/RUNS/MAC_WRF/30_DeMott_WATSAT_HM_noThresh_eta70_MYNN/wrfout_d02_2015-11-27_00:00:00'
 # filename3 = '/data/scihub-users/giyoung/PWRF_V3.6.1/RUNS/MAC_WRF/36_DeMott_WATSAT_2xHM_noThresh_eta70_MYNN/wrfout_d02_2015-11-27_00:00:00'
 # filename4 = '/data/scihub-users/giyoung/PWRF_V3.6.1/RUNS/MAC_WRF/57_DeMott_WATSAT_5xHM_noThresh_eta70_MYNN/wrfout_d02_2015-11-27_00:00:00'
 # filename5 = '/data/scihub-users/giyoung/PWRF_V3.6.1/RUNS/MAC_WRF/56_DeMott_WATSAT_10xHM_noThresh_eta70_MYNN/wrfout_d02_2015-11-27_00:00:00'
@@ -34,7 +34,7 @@ del domainno_end, domainno_start
 ###################################
 
 nc1 = NetCDFFile(filename1, 'r')
-# nc2 = NetCDFFile(filename2, 'r')
+nc2 = NetCDFFile(filename2, 'r')
 # nc3 = NetCDFFile(filename3, 'r')
 # nc4 = NetCDFFile(filename4, 'r')
 # nc5 = NetCDFFile(filename5, 'r')
@@ -136,7 +136,7 @@ smallicebelow1 = np.zeros(shape=(np.size(Z,1),np.size(Z,2)))
 largeicebelow1 = np.zeros(shape=(np.size(Z,1),np.size(Z,2)))
 liqbelow1 = np.zeros(shape=(np.size(Z,1),np.size(Z,2)))
 iceabove1 = np.zeros(shape=(np.size(Z,1),np.size(Z,2)))
-icebelowfreq1 = np.zeros(shape=(np.size(Z,1),np.size(Z,2)))
+# icebelowfreq1 = np.zeros(shape=(np.size(Z,1),np.size(Z,2)))
 for i in range(0,np.size(Z,2)):
         strgi = "%1.f" % (i+1) # string of longitude
         for j in range(0,np.size(Z,1)):
@@ -152,7 +152,7 @@ for i in range(0,np.size(Z,2)):
                                 bl1_2[j,i] = Z[k,j,i]
 			        temp1[j,i] = data1['Tk'][timeindex,k+1,j,i]
                                 allicebelow1[j,i] = np.nansum(data1['qnisg'][timeindex,0:k,j,i])/float(1e3)		# /L
-                                if allicebelow1[j,i]>0.005: icebelowfreq1[j,i]=1
+                                # if allicebelow1[j,i]>0.005: icebelowfreq1[j,i]=1
                                 break
 
 runlab1 = 'CNTRL'
@@ -168,80 +168,80 @@ runlab1 = 'CNTRL'
 # # ax.set_yscale("log", nonposy='clip');
 # plt.show()
 
-
+# 
+##################################
+# FILE #2
 ###################################
-# # FILE #2
-# ###################################
-# data2 = {}
-# data2['theta'] = nc2.variables['T'][time_sci]+300 # potential temperature in K
-# data2['p'] = (nc2.variables['P'][time_sci]+nc2.variables['PB'][time_sci])   # pressure in Pa
-# tempvar = constants.R/float(1005)
-# tempvar0 = (data2['p']/100000)**tempvar       
-# data2['Tk'] = tempvar0*data2['theta']
-# data2['rho'] = data2['p']/(constants.R*data2['Tk'])
-# data2['nisg80'] = nc2.variables['NISG80'][time_sci,:,:,:]*(data2['rho'])*(data2['rho'])
-# # data2['nisg80'][data2['nisg80']<=0] = np.nan
-# data2['qliq'] = nc2.variables['QCLOUD'][time_sci,:,:,:] + nc2.variables['QRAIN'][time_sci,:,:,:]
-# data2['qliq'][data2['qliq']<0]=0
-# ph = nc2.variables['PH'][time_sci]
-# phb = nc2.variables['PHB'][time_sci]
-# tempvar1 = (ph+phb)/9.81
-# data2['Zsci'] = np.nanmean(0.5*(tempvar1[0:len(tempvar1)-2,:,:]+tempvar1[1:len(tempvar1)-1,:,:]),0)
+data2 = {}
+data2['theta'] = nc2.variables['T'][time_sci]+300 # potential temperature in K
+data2['p'] = (nc2.variables['P'][time_sci]+nc2.variables['PB'][time_sci])   # pressure in Pa
+tempvar = constants.R/float(1005)
+tempvar0 = (data2['p']/100000)**tempvar       
+data2['Tk'] = tempvar0*data2['theta']
+data2['rho'] = data2['p']/(constants.R*data2['Tk'])
+data2['nisg80'] = nc2.variables['NISG80'][time_sci,:,:,:]*(data2['rho'])*(data2['rho'])
+# data2['nisg80'][data2['nisg80']<=0] = np.nan
+data2['qliq'] = nc2.variables['QCLOUD'][time_sci,:,:,:] + nc2.variables['QRAIN'][time_sci,:,:,:]
+data2['qliq'][data2['qliq']<0]=0
+ph = nc2.variables['PH'][time_sci]
+phb = nc2.variables['PHB'][time_sci]
+tempvar1 = (ph+phb)/9.81
+data2['Zsci'] = np.nanmean(0.5*(tempvar1[0:len(tempvar1)-2,:,:]+tempvar1[1:len(tempvar1)-1,:,:]),0)
 
-# data2['qcloud'] = nc2.variables['QCLOUD'][time_sci]# Qcloud mean over M218 flight times @ lon=-29 [z,lat,lon]
-# data2['qcloud'][data2['qcloud']<0]=0
+data2['qcloud'] = nc2.variables['QCLOUD'][time_sci]# Qcloud mean over M218 flight times @ lon=-29 [z,lat,lon]
+data2['qcloud'][data2['qcloud']<0]=0
 
-# data2['qnisg'] = (nc2.variables['QNICE'][time_sci,:,:,:]+
-#         nc2.variables['QNSNOW'][time_sci,:,:,:]+
-#         nc2.variables['QNGRAUPEL'][time_sci,:,:,:])*(data1['rho'])
+data2['qnisg'] = (nc2.variables['QNICE'][time_sci,:,:,:]+
+        nc2.variables['QNSNOW'][time_sci,:,:,:]+
+        nc2.variables['QNGRAUPEL'][time_sci,:,:,:])*(data1['rho'])
 
-# data2['nisg50'] = data2['qnisg'] - (nc2.variables['NI50'][time_sci,:,:,:] - 
-#         nc2.variables['NG50'][time_sci,:,:,:])*(data2['rho'])*(data2['rho'])
+data2['nisg50'] = data2['qnisg'] - (nc2.variables['NI50'][time_sci,:,:,:] - 
+        nc2.variables['NG50'][time_sci,:,:,:])*(data2['rho'])*(data2['rho'])
 
-# data2['qrain'] = nc2.variables['QRAIN'][time_sci]# Qcloud mean over M218 flight times @ lon=-29 [z,lat,lon]
-# data2['qrain'][data2['qrain']<0]=0
-# data2['qliq'] = data2['qcloud'] + data2['qrain']
+data2['qrain'] = nc2.variables['QRAIN'][time_sci]# Qcloud mean over M218 flight times @ lon=-29 [z,lat,lon]
+data2['qrain'][data2['qrain']<0]=0
+data2['qliq'] = data2['qcloud'] + data2['qrain']
 
-# ind = {}
-# theta = data2['theta'][timeindex,:,:,:]
-# Z = data2['Zsci'][:,:,:]
-# bl2_1 = np.zeros(shape=(np.size(Z,1),np.size(Z,2)))
-# bl2_2 = np.zeros(shape=(np.size(Z,1),np.size(Z,2)))
-# temp2 = np.zeros(shape=(np.size(Z,1),np.size(Z,2)))
-# w2 = np.zeros(shape=(np.size(Z,1),np.size(Z,2)))
-# blindex2 = np.zeros(shape=(1,np.size(Z,1),np.size(Z,2)))
-# allicebelow2 = np.zeros(shape=(np.size(Z,1),np.size(Z,2)))
-# smallicebelow2 = np.zeros(shape=(np.size(Z,1),np.size(Z,2)))
-# largeicebelow2 = np.zeros(shape=(np.size(Z,1),np.size(Z,2)))
-# liqbelow2 = np.zeros(shape=(np.size(Z,1),np.size(Z,2)))
-# iceabove2 = np.zeros(shape=(np.size(Z,1),np.size(Z,2)))
-# for i in range(0,np.size(Z,2)):
-#         strgi = "%1.f" % (i+1) # string of longitude
-#         for j in range(0,np.size(Z,1)):
-#                 strgj = "%1.f" % (j+1) # string of latitude
-#                 for k in range(2,np.size(Z,0)-2):
-#                         strgk = "%1.f" % (k+1) # string of altitude
-#                         if theta[k,j,i] < theta[k+1,j,i]-0.2:           # small inversion - typically ~500m
-#                                 bl2_1[j,i] = Z[k,j,i]
-#                                 break
-#                 for k in range(2,np.size(Z,0)-2):
-#                         strgk = "%1.f" % (k+1) # string of altitude
-#                         if theta[k,j,i] < theta[k+1,j,i]-0.4:           # large inversion - typically ~1500m
-#                                 bl2_2[j,i] = Z[k,j,i]
-# 				temp2[j,i] = data2['Tk'][timeindex,k+1,j,i]
-#                                 # w2[j,i] = nc2.variables['W'][time_sci[timeindex],k,j,i]
-#                                 # blindex2[0,j,i] = k
-#                                 allicebelow2[j,i] = np.nanpercentile(data2['qnisg'][timeindex,0:k,j,i],99.7)/float(1e3)
-#                                 # smallicebelow2[j,i] = np.nanpercentile(data2['nisg50'][timeindex,0:k,j,i],99.7)/float(1e3)
-#                                 # largeicebelow2[j,i] = np.nanpercentile(data2['nisg80'][timeindex,0:k,j,i],99.7)/float(1e3)
-#                                 # liqbelow2[j,i] = np.nanmean(data2['qliq'][timeindex,0:k,j,i],0)*float(1e3)
-#                                 # iceabove2[j,i] = np.nanpercentile(data2['nisg80'][timeindex,k+1:k+2,j,i],99.7)/float(1e3)
-#                                 break
+ind = {}
+theta = data2['theta'][timeindex,:,:,:]
+Z = data2['Zsci'][:,:,:]
+bl2_1 = np.zeros(shape=(np.size(Z,1),np.size(Z,2)))
+bl2_2 = np.zeros(shape=(np.size(Z,1),np.size(Z,2)))
+temp2 = np.zeros(shape=(np.size(Z,1),np.size(Z,2)))
+w2 = np.zeros(shape=(np.size(Z,1),np.size(Z,2)))
+blindex2 = np.zeros(shape=(1,np.size(Z,1),np.size(Z,2)))
+allicebelow2 = np.zeros(shape=(np.size(Z,1),np.size(Z,2)))
+smallicebelow2 = np.zeros(shape=(np.size(Z,1),np.size(Z,2)))
+largeicebelow2 = np.zeros(shape=(np.size(Z,1),np.size(Z,2)))
+liqbelow2 = np.zeros(shape=(np.size(Z,1),np.size(Z,2)))
+iceabove2 = np.zeros(shape=(np.size(Z,1),np.size(Z,2)))
+for i in range(0,np.size(Z,2)):
+        strgi = "%1.f" % (i+1) # string of longitude
+        for j in range(0,np.size(Z,1)):
+                strgj = "%1.f" % (j+1) # string of latitude
+                for k in range(2,np.size(Z,0)-2):
+                        strgk = "%1.f" % (k+1) # string of altitude
+                        if theta[k,j,i] < theta[k+1,j,i]-0.2:           # small inversion - typically ~500m
+                                bl2_1[j,i] = Z[k,j,i]
+                                break
+                for k in range(2,np.size(Z,0)-2):
+                        strgk = "%1.f" % (k+1) # string of altitude
+                        if theta[k,j,i] < theta[k+1,j,i]-0.4:           # large inversion - typically ~1500m
+                                bl2_2[j,i] = Z[k,j,i]
+				temp2[j,i] = data2['Tk'][timeindex,k+1,j,i]
+                                # w2[j,i] = nc2.variables['W'][time_sci[timeindex],k,j,i]
+                                # blindex2[0,j,i] = k
+                                allicebelow2[j,i] = np.nansum(data2['qnisg'][timeindex,0:k,j,i])/float(1e3)
+                                # smallicebelow2[j,i] = np.nanpercentile(data2['nisg50'][timeindex,0:k,j,i],99.7)/float(1e3)
+                                # largeicebelow2[j,i] = np.nanpercentile(data2['nisg80'][timeindex,0:k,j,i],99.7)/float(1e3)
+                                # liqbelow2[j,i] = np.nanmean(data2['qliq'][timeindex,0:k,j,i],0)*float(1e3)
+                                # iceabove2[j,i] = np.nanpercentile(data2['nisg80'][timeindex,k+1:k+2,j,i],99.7)/float(1e3)
+                                break
 
-# del nc2
-# del data2
+del nc2
+del data2
 
-# runlab2 = 'NoThresh'
+runlab2 = 'NoThresh'
 
 # ###################################
 # # FILE #3
@@ -513,88 +513,88 @@ plt.rc('legend',fontsize=SMALL_SIZE)
 ## create figure and axes instances
 fig = plt.figure(figsize=(8,9))
 
-###################################
-## 	CNTRL
-###################################
-ax  = fig.add_axes([0.3,0.7,0.2,0.3])   # left, bottom, width, height
+# ###################################
+# ## 	CNTRL
+# ###################################
+# ax  = fig.add_axes([0.3,0.7,0.2,0.3])   # left, bottom, width, height
 
-m = Basemap(resolution='i',projection='stere', rsphere=6370000.0, \
-        width=data1['width_meters'],height=data1['height_meters'],\
-        lat_0=data1['cen_lat'],lon_0=data1['cen_lon'],lat_1=data1['truelat1'])
+# m = Basemap(resolution='i',projection='stere', rsphere=6370000.0, \
+#         width=data1['width_meters'],height=data1['height_meters'],\
+#         lat_0=data1['cen_lat'],lon_0=data1['cen_lon'],lat_1=data1['truelat1'])
 
-# define parallels/meridians
-m.drawparallels(np.arange(-90.,-60.,2.),color='k',labels=[1,0,0,0],linewidth=0.8,fontsize=10)
-m.drawmeridians(np.arange(-180.,181.,5.),color='k',labels=[0,0,0,1],linewidth=0.8,fontsize=10)
-m.drawcoastlines(linewidth=1.)
+# # define parallels/meridians
+# m.drawparallels(np.arange(-90.,-60.,2.),color='k',labels=[1,0,0,0],linewidth=0.8,fontsize=10)
+# m.drawmeridians(np.arange(-180.,181.,5.),color='k',labels=[0,0,0,1],linewidth=0.8,fontsize=10)
+# m.drawcoastlines(linewidth=1.)
 
-lons, lats = m.makegrid(data1['x_dim'], data1['y_dim']) # get lat/lons of ny by nx evenly space grid.
-x, y = m(lons, lats) # compute map proj coordinates.
+# lons, lats = m.makegrid(data1['x_dim'], data1['y_dim']) # get lat/lons of ny by nx evenly space grid.
+# x, y = m(lons, lats) # compute map proj coordinates.
 
-# contour levels
-maxdat1 = 10
-mindat1 = 0
-#clevs = np.arange(0.0,maxdat,200)
+# # contour levels
+# maxdat1 = 10
+# mindat1 = 0
+# #clevs = np.arange(0.0,maxdat,200)
 
-# data = np.nanmean(data1['nisg80'][0:3,zind1,:,:],0)
-data = allicebelow1 # w1 # bl1_1
-# data[data == 0] = np.nan
-# data[data > maxdat] = maxdat
+# # data = np.nanmean(data1['nisg80'][0:3,zind1,:,:],0)
+# data = allicebelow1 # w1 # bl1_1
+# # data[data == 0] = np.nan
+# # data[data > maxdat] = maxdat
 
-cs = m.pcolor(x,y,data,vmin=mindat1,vmax=maxdat1,cmap=mpl_cm.Reds)
+# cs = m.pcolor(x,y,data,vmin=mindat1,vmax=maxdat1,cmap=mpl_cm.Reds)
 
-x27,y27 = m(newlon27, newlat27)
-plt.plot(x27,y27,'r',linewidth=1)
-plt.annotate(runlab1,xy=(-78,-28),xytext=(-78,-28),fontsize=10)
+# x27,y27 = m(newlon27, newlat27)
+# plt.plot(x27,y27,'r',linewidth=1)
+# plt.annotate(runlab1,xy=(-78,-28),xytext=(-78,-28),fontsize=10)
 
-#??? from here until ???END lines may have been inserted/deleted
-cbaxes = fig.add_axes([0.15,0.74,0.02, 0.2])  # This is the position for the colorbar
-cb = plt.colorbar(cs, cax = cbaxes)
-# cb = plt.colorbar(cs, ticks=clevs, cax = cbaxes)
-# tcks = np.power(10,clevs)
-# cb.ax.set_yticklabels(np.round(tcks,1))
-cb.ax.xaxis.set_label_position('top')
-cb.ax.axes.set_xlabel(strg1,color='k',fontsize=10)
-
-###################################
-
-ax  = fig.add_axes([0.5,0.7,0.2,0.3])   # left, bottom, width, height
-
-m = Basemap(resolution='i',projection='stere', rsphere=6370000.0, \
-        width=data1['width_meters'],height=data1['height_meters'],\
-        lat_0=data1['cen_lat'],lon_0=data1['cen_lon'],lat_1=data1['truelat1'])
-
-# define parallels/meridians
-m.drawparallels(np.arange(-90.,-60.,2.),color='k',labels=[0,0,0,0],linewidth=0.8,fontsize=10)
-m.drawmeridians(np.arange(-180.,181.,5.),color='k',labels=[0,0,0,1],linewidth=0.8,fontsize=10)
-m.drawcoastlines(linewidth=1.)
-
-lons, lats = m.makegrid(data1['x_dim'], data1['y_dim']) # get lat/lons of ny by nx evenly space grid.
-x, y = m(lons, lats) # compute map proj coordinates.
-
-# contour levels
-mindat2 = 255
-#clevs2 = np.arange(-1,maxdat2 + 0.01,0.2)
-maxdat2 = 264
-#clevs2 = np.arange(0,2500.01,500)
-
-# data = np.nanmean(data1['nisg80'][0:3,zind1,:,:],0)
-data = temp1 # bl1_2 #iwp1 #w1
-#data[data == 0] = np.nan
-# data[data > maxdat2] = maxdat2
-
-cs = m.pcolor(x,y,data,vmin=mindat2,vmax=maxdat2,cmap=mpl_cm.viridis_r)
-#cs = m.pcolor(x,y,data,vmin=0,vmax=2500,cmap=mpl_cm.viridis)
-
-x27,y27 = m(newlon27, newlat27)
-plt.plot(x27,y27,'r',linewidth=1)
-plt.annotate(runlab1,xy=(-78,-28),xytext=(-78,-28),fontsize=10)
-
-cbaxes = fig.add_axes([0.8,0.74,0.02, 0.2])  # This is the position for the colorbar
-cb = plt.colorbar(cs, cax = cbaxes)
+# #??? from here until ???END lines may have been inserted/deleted
+# cbaxes = fig.add_axes([0.15,0.74,0.02, 0.2])  # This is the position for the colorbar
+# cb = plt.colorbar(cs, cax = cbaxes)
+# # cb = plt.colorbar(cs, ticks=clevs, cax = cbaxes)
 # # tcks = np.power(10,clevs)
-# # cb.ax.set_yticklabels(clevs2)
-cb.ax.xaxis.set_label_position('top')
-cb.ax.axes.set_xlabel(strg2,color='k',fontsize=10)
+# # cb.ax.set_yticklabels(np.round(tcks,1))
+# cb.ax.xaxis.set_label_position('top')
+# cb.ax.axes.set_xlabel(strg1,color='k',fontsize=10)
+
+# ###################################
+
+# ax  = fig.add_axes([0.5,0.7,0.2,0.3])   # left, bottom, width, height
+
+# m = Basemap(resolution='i',projection='stere', rsphere=6370000.0, \
+#         width=data1['width_meters'],height=data1['height_meters'],\
+#         lat_0=data1['cen_lat'],lon_0=data1['cen_lon'],lat_1=data1['truelat1'])
+
+# # define parallels/meridians
+# m.drawparallels(np.arange(-90.,-60.,2.),color='k',labels=[0,0,0,0],linewidth=0.8,fontsize=10)
+# m.drawmeridians(np.arange(-180.,181.,5.),color='k',labels=[0,0,0,1],linewidth=0.8,fontsize=10)
+# m.drawcoastlines(linewidth=1.)
+
+# lons, lats = m.makegrid(data1['x_dim'], data1['y_dim']) # get lat/lons of ny by nx evenly space grid.
+# x, y = m(lons, lats) # compute map proj coordinates.
+
+# # contour levels
+# mindat2 = 255
+# #clevs2 = np.arange(-1,maxdat2 + 0.01,0.2)
+# maxdat2 = 264
+# #clevs2 = np.arange(0,2500.01,500)
+
+# # data = np.nanmean(data1['nisg80'][0:3,zind1,:,:],0)
+# data = temp1 # bl1_2 #iwp1 #w1
+# #data[data == 0] = np.nan
+# # data[data > maxdat2] = maxdat2
+
+# cs = m.pcolor(x,y,data,vmin=mindat2,vmax=maxdat2,cmap=mpl_cm.viridis_r)
+# #cs = m.pcolor(x,y,data,vmin=0,vmax=2500,cmap=mpl_cm.viridis)
+
+# x27,y27 = m(newlon27, newlat27)
+# plt.plot(x27,y27,'r',linewidth=1)
+# plt.annotate(runlab1,xy=(-78,-28),xytext=(-78,-28),fontsize=10)
+
+# cbaxes = fig.add_axes([0.8,0.74,0.02, 0.2])  # This is the position for the colorbar
+# cb = plt.colorbar(cs, cax = cbaxes)
+# # # tcks = np.power(10,clevs)
+# # # cb.ax.set_yticklabels(clevs2)
+# cb.ax.xaxis.set_label_position('top')
+# cb.ax.axes.set_xlabel(strg2,color='k',fontsize=10)
 
 # ###################################
 # ##  NoThresh
@@ -976,3 +976,10 @@ plt.show()
 # plt.show()
 
 
+plt.subplot(121)
+plt.plot(allicebelow1,temp1,'.')
+
+plt.subplot(122)
+plt.plot(allicebelow2,temp2,'.')
+
+plt.show()
