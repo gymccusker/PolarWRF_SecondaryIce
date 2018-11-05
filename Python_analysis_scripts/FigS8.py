@@ -1004,20 +1004,36 @@ iceabove5[iceabove5<0.005] = np.nan
 # model = lm.fit(X,y)
 # lm.score(X,y)
 
+bins = np.arange(np.round(np.nanmin(temp5)),np.round(np.nanmax(temp5)),1.0)
 
-plt.subplot(321)
-plt.plot(np.ndarray.flatten(iceabove1),np.ndarray.flatten(allicebelow1),'.')
+plt.subplot(231)
+index1 = np.where(np.ndarray.flatten(allicebelow1)>=0.5)
+flattemp1 = np.ndarray.flatten(temp1)[index1]
+binned1 = np.histogram(flattemp1,bins)
+plt.step(binned1[1][:-1],binned1[0]/float(np.nanmax(binned1[0])))
 
-plt.subplot(322)
-plt.plot(np.ndarray.flatten(iceabove2),np.ndarray.flatten(allicebelow2),'b.')
+plt.subplot(232)
+index2 = np.where(np.ndarray.flatten(allicebelow2)>=0.5)
+flattemp2 = np.ndarray.flatten(temp2)[index2]
+binned2 = np.histogram(flattemp2,bins)
+plt.step(binned2[1][:-1],binned2[0]/float(np.nanmax(binned2[0])))
 
-plt.subplot(324)
-plt.plot(np.ndarray.flatten(iceabove3),np.ndarray.flatten(allicebelow3),'k.')
+plt.subplot(234)
+index3 = np.where(np.ndarray.flatten(allicebelow3)>=0.5)
+flattemp3 = np.ndarray.flatten(temp3)[index3]
+binned3 = np.histogram(flattemp3,bins)
+plt.step(binned3[1][:-1],binned3[0]/float(np.nanmax(binned3[0])))
 
-plt.subplot(325)
-plt.plot(np.ndarray.flatten(iceabove4),np.ndarray.flatten(allicebelow4),'g.')
+plt.subplot(235)
+index4 = np.where(np.ndarray.flatten(allicebelow4)>=0.5)
+flattemp4 = np.ndarray.flatten(temp4)[index4]
+binned4 = np.histogram(flattemp4,bins)
+plt.step(binned4[1][:-1],binned4[0]/float(np.nanmax(binned4[0])))
 
-plt.subplot(326)
-plt.plot(np.ndarray.flatten(iceabove5),np.ndarray.flatten(allicebelow5),'r.')
+plt.subplot(236)
+index5 = np.where(np.ndarray.flatten(allicebelow5)>=0.5)
+flattemp5 = np.ndarray.flatten(temp5)[index5]
+binned5 = np.histogram(flattemp5,bins)
+plt.step(binned5[1][:-1],binned5[0]/float(np.nanmax(binned5[0])))
 
 plt.show()
