@@ -152,6 +152,7 @@ for i in range(0,np.size(Z,2)):
                                 bl1_2[j,i] = Z[k,j,i]
 			        temp1[j,i] = data1['Tk'][timeindex,k+1,j,i]
                                 allicebelow1[j,i] = np.nansum(data1['qnisg'][timeindex,0:k,j,i])/float(1e3)		# /L
+                                iceabove1[j,i] = data1['qnisg'][timeindex,k+1,j,i]/float(1e3)
                                 # if allicebelow1[j,i]>0.005: icebelowfreq1[j,i]=1
                                 break
 
@@ -232,6 +233,7 @@ for i in range(0,np.size(Z,2)):
                                 # w2[j,i] = nc2.variables['W'][time_sci[timeindex],k,j,i]
                                 # blindex2[0,j,i] = k
                                 allicebelow2[j,i] = np.nansum(data2['qnisg'][timeindex,0:k,j,i])/float(1e3)
+                                iceabove2[j,i] = data2['qnisg'][timeindex,k+1,j,i]/float(1e3)
                                 # smallicebelow2[j,i] = np.nanpercentile(data2['nisg50'][timeindex,0:k,j,i],99.7)/float(1e3)
                                 # largeicebelow2[j,i] = np.nanpercentile(data2['nisg80'][timeindex,0:k,j,i],99.7)/float(1e3)
                                 # liqbelow2[j,i] = np.nanmean(data2['qliq'][timeindex,0:k,j,i],0)*float(1e3)
@@ -836,7 +838,7 @@ fig = plt.figure(figsize=(8,9))
 # plt.annotate(runlab5,xy=(-78,-28),xytext=(-78,-28),fontsize=10)
 
 # plt.savefig('/data/scihub-users/giyoung/PYTHON/WRF/FIGS/Misc/05_GRL_NisgBelow_TempAbove_K+1.png',dpi=300)
-plt.show()
+# plt.show()
 
 
 # plt.subplot(1,2,1); plt.plot(np.nanmean(data1['theta'][timeindex,0:40,190:340,107:202],2),np.nanmean(data1['Zsci'][0:40,190:340,107:202],2));
@@ -975,11 +977,17 @@ plt.show()
 # plt.subplot(1,2,2);plt.plot(bl5_1[40:50,25]);plt.plot(bl5_2[40:50,25]); plt.grid('on');plt.ylim([0,5000]);
 # plt.show()
 
+allicebelow1[allicebelow1<0.005] = np.nan
+allicebelow2[allicebelow2<0.005] = np.nan
+
+iceabove1[iceabove1<0.005] = np.nan
+iceabove2[iceabove2<0.005] = np.nan
+
 
 plt.subplot(121)
-plt.plot(allicebelow1,temp1,'.')
+plt.plot(np.ndarray.flatten(iceabove1),np.ndarray.flatten(allicebelow1),'.')
 
 plt.subplot(122)
-plt.plot(allicebelow2,temp2,'.')
+plt.plot(np.ndarray.flatten(iceabove2),np.ndarray.flatten(allicebelow2),'.')
 
 plt.show()
