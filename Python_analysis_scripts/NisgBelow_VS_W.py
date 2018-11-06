@@ -154,7 +154,7 @@ for i in range(0,np.size(Z,2)):
                         strgk = "%1.f" % (k+1) # string of altitude
                         if theta[k,j,i] < theta[k+1,j,i]-0.4:           # large inversion - typically ~1500m
                                 bl1_2[j,i] = Z[k,j,i]
-				w1[j,i] = w_theta1[k-1,j,i]
+				w1[j,i] = w_theta1[k,j,i]
                                 allicebelow1[j,i] = np.nanpercentile(data1['qnisg'][timeindex,0:k,j,i],99.7)/float(1e3)
                                 break
 #del nc1
@@ -235,7 +235,7 @@ for i in range(0,np.size(Z,2)):
                         strgk = "%1.f" % (k+1) # string of altitude
                         if theta[k,j,i] < theta[k+1,j,i]-0.4:           # large inversion - typically ~1500m
                                 bl2_2[j,i] = Z[k,j,i]
-                                w2[j,i] = w_theta2[k-1,j,i]
+                                w2[j,i] = w_theta2[k,j,i]
                                 allicebelow2[j,i] = np.nanpercentile(data2['qnisg'][timeindex,0:k,j,i],99.7)/float(1e3)
                                 break
 
@@ -305,7 +305,7 @@ for i in range(0,np.size(Z,2)):
                         strgk = "%1.f" % (k+1) # string of altitude
                         if theta[k,j,i] < theta[k+1,j,i]-0.4:           # large inversion - typically ~1500m
                                 bl3_2[j,i] = Z[k,j,i]
-                                w3[j,i] = w_theta3[k-1,j,i]
+                                w3[j,i] = w_theta3[k,j,i]
                                 allicebelow3[j,i] = np.nanpercentile(data3['qnisg'][timeindex,0:k,j,i],99.7)/float(1e3)
                                 break
 
@@ -376,7 +376,7 @@ for i in range(0,np.size(Z,2)):
                         strgk = "%1.f" % (k+1) # string of altitude
                         if theta[k,j,i] < theta[k+1,j,i]-0.4:           # large inversion - typically ~1500m
                                 bl4_2[j,i] = Z[k,j,i]
-                                w4[j,i] = w_theta4[k-1,j,i]
+                                w4[j,i] = w_theta4[k,j,i]
                                 allicebelow4[j,i] = np.nanpercentile(data4['qnisg'][timeindex,0:k,j,i],99.7)/float(1e3)
                                 break
 
@@ -446,7 +446,7 @@ for i in range(0,np.size(Z,2)):
                         strgk = "%1.f" % (k+1) # string of altitude
                         if theta[k,j,i] < theta[k+1,j,i]-0.4:           # large inversion - typically ~1500m
                                 bl5_2[j,i] = Z[k,j,i]
-				w5[j,i] = w_theta5[k-1,j,i]
+				w5[j,i] = w_theta5[k,j,i]
                                 allicebelow5[j,i] = np.nanpercentile(data5['qnisg'][timeindex,0:k,j,i],99.7)/float(1e3)
                                 break
 
@@ -966,36 +966,112 @@ plt.rc('legend',fontsize=SMALL_SIZE)
 
 
 
-bins = np.arange(-0.5,0.5,0.1)
+bins = np.arange(-1.0,2.0,0.1)
+
+ni1 = {}
+ni1_med = 0.
+ni1_nanmean = 0.
+ni2 = {}
+ni2_med = 0.
+ni2_nanmean = 0.
+ni3 = {}
+ni3_med = 0.
+ni3_nanmean = 0.
+ni4 = {}
+ni4_med = 0.
+ni4_nanmean = 0.
+ni5 = {}
+ni5_med = 0.
+ni5_nanmean = 0.
+for i in range(0,len(bins)):
+    strgi = "%1.f" % (i+1) # string of index number
+    ind[strgi] = np.where(np.logical_and(w1>=bins[i]-0.05, w1<bins[i]+0.05))
+    ni1[strgi] = allicebelow1[ind[strgi]];
+    if i==0:
+        ni1_nanmean = np.nanmean(ni1[strgi])
+    if i>0:
+        ni1_med = np.nanmean(ni1[strgi])
+        ni1_nanmean = np.append(ni1_nanmean,ni1_med)
+
+for i in range(0,len(bins)):
+    strgi = "%1.f" % (i+1) # string of index number
+    ind[strgi] = np.where(np.logical_and(w2>=bins[i]-0.05, w2<bins[i]+0.05))
+    ni2[strgi] = allicebelow2[ind[strgi]];
+    if i==0:
+        ni2_nanmean = np.nanmean(ni2[strgi])
+    if i>0:
+        ni2_med = np.nanmean(ni2[strgi])
+        ni2_nanmean = np.append(ni2_nanmean,ni2_med)
+
+for i in range(0,len(bins)):
+    strgi = "%1.f" % (i+1) # string of index number
+    ind[strgi] = np.where(np.logical_and(w3>=bins[i]-0.05, w3<bins[i]+0.05))
+    ni3[strgi] = allicebelow3[ind[strgi]];
+    if i==0:
+        ni3_nanmean = np.nanmean(ni3[strgi])
+    if i>0:
+        ni3_med = np.nanmean(ni3[strgi])
+        ni3_nanmean = np.append(ni3_nanmean,ni3_med)
+
+for i in range(0,len(bins)):
+    strgi = "%1.f" % (i+1) # string of index number
+    ind[strgi] = np.where(np.logical_and(w4>=bins[i]-0.05, w4<bins[i]+0.05))
+    ni4[strgi] = allicebelow4[ind[strgi]];
+    if i==0:
+        ni4_nanmean = np.nanmean(ni4[strgi])
+    if i>0:
+        ni4_med = np.nanmean(ni4[strgi])
+        ni4_nanmean = np.append(ni4_nanmean,ni4_med)
+
+
+for i in range(0,len(bins)):
+    strgi = "%1.f" % (i+1) # string of index number
+    ind[strgi] = np.where(np.logical_and(w5>=bins[i]-0.05, w5<bins[i]+0.05))
+    ni5[strgi] = allicebelow5[ind[strgi]];
+    if i==0:
+        ni5_nanmean = np.nanmean(ni5[strgi])
+    if i>0:
+        ni5_med = np.nanmean(ni5[strgi])
+        ni5_nanmean = np.append(ni5_nanmean,ni5_med)                
 
 plt.subplot(231)
-index1 = np.where(np.ndarray.flatten(allicebelow1)>=0.5)
-flatw1 = np.ndarray.flatten(w1)[index1]
-binned1 = np.histogram(flatw1,bins)
-plt.step(binned1[1][:-1],binned1[0]/float(np.nanmax(binned1[0])))
+plt.plot(np.ndarray.flatten(w1),np.ndarray.flatten(allicebelow1)/np.nanmax(np.ndarray.flatten(allicebelow1)),'.',markersize=2)
+plt.plot(bins,ni1_nanmean)
+plt.grid('on')
+plt.xlim([-1.0,2.0])
+plt.title('CNTRL')
+plt.ylabel('Normalised total $N_{isg}$, \n $L^{-1}$')
 
 plt.subplot(232)
-index2 = np.where(np.ndarray.flatten(allicebelow2)>=0.5)
-flatw2 = np.ndarray.flatten(w2)[index2]
-binned2 = np.histogram(flatw2,bins)
-plt.step(binned2[1][:-1],binned2[0]/float(np.nanmax(binned2[0])))
+plt.plot(np.ndarray.flatten(w2),np.ndarray.flatten(allicebelow2)/np.nanmax(np.ndarray.flatten(allicebelow2)),'.',markersize=2)
+plt.plot(bins,ni2_nanmean)
+plt.grid('on')
+plt.xlim([-1.0,2.0])
+plt.title('NoThresh')
 
 plt.subplot(234)
-index3 = np.where(np.ndarray.flatten(allicebelow3)>=0.5)
-flatw3 = np.ndarray.flatten(w3)[index3]
-binned3 = np.histogram(flatw3,bins)
-plt.step(binned3[1][:-1],binned3[0]/float(np.nanmax(binned3[0])))
+plt.plot(np.ndarray.flatten(w3),np.ndarray.flatten(allicebelow3)/np.nanmax(np.ndarray.flatten(allicebelow3)),'.',markersize=2)
+plt.plot(bins,ni3_nanmean)
+plt.grid('on')
+plt.xlim([-1.0,2.0])
+plt.title('2xHM')
+plt.ylabel('Normalised total $N_{isg}$, \n $L^{-1}$')
+plt.xlabel('W, $ms^{-1}$')
 
 plt.subplot(235)
-index4 = np.where(np.ndarray.flatten(allicebelow4)>=0.5)
-flatw4 = np.ndarray.flatten(w4)[index4]
-binned4 = np.histogram(flatw4,bins)
-plt.step(binned4[1][:-1],binned4[0]/float(np.nanmax(binned4[0])))
+plt.plot(np.ndarray.flatten(w4),np.ndarray.flatten(allicebelow4)/np.nanmax(np.ndarray.flatten(allicebelow4)),'.',markersize=2)
+plt.plot(bins,ni4_nanmean)
+plt.grid('on')
+plt.xlim([-1.0,2.0])
+plt.title('5xHM')
+plt.xlabel('W, $ms^{-1}$')
 
 plt.subplot(236)
-index5 = np.where(np.ndarray.flatten(allicebelow5)>=0.5)
-flatw5 = np.ndarray.flatten(w5)[index5]
-binned5 = np.histogram(flatw5,bins)
-plt.step(binned5[1][:-1],binned5[0]/float(np.nanmax(binned5[0])))
+plt.plot(np.ndarray.flatten(w5),np.ndarray.flatten(allicebelow5)/np.nanmax(np.ndarray.flatten(allicebelow5)),'.',markersize=2)
+plt.plot(bins,ni5_nanmean/np.nanmax(ni5_nanmean))
+plt.grid('on')
+plt.xlim([-1.0,2.0])
+plt.title('10xHM')
+plt.xlabel('W, $ms^{-1}$')
 
 plt.show()
