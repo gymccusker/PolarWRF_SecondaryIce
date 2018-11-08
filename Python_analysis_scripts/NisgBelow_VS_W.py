@@ -828,215 +828,84 @@ plt.rc('legend',fontsize=SMALL_SIZE)
 # plt.show()
 
 
-# # plt.subplot(1,2,1); plt.plot(np.nanmean(data1['theta'][timeindex,0:40,190:340,107:202],2),np.nanmean(data1['Zsci'][0:40,190:340,107:202],2));
-# # plt.grid('on'); plt.subplot(1,2,2); 
-# # plt.plot(np.nanmean(nc1.variables['W'][time_sci[timeindex],0:40,190:340,107:202],2),np.nanmean(data1['Zsci'][0:40,190:340,107:202],2),'.') ;
-# # plt.grid('on'); plt.show()
-
-
-# ##### Picking out BL top
-# # ind[strgi] = np.where(np.logical_and(np.logical_and(W[i,:]>-0.07,W[i,:]<0.07),theta[i+1,:]<theta[i,:]+0.05))
-
-
-# # ind = {}
-# # # theta = data1['theta'][timeindex,0:35,190:340,107:202]
-# # # Z = data1['Zsci'][0:35,190:340,107:202]
-# # theta = data1['theta'][timeindex,:,:,:]
-# # Z = data1['Zsci'][:,:,:]
-# # bl_1 = np.zeros(shape=(np.size(Z,1),np.size(Z,2)))
-# # bl_2 = np.zeros(shape=(np.size(Z,1),np.size(Z,2)))
-# # for i in range(0,np.size(Z,2)):
-# #         strgi = "%1.f" % (i+1) # string of longitude
-# #         for j in range(0,np.size(Z,1)):
-# #                 strgj = "%1.f" % (j+1) # string of latitude
-# #                 for k in range(0,np.size(Z,0)-2):
-# #                         strgk = "%1.f" % (k+1) # string of altitude
-# #                         if theta[k,j,i] < theta[k+1,j,i]-0.2:           # small inversion - typically ~500m
-# #                                 bl_1[j,i] = Z[k,j,i]
-# #                                 break
-# #                 for k in range(0,np.size(Z,0)-2):
-# #                         strgk = "%1.f" % (k+1) # string of altitude
-# #                         if theta[k,j,i] < theta[k+1,j,i]-0.4:           # large inversion - typically ~1500m
-# #                                 bl_2[j,i] = Z[k,j,i]
-# #                                 break
-
-# #                         # elif theta[k,j,i] < theta[k+1,j,i]-0.4:         # big jump inversion
-# #                         #         bl_2[j,i] = Z[k,j,i]        
-# #                                 # break
-# #                         # OR: a larger theta jump than ?? deg?
-
-# #                         # ind[strgk] = np.where(theta[k,j,i] < theta[k+1,j,i]-0.5)
-# #                         # if np.size(ind[strgk]) > 0: 
-# #                         #         index = np.array([ind[strgk][0][0],ind[strgk][1][0]])
-# #                         #         bl[index[0],index[1]] = Z[k,index[0],index[1]]
-
-# # plt.subplot(231)
-# # m = Basemap(resolution='i',projection='stere', rsphere=6370000.0, \
-# #         width=data1['width_meters'],height=data1['height_meters'],\
-# #         lat_0=data1['cen_lat'],lon_0=data1['cen_lon'],lat_1=data1['truelat1'])
-
-# # ##define parallels/meridians
-# # m.drawparallels(np.arange(-90.,-60.,2.),color='k',labels=[0,0,0,0],linewidth=0.8,fontsize=10)
-# # m.drawmeridians(np.arange(-180.,181.,5.),color='k',labels=[0,0,0,1],linewidth=0.8,fontsize=10)
-# # m.drawcoastlines(linewidth=1.)
-
-# # lons, lats = m.makegrid(data1['x_dim'], data1['y_dim']) # get lat/lons of ny by nx evenly space grid.
-# # x, y = m(lons, lats) # compute map proj coordinates.
-
-# # cs = m.pcolor(x,y,largeicebelow1,vmin=0,vmax=3);
-# # # plt.colorbar(cs);
-# # plt.title('Large ice below')
-
-# # plt.subplot(232)
-# # m = Basemap(resolution='i',projection='stere', rsphere=6370000.0, \
-# #         width=data1['width_meters'],height=data1['height_meters'],\
-# #         lat_0=data1['cen_lat'],lon_0=data1['cen_lon'],lat_1=data1['truelat1'])
-
-# # ##define parallels/meridians
-# # m.drawparallels(np.arange(-90.,-60.,2.),color='k',labels=[0,0,0,0],linewidth=0.8,fontsize=10)
-# # m.drawmeridians(np.arange(-180.,181.,5.),color='k',labels=[0,0,0,1],linewidth=0.8,fontsize=10)
-# # m.drawcoastlines(linewidth=1.)
-
-# # lons, lats = m.makegrid(data1['x_dim'], data1['y_dim']) # get lat/lons of ny by nx evenly space grid.
-# # x, y = m(lons, lats) # compute map proj coordinates.
-
-# # cs = m.pcolor(x,y,liqbelow1,vmin=0,vmax=0.1);
-# # # plt.colorbar(cs);
-# # plt.title('Mean Liquid below')
-
-# # plt.subplot(233)
-# # m = Basemap(resolution='i',projection='stere', rsphere=6370000.0, \
-# #         width=data1['width_meters'],height=data1['height_meters'],\
-# #         lat_0=data1['cen_lat'],lon_0=data1['cen_lon'],lat_1=data1['truelat1'])
-
-# # ##define parallels/meridians
-# # m.drawparallels(np.arange(-90.,-60.,2.),color='k',labels=[0,0,0,0],linewidth=0.8,fontsize=10)
-# # m.drawmeridians(np.arange(-180.,181.,5.),color='k',labels=[0,0,0,1],linewidth=0.8,fontsize=10)
-# # m.drawcoastlines(linewidth=1.)
-
-# # lons, lats = m.makegrid(data1['x_dim'], data1['y_dim']) # get lat/lons of ny by nx evenly space grid.
-# # x, y = m(lons, lats) # compute map proj coordinates.
-
-# # cs = m.pcolor(x,y,smallicebelow1,vmin=0,vmax=3);
-# # # plt.colorbar(cs);
-# # plt.title('Small ice below')
-
-
-# # plt.subplot(234)
-# # m = Basemap(resolution='i',projection='stere', rsphere=6370000.0, \
-# #         width=data1['width_meters'],height=data1['height_meters'],\
-# #         lat_0=data1['cen_lat'],lon_0=data1['cen_lon'],lat_1=data1['truelat1'])
-
-# # ##define parallels/meridians
-# # m.drawparallels(np.arange(-90.,-60.,2.),color='k',labels=[0,0,0,0],linewidth=0.8,fontsize=10)
-# # m.drawmeridians(np.arange(-180.,181.,5.),color='k',labels=[0,0,0,1],linewidth=0.8,fontsize=10)
-# # m.drawcoastlines(linewidth=1.)
-
-# # lons, lats = m.makegrid(data1['x_dim'], data1['y_dim']) # get lat/lons of ny by nx evenly space grid.
-# # x, y = m(lons, lats) # compute map proj coordinates.
-
-# # cs = m.pcolor(x,y,iceabove1,vmin=0,vmax=3);
-# # # plt.colorbar(cs);
-# # plt.title('All ice above')
-
-
-# # plt.subplot(235)
-# # m = Basemap(resolution='i',projection='stere', rsphere=6370000.0, \
-# #         width=data1['width_meters'],height=data1['height_meters'],\
-# #         lat_0=data1['cen_lat'],lon_0=data1['cen_lon'],lat_1=data1['truelat1'])
-
-# # ##define parallels/meridians
-# # m.drawparallels(np.arange(-90.,-60.,2.),color='k',labels=[0,0,0,0],linewidth=0.8,fontsize=10)
-# # m.drawmeridians(np.arange(-180.,181.,5.),color='k',labels=[0,0,0,1],linewidth=0.8,fontsize=10)
-# # m.drawcoastlines(linewidth=1.)
-
-# # lons, lats = m.makegrid(data1['x_dim'], data1['y_dim']) # get lat/lons of ny by nx evenly space grid.
-# # x, y = m(lons, lats) # compute map proj coordinates.
-
-# # cs = m.pcolor(x,y,bl1_2,vmin=0,vmax=2500);
-# # # plt.colorbar(cs);
-# # plt.title('BL Height')
-
-# # plt.show()
-
-
-# # plt.subplot(1,2,1);plt.plot(theta[0:42,40:50,25],Z[0:42,40:50,25],'o--');plt.grid('on');plt.ylim([0,5000]);
-# # plt.subplot(1,2,2);plt.plot(bl5_1[40:50,25]);plt.plot(bl5_2[40:50,25]); plt.grid('on');plt.ylim([0,5000]);
-# # plt.show()
-
-
-
-bins = np.arange(-1.0,2.0,0.1)
+bins = np.arange(-1.0,2.0,0.2)
 
 ni1 = {}
 ni1_med = 0.
-ni1_nanmean = 0.
+ni1_nanmedian = 0.
 ni2 = {}
 ni2_med = 0.
-ni2_nanmean = 0.
+ni2_nanmedian = 0.
 ni3 = {}
 ni3_med = 0.
-ni3_nanmean = 0.
+ni3_nanmedian = 0.
 ni4 = {}
 ni4_med = 0.
-ni4_nanmean = 0.
+ni4_nanmedian = 0.
 ni5 = {}
 ni5_med = 0.
-ni5_nanmean = 0.
+ni5_nanmedian = 0.
 for i in range(0,len(bins)):
     strgi = "%1.f" % (i+1) # string of index number
-    ind[strgi] = np.where(np.logical_and(w1>=bins[i]-0.05, w1<bins[i]+0.05))
-    ni1[strgi] = allicebelow1[ind[strgi]];
+    ind[strgi] = np.where(np.logical_and(w1>=bins[i]-0.1, w1<bins[i]+0.1))
+    ni1[strgi] = allicebelow1[ind[strgi]]/np.nanmax(allicebelow1);
     if i==0:
-        ni1_nanmean = np.nanmean(ni1[strgi])
+        ni1_nanmedian = np.nanmedian(ni1[strgi])
     if i>0:
-        ni1_med = np.nanmean(ni1[strgi])
-        ni1_nanmean = np.append(ni1_nanmean,ni1_med)
+        ni1_med = np.nanmedian(ni1[strgi])
+        ni1_nanmedian = np.append(ni1_nanmedian,ni1_med)
 
 for i in range(0,len(bins)):
     strgi = "%1.f" % (i+1) # string of index number
-    ind[strgi] = np.where(np.logical_and(w2>=bins[i]-0.05, w2<bins[i]+0.05))
-    ni2[strgi] = allicebelow2[ind[strgi]];
+    ind[strgi] = np.where(np.logical_and(w2>=bins[i]-0.1, w2<bins[i]+0.1))
+    ni2[strgi] = allicebelow2[ind[strgi]]/np.nanmax(allicebelow2);
     if i==0:
-        ni2_nanmean = np.nanmean(ni2[strgi])
+        ni2_nanmedian = np.nanmedian(ni2[strgi])
     if i>0:
-        ni2_med = np.nanmean(ni2[strgi])
-        ni2_nanmean = np.append(ni2_nanmean,ni2_med)
+        ni2_med = np.nanmedian(ni2[strgi])
+        ni2_nanmedian = np.append(ni2_nanmedian,ni2_med)
 
 for i in range(0,len(bins)):
     strgi = "%1.f" % (i+1) # string of index number
-    ind[strgi] = np.where(np.logical_and(w3>=bins[i]-0.05, w3<bins[i]+0.05))
-    ni3[strgi] = allicebelow3[ind[strgi]];
+    ind[strgi] = np.where(np.logical_and(w3>=bins[i]-0.1, w3<bins[i]+0.1))
+    ni3[strgi] = allicebelow3[ind[strgi]]/np.nanmax(allicebelow3);
     if i==0:
-        ni3_nanmean = np.nanmean(ni3[strgi])
+        ni3_nanmedian = np.nanmedian(ni3[strgi])
     if i>0:
-        ni3_med = np.nanmean(ni3[strgi])
-        ni3_nanmean = np.append(ni3_nanmean,ni3_med)
+        ni3_med = np.nanmedian(ni3[strgi])
+        ni3_nanmedian = np.append(ni3_nanmedian,ni3_med)
 
 for i in range(0,len(bins)):
     strgi = "%1.f" % (i+1) # string of index number
-    ind[strgi] = np.where(np.logical_and(w4>=bins[i]-0.05, w4<bins[i]+0.05))
-    ni4[strgi] = allicebelow4[ind[strgi]];
+    ind[strgi] = np.where(np.logical_and(w4>=bins[i]-0.1, w4<bins[i]+0.1))
+    ni4[strgi] = allicebelow4[ind[strgi]]/np.nanmax(allicebelow4);
     if i==0:
-        ni4_nanmean = np.nanmean(ni4[strgi])
+        ni4_nanmedian = np.nanmedian(ni4[strgi])
     if i>0:
-        ni4_med = np.nanmean(ni4[strgi])
-        ni4_nanmean = np.append(ni4_nanmean,ni4_med)
+        ni4_med = np.nanmedian(ni4[strgi])
+        ni4_nanmedian = np.append(ni4_nanmedian,ni4_med)
 
 
 for i in range(0,len(bins)):
     strgi = "%1.f" % (i+1) # string of index number
-    ind[strgi] = np.where(np.logical_and(w5>=bins[i]-0.05, w5<bins[i]+0.05))
-    ni5[strgi] = allicebelow5[ind[strgi]];
+    ind[strgi] = np.where(np.logical_and(w5>=bins[i]-0.1, w5<bins[i]+0.1))
+    ni5[strgi] = allicebelow5[ind[strgi]]/np.nanmax(allicebelow5);
     if i==0:
-        ni5_nanmean = np.nanmean(ni5[strgi])
+        ni5_nanmedian = np.nanmedian(ni5[strgi])
     if i>0:
-        ni5_med = np.nanmean(ni5[strgi])
-        ni5_nanmean = np.append(ni5_nanmean,ni5_med)                
+        ni5_med = np.nanmedian(ni5[strgi])
+        ni5_nanmedian = np.append(ni5_nanmedian,ni5_med)                
+
+
+
+fig = plt.figure(figsize=(7,6))
+
+# Also manually adjust the spacings which are used when creating subplots
+plt.gcf().subplots_adjust(top=0.96)
 
 plt.subplot(231)
 plt.plot(np.ndarray.flatten(w1),np.ndarray.flatten(allicebelow1)/np.nanmax(np.ndarray.flatten(allicebelow1)),'.',markersize=2)
-plt.plot(bins,ni1_nanmean)
+# plt.plot(bins,ni1_nanmedian)
 plt.grid('on')
 plt.xlim([-1.0,2.0])
 plt.title('CNTRL')
@@ -1044,14 +913,14 @@ plt.ylabel('Normalised total $N_{isg}$, \n $L^{-1}$')
 
 plt.subplot(232)
 plt.plot(np.ndarray.flatten(w2),np.ndarray.flatten(allicebelow2)/np.nanmax(np.ndarray.flatten(allicebelow2)),'.',markersize=2)
-plt.plot(bins,ni2_nanmean)
+# plt.plot(bins,ni2_nanmedian)
 plt.grid('on')
 plt.xlim([-1.0,2.0])
 plt.title('NoThresh')
 
 plt.subplot(234)
 plt.plot(np.ndarray.flatten(w3),np.ndarray.flatten(allicebelow3)/np.nanmax(np.ndarray.flatten(allicebelow3)),'.',markersize=2)
-plt.plot(bins,ni3_nanmean)
+# plt.plot(bins,ni3_nanmedian)
 plt.grid('on')
 plt.xlim([-1.0,2.0])
 plt.title('2xHM')
@@ -1060,7 +929,7 @@ plt.xlabel('W, $ms^{-1}$')
 
 plt.subplot(235)
 plt.plot(np.ndarray.flatten(w4),np.ndarray.flatten(allicebelow4)/np.nanmax(np.ndarray.flatten(allicebelow4)),'.',markersize=2)
-plt.plot(bins,ni4_nanmean)
+# plt.plot(bins,ni4_nanmedian)
 plt.grid('on')
 plt.xlim([-1.0,2.0])
 plt.title('5xHM')
@@ -1068,7 +937,7 @@ plt.xlabel('W, $ms^{-1}$')
 
 plt.subplot(236)
 plt.plot(np.ndarray.flatten(w5),np.ndarray.flatten(allicebelow5)/np.nanmax(np.ndarray.flatten(allicebelow5)),'.',markersize=2)
-plt.plot(bins,ni5_nanmean/np.nanmax(ni5_nanmean))
+# plt.plot(bins,ni5_nanmedian)
 plt.grid('on')
 plt.xlim([-1.0,2.0])
 plt.title('10xHM')

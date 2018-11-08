@@ -521,383 +521,60 @@ plt.rc('legend',fontsize=SMALL_SIZE)
 # plt.rc('figure',titlesize=LARGE_SIZE)
 
 
-## create figure and axes instances
-fig = plt.figure(figsize=(8,9))
+# ## create figure and axes instances
+# fig = plt.figure(figsize=(8,9))
 
-###################################
-## 	CNTRL
-###################################
-ax  = fig.add_axes([0.3,0.7,0.2,0.3])   # left, bottom, width, height
+# ###################################
+# ## 	CNTRL
+# ###################################
+# ax  = fig.add_axes([0.3,0.7,0.2,0.3])   # left, bottom, width, height
 
-m = Basemap(resolution='i',projection='stere', rsphere=6370000.0, \
-        width=data1['width_meters'],height=data1['height_meters'],\
-        lat_0=data1['cen_lat'],lon_0=data1['cen_lon'],lat_1=data1['truelat1'])
+# m = Basemap(resolution='i',projection='stere', rsphere=6370000.0, \
+#         width=data1['width_meters'],height=data1['height_meters'],\
+#         lat_0=data1['cen_lat'],lon_0=data1['cen_lon'],lat_1=data1['truelat1'])
 
-# define parallels/meridians
-m.drawparallels(np.arange(-90.,-60.,2.),color='k',labels=[1,0,0,0],linewidth=0.8,fontsize=10)
-m.drawmeridians(np.arange(-180.,181.,5.),color='k',labels=[0,0,0,1],linewidth=0.8,fontsize=10)
-m.drawcoastlines(linewidth=1.)
+# # define parallels/meridians
+# m.drawparallels(np.arange(-90.,-60.,2.),color='k',labels=[1,0,0,0],linewidth=0.8,fontsize=10)
+# m.drawmeridians(np.arange(-180.,181.,5.),color='k',labels=[0,0,0,1],linewidth=0.8,fontsize=10)
+# m.drawcoastlines(linewidth=1.)
 
-lons, lats = m.makegrid(data1['x_dim'], data1['y_dim']) # get lat/lons of ny by nx evenly space grid.
-x, y = m(lons, lats) # compute map proj coordinates.
+# lons, lats = m.makegrid(data1['x_dim'], data1['y_dim']) # get lat/lons of ny by nx evenly space grid.
+# x, y = m(lons, lats) # compute map proj coordinates.
 
-# contour levels
-maxdat1 = 10
-mindat1 = 0
-#clevs = np.arange(0.0,maxdat,200)
+# # contour levels
+# maxdat1 = 10
+# mindat1 = 0
+# #clevs = np.arange(0.0,maxdat,200)
 
-# data = np.nanmean(data1['nisg80'][0:3,zind1,:,:],0)
-data = allicebelow1 # w1 # bl1_1
-# data[data == 0] = np.nan
-# data[data > maxdat] = maxdat
+# # data = np.nanmean(data1['nisg80'][0:3,zind1,:,:],0)
+# data = allicebelow1 # w1 # bl1_1
+# # data[data == 0] = np.nan
+# # data[data > maxdat] = maxdat
 
-cs = m.pcolor(x,y,data,vmin=mindat1,vmax=maxdat1,cmap=mpl_cm.Reds)
+# cs = m.pcolor(x,y,data,vmin=mindat1,vmax=maxdat1,cmap=mpl_cm.Reds)
 
-x27,y27 = m(newlon27, newlat27)
-plt.plot(x27,y27,'r',linewidth=1)
-plt.annotate(runlab1,xy=(-78,-28),xytext=(-78,-28),fontsize=10)
+# x27,y27 = m(newlon27, newlat27)
+# plt.plot(x27,y27,'r',linewidth=1)
+# plt.annotate(runlab1,xy=(-78,-28),xytext=(-78,-28),fontsize=10)
 
-#??? from here until ???END lines may have been inserted/deleted
-cbaxes = fig.add_axes([0.15,0.74,0.02, 0.2])  # This is the position for the colorbar
-cb = plt.colorbar(cs, cax = cbaxes)
-# cb = plt.colorbar(cs, ticks=clevs, cax = cbaxes)
-# tcks = np.power(10,clevs)
-# cb.ax.set_yticklabels(np.round(tcks,1))
-cb.ax.xaxis.set_label_position('top')
-cb.ax.axes.set_xlabel(strg1,color='k',fontsize=10)
-
-###################################
-
-ax  = fig.add_axes([0.5,0.7,0.2,0.3])   # left, bottom, width, height
-
-m = Basemap(resolution='i',projection='stere', rsphere=6370000.0, \
-        width=data1['width_meters'],height=data1['height_meters'],\
-        lat_0=data1['cen_lat'],lon_0=data1['cen_lon'],lat_1=data1['truelat1'])
-
-# define parallels/meridians
-m.drawparallels(np.arange(-90.,-60.,2.),color='k',labels=[0,0,0,0],linewidth=0.8,fontsize=10)
-m.drawmeridians(np.arange(-180.,181.,5.),color='k',labels=[0,0,0,1],linewidth=0.8,fontsize=10)
-m.drawcoastlines(linewidth=1.)
-
-lons, lats = m.makegrid(data1['x_dim'], data1['y_dim']) # get lat/lons of ny by nx evenly space grid.
-x, y = m(lons, lats) # compute map proj coordinates.
-
-# contour levels
-mindat2 = 0
-#clevs2 = np.arange(-1,maxdat2 + 0.01,0.2)
-maxdat2 = 10
-#clevs2 = np.arange(0,2500.01,500)
-
-# data = np.nanmean(data1['nisg80'][0:3,zind1,:,:],0)
-data = iceabove1 # bl1_2 #iwp1 #w1
-#data[data == 0] = np.nan
-# data[data > maxdat2] = maxdat2
-
-cs = m.pcolor(x,y,data,vmin=mindat2,vmax=maxdat2,cmap=mpl_cm.Blues)
-#cs = m.pcolor(x,y,data,vmin=0,vmax=2500,cmap=mpl_cm.viridis)
-
-x27,y27 = m(newlon27, newlat27)
-plt.plot(x27,y27,'r',linewidth=1)
-plt.annotate(runlab1,xy=(-78,-28),xytext=(-78,-28),fontsize=10)
-
-cbaxes = fig.add_axes([0.8,0.74,0.02, 0.2])  # This is the position for the colorbar
-cb = plt.colorbar(cs, cax = cbaxes)
+# #??? from here until ???END lines may have been inserted/deleted
+# cbaxes = fig.add_axes([0.15,0.74,0.02, 0.2])  # This is the position for the colorbar
+# cb = plt.colorbar(cs, cax = cbaxes)
+# # cb = plt.colorbar(cs, ticks=clevs, cax = cbaxes)
 # # tcks = np.power(10,clevs)
-# # cb.ax.set_yticklabels(clevs2)
-cb.ax.xaxis.set_label_position('top')
-cb.ax.axes.set_xlabel(strg2,color='k',fontsize=10)
+# # cb.ax.set_yticklabels(np.round(tcks,1))
+# cb.ax.xaxis.set_label_position('top')
+# cb.ax.axes.set_xlabel(strg1,color='k',fontsize=10)
 
-###################################
-##  NoThresh
-###################################
-ax  = fig.add_axes([0.08,0.39,0.2,0.3])   # left, bottom, width, height
-m = Basemap(resolution='i',projection='stere', rsphere=6370000.0, \
-        width=data1['width_meters'],height=data1['height_meters'],\
-        lat_0=data1['cen_lat'],lon_0=data1['cen_lon'],lat_1=data1['truelat1'])
+# ###################################
 
-# define parallels/meridians
-m.drawparallels(np.arange(-90.,-60.,2.),color='k',labels=[1,0,0,0],linewidth=0.8,fontsize=10)
-m.drawmeridians(np.arange(-180.,181.,5.),color='k',labels=[0,0,0,1],linewidth=0.8,fontsize=10)
-m.drawcoastlines(linewidth=1.)
+# ax  = fig.add_axes([0.5,0.7,0.2,0.3])   # left, bottom, width, height
 
-lons, lats = m.makegrid(data1['x_dim'], data1['y_dim']) # get lat/lons of ny by nx evenly space grid.
-x, y = m(lons, lats) # compute map proj coordinates.
-
-data = allicebelow2 #w2 # bl2_1
-# data[data > maxdat] = maxdat
-
-cs = m.pcolor(x,y,data,vmin=mindat1,vmax=maxdat1,cmap=mpl_cm.Reds)
-
-plt.plot(x27,y27,'r',linewidth=1)
-plt.annotate(runlab2,xy=(-78,-28),xytext=(-78,-28),fontsize=10)
-
-###################################
-
-ax  = fig.add_axes([0.28,0.39,0.2,0.3])   # left, bottom, width, height
-
-m = Basemap(resolution='i',projection='stere', rsphere=6370000.0, \
-        width=data1['width_meters'],height=data1['height_meters'],\
-        lat_0=data1['cen_lat'],lon_0=data1['cen_lon'],lat_1=data1['truelat1'])
-
-# define parallels/meridians
-m.drawparallels(np.arange(-90.,-60.,2.),color='k',labels=[0,0,0,0],linewidth=0.8,fontsize=10)
-m.drawmeridians(np.arange(-180.,181.,5.),color='k',labels=[0,0,0,1],linewidth=0.8,fontsize=10)
-m.drawcoastlines(linewidth=1.)
-
-lons, lats = m.makegrid(data1['x_dim'], data1['y_dim']) # get lat/lons of ny by nx evenly space grid.
-x, y = m(lons, lats) # compute map proj coordinates.
-
-# contour levels
-# maxdat = 0.08
-# clevs = np.arange(0.0,maxdat2 + 0.01,0.01)
-
-# data = np.nanmean(data1['nisg80'][0:3,zind1,:,:],0)
-data = iceabove2 # bl2_2 # iwp2 #w2
-#data[data == 0] = np.nan
-# data[data > maxdat2] = maxdat2
-
-cs = m.pcolor(x,y,data,vmin=mindat2,vmax=maxdat2,cmap=mpl_cm.Blues)
-#cs = m.pcolor(x,y,data,vmin=0,vmax=2500,cmap=mpl_cm.viridis)
-
-x27,y27 = m(newlon27, newlat27)
-plt.plot(x27,y27,'r',linewidth=1)
-plt.annotate(runlab2,xy=(-78,-28),xytext=(-78,-28),fontsize=10)
-
-
-###################################
-## 	2xHM
-###################################
-ax  = fig.add_axes([0.55,0.39,0.2,0.3])    # left, bottom, width, height
-m = Basemap(resolution='i',projection='stere', rsphere=6370000.0, \
-        width=data1['width_meters'],height=data1['height_meters'],\
-        lat_0=data1['cen_lat'],lon_0=data1['cen_lon'],lat_1=data1['truelat1'])
-
-# define parallels/meridians
-m.drawparallels(np.arange(-90.,-60.,2.),color='k',labels=[1,0,0,0],linewidth=0.8,fontsize=10)
-m.drawmeridians(np.arange(-180.,181.,5.),color='k',labels=[0,0,0,1],linewidth=0.8,fontsize=10)
-m.drawcoastlines(linewidth=1.)
-
-## make lat/lon grid
-# lons28, lats28 = m3.makegrid(150, len(np.unique(data1['lonindex_udom'][1]))) # get lat/lons of ny by nx evenly space grid.
-
-lons, lats = m.makegrid(data1['x_dim'], data1['y_dim']) # get lat/lons of ny by nx evenly space grid.
-x, y = m(lons, lats) # compute map proj coordinates.
-
-data = allicebelow3 # w3 # bl3_1
-# data[data > maxdat] = maxdat
-
-cs = m.pcolor(x,y,data,vmin=mindat1,vmax=maxdat1,cmap=mpl_cm.Reds)
-
-plt.plot(x27,y27,'r',linewidth=1)
-plt.annotate(runlab3,xy=(-78,-28),xytext=(-78,-28),fontsize=10)
-
-###################################
-
-ax  = fig.add_axes([0.75,0.39,0.2,0.3])   # left, bottom, width, height
-
-m = Basemap(resolution='i',projection='stere', rsphere=6370000.0, \
-        width=data1['width_meters'],height=data1['height_meters'],\
-        lat_0=data1['cen_lat'],lon_0=data1['cen_lon'],lat_1=data1['truelat1'])
-
-# define parallels/meridians
-m.drawparallels(np.arange(-90.,-60.,2.),color='k',labels=[0,0,0,0],linewidth=0.8,fontsize=10)
-m.drawmeridians(np.arange(-180.,181.,5.),color='k',labels=[0,0,0,1],linewidth=0.8,fontsize=10)
-m.drawcoastlines(linewidth=1.)
-
-lons, lats = m.makegrid(data1['x_dim'], data1['y_dim']) # get lat/lons of ny by nx evenly space grid.
-x, y = m(lons, lats) # compute map proj coordinates.
-
-# contour levels
-# maxdat = 0.08
-# clevs = np.arange(0.0,maxdat2 + 0.01,0.01)
-
-# data = np.nanmean(data1['nisg80'][0:3,zind1,:,:],0)
-data = iceabove3 #bl3_2 # iwp3 #w3
-#data[data == 0] = np.nan
-# data[data > maxdat2] = maxdat2
-
-cs = m.pcolor(x,y,data,vmin=mindat2,vmax=maxdat2,cmap=mpl_cm.Blues)
-# cs = m.pcolor(x,y,data,vmin=0,vmax=2500,cmap=mpl_cm.viridis)
-
-x27,y27 = m(newlon27, newlat27)
-plt.plot(x27,y27,'r',linewidth=1)
-plt.annotate(runlab3,xy=(-78,-28),xytext=(-78,-28),fontsize=10)
-
-
-###################################
-## 	5xHM
-###################################
-
-ax  = fig.add_axes([0.08,0.08,0.2,0.3])    # left, bottom, width, height
-m = Basemap(resolution='i',projection='stere', rsphere=6370000.0, \
-        width=data1['width_meters'],height=data1['height_meters'],\
-        lat_0=data1['cen_lat'],lon_0=data1['cen_lon'],lat_1=data1['truelat1'])
-
-# define parallels/meridians
-m.drawparallels(np.arange(-90.,-60.,2.),color='k',labels=[1,0,0,0],linewidth=0.8,fontsize=10)
-m.drawmeridians(np.arange(-180.,181.,5.),color='k',labels=[0,0,0,1],linewidth=0.8,fontsize=10)
-m.drawcoastlines(linewidth=1.)
-
-## make lat/lon grid
-# lons29, lats29 = m.makegrid(150, len(np.unique(data1['lonindex_udom'][1]))) # get lat/lons of ny by nx evenly space grid.
-
-lons, lats = m.makegrid(data1['x_dim'], data1['y_dim']) # get lat/lons of ny by nx evenly space grid.
-x, y = m(lons, lats) # compute map proj coordinates.
-
-# data = np.nanmean(data1['nisg80'][6:9,zind1,:,:],0)
-data = allicebelow4 # w4 # bl4_1
-# data[data > maxdat] = maxdat
-
-# contour levels
-# clevs = np.arange(0.0,1.1,0.1) 
-cs = m.pcolor(x,y,data,vmin=mindat1,vmax=maxdat1,cmap=mpl_cm.Reds)
-
-# add colorbar.
-plt.plot(x27,y27,'r',linewidth=1)
-plt.annotate(runlab4,xy=(-78,-28),xytext=(-78,-28),fontsize=10)
-
-###################################
-
-ax  = fig.add_axes([0.28,0.08,0.2,0.3])   # left, bottom, width, height
-
-m = Basemap(resolution='i',projection='stere', rsphere=6370000.0, \
-        width=data1['width_meters'],height=data1['height_meters'],\
-        lat_0=data1['cen_lat'],lon_0=data1['cen_lon'],lat_1=data1['truelat1'])
-
-# define parallels/meridians
-m.drawparallels(np.arange(-90.,-60.,2.),color='k',labels=[0,0,0,0],linewidth=0.8,fontsize=10)
-m.drawmeridians(np.arange(-180.,181.,5.),color='k',labels=[0,0,0,1],linewidth=0.8,fontsize=10)
-m.drawcoastlines(linewidth=1.)
-
-lons, lats = m.makegrid(data1['x_dim'], data1['y_dim']) # get lat/lons of ny by nx evenly space grid.
-x, y = m(lons, lats) # compute map proj coordinates.
-
-# contour levels
-# maxdat = 0.08
-# clevs = np.arange(0.0,maxdat2 + 0.01,0.01)
-
-# data = np.nanmean(data1['nisg80'][0:3,zind1,:,:],0)
-data = iceabove4 # bl4_2 # iwp4 #w4
-#data[data == 0] = np.nan
-# data[data > maxdat2] = maxdat2
-
-cs = m.pcolor(x,y,data,vmin=mindat2,vmax=maxdat2,cmap=mpl_cm.Blues)
-#cs = m.pcolor(x,y,data,vmin=0,vmax=2500,cmap=mpl_cm.viridis)
-
-x27,y27 = m(newlon27, newlat27)
-plt.plot(x27,y27,'r',linewidth=1)
-plt.annotate(runlab4,xy=(-78,-28),xytext=(-78,-28),fontsize=10)
-
-
-###################################
-##  10xHM
-###################################
-ax  = fig.add_axes([0.55,0.08,0.2,0.3])   # left, bottom, width, height
-m = Basemap(resolution='i',projection='stere', rsphere=6370000.0, \
-        width=data1['width_meters'],height=data1['height_meters'],\
-        lat_0=data1['cen_lat'],lon_0=data1['cen_lon'],lat_1=data1['truelat1'])
-
-# define parallels/meridians
-m.drawparallels(np.arange(-90.,-60.,2.),color='k',labels=[1,0,0,0],linewidth=0.8,fontsize=10)
-m.drawmeridians(np.arange(-180.,181.,5.),color='k',labels=[0,0,0,1],linewidth=0.8,fontsize=10)
-m.drawcoastlines(linewidth=1.)
-
-lons, lats = m.makegrid(data1['x_dim'], data1['y_dim']) # get lat/lons of ny by nx evenly space grid.
-x, y = m(lons, lats) # compute map proj coordinates.
-
-data = allicebelow5 # w5 # bl5_1
-# data[data > maxdat] = maxdat
-
-cs = m.pcolor(x,y,data,vmin=mindat1,vmax=maxdat1,cmap=mpl_cm.Reds)
-
-x29,y29 = m(newlon29, newlat29)
-plt.plot(x27,y27,'r',linewidth=1)
-plt.annotate(runlab5,xy=(-78,-28),xytext=(-78,-28),fontsize=10)
-
-###################################
-
-ax  = fig.add_axes([0.75,0.08,0.2,0.3])   # left, bottom, width, height
-
-m = Basemap(resolution='i',projection='stere', rsphere=6370000.0, \
-        width=data1['width_meters'],height=data1['height_meters'],\
-        lat_0=data1['cen_lat'],lon_0=data1['cen_lon'],lat_1=data1['truelat1'])
-
-# define parallels/meridians
-m.drawparallels(np.arange(-90.,-60.,2.),color='k',labels=[0,0,0,0],linewidth=0.8,fontsize=10)
-m.drawmeridians(np.arange(-180.,181.,5.),color='k',labels=[0,0,0,1],linewidth=0.8,fontsize=10)
-m.drawcoastlines(linewidth=1.)
-
-lons, lats = m.makegrid(data1['x_dim'], data1['y_dim']) # get lat/lons of ny by nx evenly space grid.
-x, y = m(lons, lats) # compute map proj coordinates.
-
-# contour levels
-# maxdat = 0.08
-# clevs = np.arange(0.0,maxdat + 0.01,0.01)
-
-# data = np.nanmean(data1['nisg80'][0:3,zind1,:,:],0)
-data = iceabove5 # bl5_2 #iwp5 #w5
-#data[data == 0] = np.nan
-# data[data > maxdat2] = maxdat2
-
-cs = m.pcolor(x,y,data,vmin=mindat2,vmax=maxdat2,cmap=mpl_cm.Blues)
-#cs = m.pcolor(x,y,data,vmin=0,vmax=2500,cmap=mpl_cm.viridis)
-
-x27,y27 = m(newlon27, newlat27)
-plt.plot(x27,y27,'r',linewidth=1)
-plt.annotate(runlab5,xy=(-78,-28),xytext=(-78,-28),fontsize=10)
-
-plt.savefig('/data/scihub-users/giyoung/PYTHON/WRF/FIGS/Misc/05_GRL_NisgBelow_NisgAbove_K+1.png',dpi=300)
-plt.show()
-
-
-# plt.subplot(1,2,1); plt.plot(np.nanmean(data1['theta'][timeindex,0:40,190:340,107:202],2),np.nanmean(data1['Zsci'][0:40,190:340,107:202],2));
-# plt.grid('on'); plt.subplot(1,2,2); 
-# plt.plot(np.nanmean(nc1.variables['W'][time_sci[timeindex],0:40,190:340,107:202],2),np.nanmean(data1['Zsci'][0:40,190:340,107:202],2),'.') ;
-# plt.grid('on'); plt.show()
-
-
-##### Picking out BL top
-# ind[strgi] = np.where(np.logical_and(np.logical_and(W[i,:]>-0.07,W[i,:]<0.07),theta[i+1,:]<theta[i,:]+0.05))
-
-
-# ind = {}
-# # theta = data1['theta'][timeindex,0:35,190:340,107:202]
-# # Z = data1['Zsci'][0:35,190:340,107:202]
-# theta = data1['theta'][timeindex,:,:,:]
-# Z = data1['Zsci'][:,:,:]
-# bl_1 = np.zeros(shape=(np.size(Z,1),np.size(Z,2)))
-# bl_2 = np.zeros(shape=(np.size(Z,1),np.size(Z,2)))
-# for i in range(0,np.size(Z,2)):
-#         strgi = "%1.f" % (i+1) # string of longitude
-#         for j in range(0,np.size(Z,1)):
-#                 strgj = "%1.f" % (j+1) # string of latitude
-#                 for k in range(0,np.size(Z,0)-2):
-#                         strgk = "%1.f" % (k+1) # string of altitude
-#                         if theta[k,j,i] < theta[k+1,j,i]-0.2:           # small inversion - typically ~500m
-#                                 bl_1[j,i] = Z[k,j,i]
-#                                 break
-#                 for k in range(0,np.size(Z,0)-2):
-#                         strgk = "%1.f" % (k+1) # string of altitude
-#                         if theta[k,j,i] < theta[k+1,j,i]-0.4:           # large inversion - typically ~1500m
-#                                 bl_2[j,i] = Z[k,j,i]
-#                                 break
-
-#                         # elif theta[k,j,i] < theta[k+1,j,i]-0.4:         # big jump inversion
-#                         #         bl_2[j,i] = Z[k,j,i]        
-#                                 # break
-#                         # OR: a larger theta jump than ?? deg?
-
-#                         # ind[strgk] = np.where(theta[k,j,i] < theta[k+1,j,i]-0.5)
-#                         # if np.size(ind[strgk]) > 0: 
-#                         #         index = np.array([ind[strgk][0][0],ind[strgk][1][0]])
-#                         #         bl[index[0],index[1]] = Z[k,index[0],index[1]]
-
-# plt.subplot(231)
 # m = Basemap(resolution='i',projection='stere', rsphere=6370000.0, \
 #         width=data1['width_meters'],height=data1['height_meters'],\
 #         lat_0=data1['cen_lat'],lon_0=data1['cen_lon'],lat_1=data1['truelat1'])
 
-# ##define parallels/meridians
+# # define parallels/meridians
 # m.drawparallels(np.arange(-90.,-60.,2.),color='k',labels=[0,0,0,0],linewidth=0.8,fontsize=10)
 # m.drawmeridians(np.arange(-180.,181.,5.),color='k',labels=[0,0,0,1],linewidth=0.8,fontsize=10)
 # m.drawcoastlines(linewidth=1.)
@@ -905,16 +582,64 @@ plt.show()
 # lons, lats = m.makegrid(data1['x_dim'], data1['y_dim']) # get lat/lons of ny by nx evenly space grid.
 # x, y = m(lons, lats) # compute map proj coordinates.
 
-# cs = m.pcolor(x,y,largeicebelow1,vmin=0,vmax=3);
-# # plt.colorbar(cs);
-# plt.title('Large ice below')
+# # contour levels
+# mindat2 = 0
+# #clevs2 = np.arange(-1,maxdat2 + 0.01,0.2)
+# maxdat2 = 10
+# #clevs2 = np.arange(0,2500.01,500)
 
-# plt.subplot(232)
+# # data = np.nanmean(data1['nisg80'][0:3,zind1,:,:],0)
+# data = iceabove1 # bl1_2 #iwp1 #w1
+# #data[data == 0] = np.nan
+# # data[data > maxdat2] = maxdat2
+
+# cs = m.pcolor(x,y,data,vmin=mindat2,vmax=maxdat2,cmap=mpl_cm.Blues)
+# #cs = m.pcolor(x,y,data,vmin=0,vmax=2500,cmap=mpl_cm.viridis)
+
+# x27,y27 = m(newlon27, newlat27)
+# plt.plot(x27,y27,'r',linewidth=1)
+# plt.annotate(runlab1,xy=(-78,-28),xytext=(-78,-28),fontsize=10)
+
+# cbaxes = fig.add_axes([0.8,0.74,0.02, 0.2])  # This is the position for the colorbar
+# cb = plt.colorbar(cs, cax = cbaxes)
+# # # tcks = np.power(10,clevs)
+# # # cb.ax.set_yticklabels(clevs2)
+# cb.ax.xaxis.set_label_position('top')
+# cb.ax.axes.set_xlabel(strg2,color='k',fontsize=10)
+
+# ###################################
+# ##  NoThresh
+# ###################################
+# ax  = fig.add_axes([0.08,0.39,0.2,0.3])   # left, bottom, width, height
 # m = Basemap(resolution='i',projection='stere', rsphere=6370000.0, \
 #         width=data1['width_meters'],height=data1['height_meters'],\
 #         lat_0=data1['cen_lat'],lon_0=data1['cen_lon'],lat_1=data1['truelat1'])
 
-# ##define parallels/meridians
+# # define parallels/meridians
+# m.drawparallels(np.arange(-90.,-60.,2.),color='k',labels=[1,0,0,0],linewidth=0.8,fontsize=10)
+# m.drawmeridians(np.arange(-180.,181.,5.),color='k',labels=[0,0,0,1],linewidth=0.8,fontsize=10)
+# m.drawcoastlines(linewidth=1.)
+
+# lons, lats = m.makegrid(data1['x_dim'], data1['y_dim']) # get lat/lons of ny by nx evenly space grid.
+# x, y = m(lons, lats) # compute map proj coordinates.
+
+# data = allicebelow2 #w2 # bl2_1
+# # data[data > maxdat] = maxdat
+
+# cs = m.pcolor(x,y,data,vmin=mindat1,vmax=maxdat1,cmap=mpl_cm.Reds)
+
+# plt.plot(x27,y27,'r',linewidth=1)
+# plt.annotate(runlab2,xy=(-78,-28),xytext=(-78,-28),fontsize=10)
+
+# ###################################
+
+# ax  = fig.add_axes([0.28,0.39,0.2,0.3])   # left, bottom, width, height
+
+# m = Basemap(resolution='i',projection='stere', rsphere=6370000.0, \
+#         width=data1['width_meters'],height=data1['height_meters'],\
+#         lat_0=data1['cen_lat'],lon_0=data1['cen_lon'],lat_1=data1['truelat1'])
+
+# # define parallels/meridians
 # m.drawparallels(np.arange(-90.,-60.,2.),color='k',labels=[0,0,0,0],linewidth=0.8,fontsize=10)
 # m.drawmeridians(np.arange(-180.,181.,5.),color='k',labels=[0,0,0,1],linewidth=0.8,fontsize=10)
 # m.drawcoastlines(linewidth=1.)
@@ -922,16 +647,59 @@ plt.show()
 # lons, lats = m.makegrid(data1['x_dim'], data1['y_dim']) # get lat/lons of ny by nx evenly space grid.
 # x, y = m(lons, lats) # compute map proj coordinates.
 
-# cs = m.pcolor(x,y,liqbelow1,vmin=0,vmax=0.1);
-# # plt.colorbar(cs);
-# plt.title('Mean Liquid below')
+# # contour levels
+# # maxdat = 0.08
+# # clevs = np.arange(0.0,maxdat2 + 0.01,0.01)
 
-# plt.subplot(233)
+# # data = np.nanmean(data1['nisg80'][0:3,zind1,:,:],0)
+# data = iceabove2 # bl2_2 # iwp2 #w2
+# #data[data == 0] = np.nan
+# # data[data > maxdat2] = maxdat2
+
+# cs = m.pcolor(x,y,data,vmin=mindat2,vmax=maxdat2,cmap=mpl_cm.Blues)
+# #cs = m.pcolor(x,y,data,vmin=0,vmax=2500,cmap=mpl_cm.viridis)
+
+# x27,y27 = m(newlon27, newlat27)
+# plt.plot(x27,y27,'r',linewidth=1)
+# plt.annotate(runlab2,xy=(-78,-28),xytext=(-78,-28),fontsize=10)
+
+
+# ###################################
+# ## 	2xHM
+# ###################################
+# ax  = fig.add_axes([0.55,0.39,0.2,0.3])    # left, bottom, width, height
 # m = Basemap(resolution='i',projection='stere', rsphere=6370000.0, \
 #         width=data1['width_meters'],height=data1['height_meters'],\
 #         lat_0=data1['cen_lat'],lon_0=data1['cen_lon'],lat_1=data1['truelat1'])
 
-# ##define parallels/meridians
+# # define parallels/meridians
+# m.drawparallels(np.arange(-90.,-60.,2.),color='k',labels=[1,0,0,0],linewidth=0.8,fontsize=10)
+# m.drawmeridians(np.arange(-180.,181.,5.),color='k',labels=[0,0,0,1],linewidth=0.8,fontsize=10)
+# m.drawcoastlines(linewidth=1.)
+
+# ## make lat/lon grid
+# # lons28, lats28 = m3.makegrid(150, len(np.unique(data1['lonindex_udom'][1]))) # get lat/lons of ny by nx evenly space grid.
+
+# lons, lats = m.makegrid(data1['x_dim'], data1['y_dim']) # get lat/lons of ny by nx evenly space grid.
+# x, y = m(lons, lats) # compute map proj coordinates.
+
+# data = allicebelow3 # w3 # bl3_1
+# # data[data > maxdat] = maxdat
+
+# cs = m.pcolor(x,y,data,vmin=mindat1,vmax=maxdat1,cmap=mpl_cm.Reds)
+
+# plt.plot(x27,y27,'r',linewidth=1)
+# plt.annotate(runlab3,xy=(-78,-28),xytext=(-78,-28),fontsize=10)
+
+# ###################################
+
+# ax  = fig.add_axes([0.75,0.39,0.2,0.3])   # left, bottom, width, height
+
+# m = Basemap(resolution='i',projection='stere', rsphere=6370000.0, \
+#         width=data1['width_meters'],height=data1['height_meters'],\
+#         lat_0=data1['cen_lat'],lon_0=data1['cen_lon'],lat_1=data1['truelat1'])
+
+# # define parallels/meridians
 # m.drawparallels(np.arange(-90.,-60.,2.),color='k',labels=[0,0,0,0],linewidth=0.8,fontsize=10)
 # m.drawmeridians(np.arange(-180.,181.,5.),color='k',labels=[0,0,0,1],linewidth=0.8,fontsize=10)
 # m.drawcoastlines(linewidth=1.)
@@ -939,17 +707,64 @@ plt.show()
 # lons, lats = m.makegrid(data1['x_dim'], data1['y_dim']) # get lat/lons of ny by nx evenly space grid.
 # x, y = m(lons, lats) # compute map proj coordinates.
 
-# cs = m.pcolor(x,y,smallicebelow1,vmin=0,vmax=3);
-# # plt.colorbar(cs);
-# plt.title('Small ice below')
+# # contour levels
+# # maxdat = 0.08
+# # clevs = np.arange(0.0,maxdat2 + 0.01,0.01)
+
+# # data = np.nanmean(data1['nisg80'][0:3,zind1,:,:],0)
+# data = iceabove3 #bl3_2 # iwp3 #w3
+# #data[data == 0] = np.nan
+# # data[data > maxdat2] = maxdat2
+
+# cs = m.pcolor(x,y,data,vmin=mindat2,vmax=maxdat2,cmap=mpl_cm.Blues)
+# # cs = m.pcolor(x,y,data,vmin=0,vmax=2500,cmap=mpl_cm.viridis)
+
+# x27,y27 = m(newlon27, newlat27)
+# plt.plot(x27,y27,'r',linewidth=1)
+# plt.annotate(runlab3,xy=(-78,-28),xytext=(-78,-28),fontsize=10)
 
 
-# plt.subplot(234)
+# ###################################
+# ## 	5xHM
+# ###################################
+
+# ax  = fig.add_axes([0.08,0.08,0.2,0.3])    # left, bottom, width, height
 # m = Basemap(resolution='i',projection='stere', rsphere=6370000.0, \
 #         width=data1['width_meters'],height=data1['height_meters'],\
 #         lat_0=data1['cen_lat'],lon_0=data1['cen_lon'],lat_1=data1['truelat1'])
 
-# ##define parallels/meridians
+# # define parallels/meridians
+# m.drawparallels(np.arange(-90.,-60.,2.),color='k',labels=[1,0,0,0],linewidth=0.8,fontsize=10)
+# m.drawmeridians(np.arange(-180.,181.,5.),color='k',labels=[0,0,0,1],linewidth=0.8,fontsize=10)
+# m.drawcoastlines(linewidth=1.)
+
+# ## make lat/lon grid
+# # lons29, lats29 = m.makegrid(150, len(np.unique(data1['lonindex_udom'][1]))) # get lat/lons of ny by nx evenly space grid.
+
+# lons, lats = m.makegrid(data1['x_dim'], data1['y_dim']) # get lat/lons of ny by nx evenly space grid.
+# x, y = m(lons, lats) # compute map proj coordinates.
+
+# # data = np.nanmean(data1['nisg80'][6:9,zind1,:,:],0)
+# data = allicebelow4 # w4 # bl4_1
+# # data[data > maxdat] = maxdat
+
+# # contour levels
+# # clevs = np.arange(0.0,1.1,0.1) 
+# cs = m.pcolor(x,y,data,vmin=mindat1,vmax=maxdat1,cmap=mpl_cm.Reds)
+
+# # add colorbar.
+# plt.plot(x27,y27,'r',linewidth=1)
+# plt.annotate(runlab4,xy=(-78,-28),xytext=(-78,-28),fontsize=10)
+
+# ###################################
+
+# ax  = fig.add_axes([0.28,0.08,0.2,0.3])   # left, bottom, width, height
+
+# m = Basemap(resolution='i',projection='stere', rsphere=6370000.0, \
+#         width=data1['width_meters'],height=data1['height_meters'],\
+#         lat_0=data1['cen_lat'],lon_0=data1['cen_lon'],lat_1=data1['truelat1'])
+
+# # define parallels/meridians
 # m.drawparallels(np.arange(-90.,-60.,2.),color='k',labels=[0,0,0,0],linewidth=0.8,fontsize=10)
 # m.drawmeridians(np.arange(-180.,181.,5.),color='k',labels=[0,0,0,1],linewidth=0.8,fontsize=10)
 # m.drawcoastlines(linewidth=1.)
@@ -957,17 +772,57 @@ plt.show()
 # lons, lats = m.makegrid(data1['x_dim'], data1['y_dim']) # get lat/lons of ny by nx evenly space grid.
 # x, y = m(lons, lats) # compute map proj coordinates.
 
-# cs = m.pcolor(x,y,iceabove1,vmin=0,vmax=3);
-# # plt.colorbar(cs);
-# plt.title('All ice above')
+# # contour levels
+# # maxdat = 0.08
+# # clevs = np.arange(0.0,maxdat2 + 0.01,0.01)
+
+# # data = np.nanmean(data1['nisg80'][0:3,zind1,:,:],0)
+# data = iceabove4 # bl4_2 # iwp4 #w4
+# #data[data == 0] = np.nan
+# # data[data > maxdat2] = maxdat2
+
+# cs = m.pcolor(x,y,data,vmin=mindat2,vmax=maxdat2,cmap=mpl_cm.Blues)
+# #cs = m.pcolor(x,y,data,vmin=0,vmax=2500,cmap=mpl_cm.viridis)
+
+# x27,y27 = m(newlon27, newlat27)
+# plt.plot(x27,y27,'r',linewidth=1)
+# plt.annotate(runlab4,xy=(-78,-28),xytext=(-78,-28),fontsize=10)
 
 
-# plt.subplot(235)
+# ###################################
+# ##  10xHM
+# ###################################
+# ax  = fig.add_axes([0.55,0.08,0.2,0.3])   # left, bottom, width, height
 # m = Basemap(resolution='i',projection='stere', rsphere=6370000.0, \
 #         width=data1['width_meters'],height=data1['height_meters'],\
 #         lat_0=data1['cen_lat'],lon_0=data1['cen_lon'],lat_1=data1['truelat1'])
 
-# ##define parallels/meridians
+# # define parallels/meridians
+# m.drawparallels(np.arange(-90.,-60.,2.),color='k',labels=[1,0,0,0],linewidth=0.8,fontsize=10)
+# m.drawmeridians(np.arange(-180.,181.,5.),color='k',labels=[0,0,0,1],linewidth=0.8,fontsize=10)
+# m.drawcoastlines(linewidth=1.)
+
+# lons, lats = m.makegrid(data1['x_dim'], data1['y_dim']) # get lat/lons of ny by nx evenly space grid.
+# x, y = m(lons, lats) # compute map proj coordinates.
+
+# data = allicebelow5 # w5 # bl5_1
+# # data[data > maxdat] = maxdat
+
+# cs = m.pcolor(x,y,data,vmin=mindat1,vmax=maxdat1,cmap=mpl_cm.Reds)
+
+# x29,y29 = m(newlon29, newlat29)
+# plt.plot(x27,y27,'r',linewidth=1)
+# plt.annotate(runlab5,xy=(-78,-28),xytext=(-78,-28),fontsize=10)
+
+# ###################################
+
+# ax  = fig.add_axes([0.75,0.08,0.2,0.3])   # left, bottom, width, height
+
+# m = Basemap(resolution='i',projection='stere', rsphere=6370000.0, \
+#         width=data1['width_meters'],height=data1['height_meters'],\
+#         lat_0=data1['cen_lat'],lon_0=data1['cen_lon'],lat_1=data1['truelat1'])
+
+# # define parallels/meridians
 # m.drawparallels(np.arange(-90.,-60.,2.),color='k',labels=[0,0,0,0],linewidth=0.8,fontsize=10)
 # m.drawmeridians(np.arange(-180.,181.,5.),color='k',labels=[0,0,0,1],linewidth=0.8,fontsize=10)
 # m.drawcoastlines(linewidth=1.)
@@ -975,15 +830,22 @@ plt.show()
 # lons, lats = m.makegrid(data1['x_dim'], data1['y_dim']) # get lat/lons of ny by nx evenly space grid.
 # x, y = m(lons, lats) # compute map proj coordinates.
 
-# cs = m.pcolor(x,y,bl1_2,vmin=0,vmax=2500);
-# # plt.colorbar(cs);
-# plt.title('BL Height')
+# # contour levels
+# # maxdat = 0.08
+# # clevs = np.arange(0.0,maxdat + 0.01,0.01)
 
+# # data = np.nanmean(data1['nisg80'][0:3,zind1,:,:],0)
+# data = iceabove5 # bl5_2 #iwp5 #w5
+# #data[data == 0] = np.nan
+# # data[data > maxdat2] = maxdat2
+
+# cs = m.pcolor(x,y,data,vmin=mindat2,vmax=maxdat2,cmap=mpl_cm.Blues)
+# #cs = m.pcolor(x,y,data,vmin=0,vmax=2500,cmap=mpl_cm.viridis)
+
+# x27,y27 = m(newlon27, newlat27)
+# plt.plot(x27,y27,'r',linewidth=1)
+# plt.annotate(runlab5,xy=(-78,-28),xytext=(-78,-28),fontsize=10)
+
+# plt.savefig('/data/scihub-users/giyoung/PYTHON/WRF/FIGS/Misc/05_GRL_NisgBelow_NisgAbove_K+1.png',dpi=300)
 # plt.show()
-
-
-# plt.subplot(1,2,1);plt.plot(theta[0:42,40:50,25],Z[0:42,40:50,25],'o--');plt.grid('on');plt.ylim([0,5000]);
-# plt.subplot(1,2,2);plt.plot(bl5_1[40:50,25]);plt.plot(bl5_2[40:50,25]); plt.grid('on');plt.ylim([0,5000]);
-# plt.show()
-
 
