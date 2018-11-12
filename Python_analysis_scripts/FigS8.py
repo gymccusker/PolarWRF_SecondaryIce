@@ -893,50 +893,65 @@ bins = np.arange(np.round(np.nanmin(temp5)),np.round(np.nanmax(temp5)),1.0)
 
 # plt.subplot(231)
 ax  = fig.add_axes([0.12,0.55,0.24,0.35])   # left, bottom, width, height
-index1 = np.where(np.ndarray.flatten(allicebelow1)>=0.5)
+index1 = np.where(np.ndarray.flatten(allicebelow1)>=0.05)
 flattemp1 = np.ndarray.flatten(temp1)[index1]
 binned1 = np.histogram(flattemp1,bins)
-plt.step(binned1[1][:-1],binned1[0]/float(np.nanmax(binned1[0])))
+plt.step(binned1[1][:-1]-273.16,binned1[0])
+# plt.step(binned1[1][:-1]-273.16,binned1[0]/float(np.nanmax(binned1[0])))
+plt.xlim([-25, -4])
 plt.title('CNTRL')
+plt.xticks([-25, -20, -15, -10, -5])
 plt.ylabel('Normalised frequency \n of occurrence')
 
 # plt.subplot(232)
 ax  = fig.add_axes([0.42,0.55,0.24,0.35])   # left, bottom, width, height
-index2 = np.where(np.ndarray.flatten(allicebelow2)>=0.5)
+index2 = np.where(np.ndarray.flatten(allicebelow2)>=0.05)
 flattemp2 = np.ndarray.flatten(temp2)[index2]
 binned2 = np.histogram(flattemp2,bins)
-plt.step(binned2[1][:-1],binned2[0]/float(np.nanmax(binned2[0])))
+plt.step(binned2[1][:-1]-273.16,binned2[0])
+# plt.step(binned2[1][:-1]-273.16,binned2[0]/float(np.nanmax(binned2[0])))
+plt.xlim([-25, -4])
+plt.xticks([-25, -20, -15, -10, -5])
 plt.title('NoThresh')
 
 # plt.subplot(234)
 ax  = fig.add_axes([0.12,0.1,0.24,0.35])   # left, bottom, width, height
-index3 = np.where(np.ndarray.flatten(allicebelow3)>=0.5)
+index3 = np.where(np.ndarray.flatten(allicebelow3)>=0.05)
 flattemp3 = np.ndarray.flatten(temp3)[index3]
 binned3 = np.histogram(flattemp3,bins)
-plt.step(binned3[1][:-1],binned3[0]/float(np.nanmax(binned3[0])))
+plt.step(binned3[1][:-1]-273.16,binned3[0])
+#plt.step(binned3[1][:-1]-273.16,binned3[0]/float(np.nanmax(binned3[0])))
+plt.xlim([-25, -4])
+plt.xticks([-25, -20, -15, -10, -5])
 plt.title('2xHM')
-plt.xlabel('Temperature [K]')
+plt.xlabel('Temperature [$^{\circ}C$]')
 plt.ylabel('Normalised frequency \n of occurrence')
 
 # plt.subplot(235)
 ax  = fig.add_axes([0.42,0.1,0.24,0.35])   # left, bottom, width, height
-index4 = np.where(np.ndarray.flatten(allicebelow4)>=0.5)
+index4 = np.where(np.ndarray.flatten(allicebelow4)>=0.05)
 flattemp4 = np.ndarray.flatten(temp4)[index4]
 binned4 = np.histogram(flattemp4,bins)
-plt.step(binned4[1][:-1],binned4[0]/float(np.nanmax(binned4[0])))
+plt.step(binned4[1][:-1]-273.16,binned4[0])
+# plt.step(binned4[1][:-1]-273.16,binned4[0]/float(np.nanmax(binned4[0])))
+plt.xlim([-25, -4])
+plt.xticks([-25, -20, -15, -10, -5])
 plt.title('5xHM')
-plt.xlabel('Temperature [K]')
+plt.xlabel('Temperature [$^{\circ}C$]')
 
 # plt.subplot(236)
 ax  = fig.add_axes([0.72,0.1,0.24,0.35])   # left, bottom, width, height
-index5 = np.where(np.ndarray.flatten(allicebelow5)>=0.5)
+index5 = np.where(np.ndarray.flatten(allicebelow5)>=0.05)
 flattemp5 = np.ndarray.flatten(temp5)[index5]
 binned5 = np.histogram(flattemp5,bins)
-plt.step(binned5[1][:-1],binned5[0]/float(np.nanmax(binned5[0])))
+plt.step(binned5[1][:-1]-273.16,binned5[0])
+# plt.step(binned5[1][:-1]-273.16,binned5[0]/float(np.nanmax(binned5[0])))
+plt.xlim([-25, -4])
+plt.xticks([-25, -20, -15, -10, -5])
 plt.title('10xHM')
-plt.xlabel('Temperature [K]')
+plt.xlabel('Temperature [$^{\circ}C$]')
 
-plt.savefig('../Figures/FigS8_NisgBelow_Temp.svg')
+# plt.savefig('../Figures/FigS8_NisgBelow_Temp.svg')
 plt.show()
 
 
