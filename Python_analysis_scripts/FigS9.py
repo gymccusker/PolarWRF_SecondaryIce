@@ -89,8 +89,8 @@ zind3 = 21
 timeindex = 1
 
 # # define plot title
-strg1 = '$N_{isg>80}$, $L^{-1}$' 
-strg2 = 'W, $ms^{-1}$'
+strg1 = '$N_{isg}$, $L^{-1}$ \n Below BL' 
+strg2 = 'W, $ms^{-1}$ \n At BL'
 # strg2 = '$Q_{liq}$, $g kg^{-1}$'
 
 ###################################
@@ -103,52 +103,75 @@ tempvar0 = (data1['p']/100000)**tempvar
 data1['Tk'] = tempvar0*data1['theta']
 data1['rho'] = data1['p']/(constants.R*data1['Tk'])
 data1['nisg80'] = nc1.variables['NISG80'][time_sci,:,:,:]*(data1['rho'])*(data1['rho'])
-# data1['nisg80'][data1['nisg80']<=0] = np.nan
+data1['nisg80'][data1['nisg80'] < 0.005] = np.nan
 ph = nc1.variables['PH'][time_sci]
 phb = nc1.variables['PHB'][time_sci]
 tempvar1 = (ph+phb)/9.81
-data1['Zsci'] = np.nanmean(0.5*(tempvar1[0:len(tempvar1)-2,:,:]+tempvar1[1:len(tempvar1)-1,:,:]),0)
-# data1['qliq'] = nc1.variables['QCLOUD'][time_sci,:,:,:] + nc1.variables['QRAIN'][time_sci,:,:,:]
-# data1['qliq'][data1['qliq']<0]=0
-
-# ni1 = np.nanmean(np.nanmean(data1['nisg80'][0:3,0:16,:,:],0),0)/float(1e3)
-# ql1 = np.nanmean(np.nanmean(data1['qliq'][0:3,0:16,:,:],0),0)*float(1e3)
-
-ni1 = data1['nisg80'][timeindex,zind1,:,:]/float(1e3)
-t1 = data1['Tk'][timeindex,zind3,:,:]
-
-data1['qke'] = nc1.variables['QKE'][time_sci]
-pbl1 = np.where(data1['qke'][timeindex]/2 >= 1e-6)
+data1['Zsci'] = np.nanmean(0.5*(tempvar1[0:len(tempvar1)-2,:,:]+tempvar1[1:len(tempvar1)-1,:,:]),0) # Z at theta mid-point
 
 data1['qcloud'] = nc1.variables['QCLOUD'][time_sci]# Qcloud mean over M218 flight times @ lon=-29 [z,lat,lon]
 data1['qcloud'][data1['qcloud']<0]=0
-dz1 = data1['Zsci'][23:30,:,:] - data1['Zsci'][22:29,:,:]
-tempvar = np.squeeze(data1['qcloud'][timeindex,22:29,:,:])*1e3*dz1*data1['rho'][timeindex,22:29,:,:]
-lwp1 = np.nansum(tempvar,0)
 
-data1['qisg'] = (nc1.variables['QICE'][time_sci,:,:,:]+
-        nc1.variables['QSNOW'][time_sci,:,:,:]+
-        nc1.variables['QGRAUP'][time_sci,:,:,:])
-data1['qisg'][data1['qisg']<0]=0
+data1['qnisg'] = (nc1.variables['QNICE'][time_sci,:,:,:]+
+        nc1.variables['QNSNOW'][time_sci,:,:,:]+
+        nc1.variables['QNGRAUPEL'][time_sci,:,:,:])*(data1['rho'])
 
-dz1 = data1['Zsci'][23:30,:,:] - data1['Zsci'][22:29,:,:]
-tempvar = np.squeeze(data1['qisg'][timeindex,22:29,:,:])*1e3*dz1*data1['rho'][timeindex,22:29,:,:]
-iwp1 = np.nansum(tempvar,0)
+data1['nisg50'] = data1['qnisg'] - (nc1.variables['NI50'][time_sci,:,:,:] - 
+        nc1.variables['NG50'][time_sci,:,:,:])*(data1['rho'])*(data1['rho'])
 
-w1 = nc1.variables['W'][time_sci[timeindex],zind3,:,:]
+data1['qrain'] = nc1.variables['QRAIN'][time_sci]# Qcloud mean over M218 flight times @ lon=-29 [z,lat,lon]
+data1['qrain'][data1['qrain']<0]=0
+data1['qliq'] = data1['qcloud'] + data1['qrain']
 
+# W_THETA(i,j,k) = 0.5*(W(i,j,k) + W(i,j,k+1))
+w_theta1 = 0.5*(nc1.variables['W'][time_sci[timeindex],0:-1,:,:] + nc1.variables['W'][time_sci[timeindex],1:,:,:])
+
+ind = {}
+theta = data1['theta'][timeindex,:,:,:]
+Z = data1['Zsci'][:,:,:]
+bl1_1 = np.zeros(shape=(np.size(Z,1),np.size(Z,2)))
+bl1_2 = np.zeros(shape=(np.size(Z,1),np.size(Z,2)))
+temp1 = np.zeros(shape=(np.size(Z,1),np.size(Z,2)))
+w1 = np.zeros(shape=(np.size(Z,1),np.size(Z,2)))
+blindex1 = np.zeros(shape=(1,np.size(Z,1),np.size(Z,2)))
+allicebelow1 = np.zeros(shape=(np.size(Z,1),np.size(Z,2)))
+smallicebelow1 = np.zeros(shape=(np.size(Z,1),np.size(Z,2)))
+largeicebelow1 = np.zeros(shape=(np.size(Z,1),np.size(Z,2)))
+liqbelow1 = np.zeros(shape=(np.size(Z,1),np.size(Z,2)))
+iceabove1 = np.zeros(shape=(np.size(Z,1),np.size(Z,2)))
+# qnisg_above1 = np.zeros(shape=(np.size(Z,0),np.size(Z,1),np.size(Z,2)))
+# Z_above1 = np.zeros(shape=(np.size(Z,0),np.size(Z,1),np.size(Z,2)))
+for i in range(0,np.size(Z,2)):
+        strgi = "%1.f" % (i+1) # string of longitude
+        for j in range(0,np.size(Z,1)):
+                strgj = "%1.f" % (j+1) # string of latitude
+                for k in range(2,np.size(Z,0)-2):
+                        strgk = "%1.f" % (k+1) # string of altitude
+                        if theta[k,j,i] < theta[k+1,j,i]-0.2:           # small inversion - typically ~500m
+                                bl1_1[j,i] = Z[k,j,i]
+                                break
+                for k in range(2,np.size(Z,0)-2):
+                        strgk = "%1.f" % (k+1) # string of altitude
+                        if theta[k,j,i] < theta[k+1,j,i]-0.4:           # large inversion - typically ~1500m
+                                bl1_2[j,i] = Z[k,j,i]
+				w1[j,i] = w_theta1[k,j,i]
+                                allicebelow1[j,i] = np.nanpercentile(data1['qnisg'][timeindex,0:k,j,i],99.7)/float(1e3)
+                                break
 #del nc1
+# qnisg_above1 = data1['qnisg'][timeindex,blindex]/float(1e3)
 
 runlab1 = 'CNTRL'
 
-# if data1['Zsci'][zind1,0,0] < 1000: strg2 = "%3.f" % data1['Zsci'][zind1,0,0]
-# if data1['Zsci'][zind1,0,0] > 1000: strg2 = "%4.f" % data1['Zsci'][zind1,0,0]
 
-# if data1['Zsci'][zind2,0,0] < 1000: strg4 = "%3.f" % data1['Zsci'][zind2,0,0]
-# if data1['Zsci'][zind2,0,0] > 1000: strg4 = "%4.f" % data1['Zsci'][zind2,0,0]
-
-# title1 = ''.join(['Z',strg2,'m'])
-# title2 = ''.join(['Z',strg4,'m'])
+## data1['qnisg'][data1['qnisg']<1e-1] = np.nan
+## plt.plot(np.ndarray.flatten(nc1.variables['W'][time_sci[timeindex],0:22,:,:]),
+##         np.ndarray.flatten(data1['qnisg'][timeindex,0:22,:,:]/float(1e3)),'.');
+# data1['qnisg'][data1['qnisg']<1e-1] = np.nan
+# plt.plot(np.ndarray.flatten(iceabove1),
+#         np.ndarray.flatten(largeicebelow1),'.');
+# ax = plt.gca();
+# # ax.set_yscale("log", nonposy='clip');
+# plt.show()
 
 
 ###################################
@@ -170,28 +193,51 @@ phb = nc2.variables['PHB'][time_sci]
 tempvar1 = (ph+phb)/9.81
 data2['Zsci'] = np.nanmean(0.5*(tempvar1[0:len(tempvar1)-2,:,:]+tempvar1[1:len(tempvar1)-1,:,:]),0)
 
-# ni2 = np.nanmean(np.nanmean(data2['nisg80'][0:3,0:16,:,:],0),0)/float(1e3)
-# ql2 = np.nanmean(np.nanmean(data2['qliq'][0:3,0:16,:,:],0),0)*float(1e3)
-
-ni2 = data2['nisg80'][1,zind1,:,:]/float(1e3)
-t2 = data2['Tk'][1,zind3,:,:]
-
 data2['qcloud'] = nc2.variables['QCLOUD'][time_sci]# Qcloud mean over M218 flight times @ lon=-29 [z,lat,lon]
 data2['qcloud'][data2['qcloud']<0]=0
-dz2 = data2['Zsci'][23:30,:,:] - data2['Zsci'][22:29,:,:]
-tempvar = np.squeeze(data2['qcloud'][timeindex,22:29,:,:])*1e3*dz2*data2['rho'][timeindex,22:29,:,:]
-lwp2 = np.nansum(tempvar,0)
 
-data2['qisg'] = (nc2.variables['QICE'][time_sci,:,:,:]+
-        nc2.variables['QSNOW'][time_sci,:,:,:]+
-        nc2.variables['QGRAUP'][time_sci,:,:,:])
-data2['qisg'][data2['qisg']<0]=0
+data2['qnisg'] = (nc2.variables['QNICE'][time_sci,:,:,:]+
+        nc2.variables['QNSNOW'][time_sci,:,:,:]+
+        nc2.variables['QNGRAUPEL'][time_sci,:,:,:])*(data1['rho'])
 
-dz2 = data2['Zsci'][23:30,:,:] - data2['Zsci'][22:29,:,:]
-tempvar = np.squeeze(data2['qisg'][timeindex,22:29,:,:])*1e3*dz2*data2['rho'][timeindex,22:29,:,:]
-iwp2 = np.nansum(tempvar,0)
+data2['nisg50'] = data2['qnisg'] - (nc2.variables['NI50'][time_sci,:,:,:] - 
+        nc2.variables['NG50'][time_sci,:,:,:])*(data2['rho'])*(data2['rho'])
 
-w2 = nc2.variables['W'][time_sci[timeindex],zind3,:,:]
+data2['qrain'] = nc2.variables['QRAIN'][time_sci]# Qcloud mean over M218 flight times @ lon=-29 [z,lat,lon]
+data2['qrain'][data2['qrain']<0]=0
+data2['qliq'] = data2['qcloud'] + data2['qrain']
+
+w_theta2 = 0.5*(nc2.variables['W'][time_sci[timeindex],0:-1,:,:] + nc2.variables['W'][time_sci[timeindex],1:,:,:])
+
+ind = {}
+theta = data2['theta'][timeindex,:,:,:]
+Z = data2['Zsci'][:,:,:]
+bl2_1 = np.zeros(shape=(np.size(Z,1),np.size(Z,2)))
+bl2_2 = np.zeros(shape=(np.size(Z,1),np.size(Z,2)))
+temp2 = np.zeros(shape=(np.size(Z,1),np.size(Z,2)))
+w2 = np.zeros(shape=(np.size(Z,1),np.size(Z,2)))
+blindex2 = np.zeros(shape=(1,np.size(Z,1),np.size(Z,2)))
+allicebelow2 = np.zeros(shape=(np.size(Z,1),np.size(Z,2)))
+smallicebelow2 = np.zeros(shape=(np.size(Z,1),np.size(Z,2)))
+largeicebelow2 = np.zeros(shape=(np.size(Z,1),np.size(Z,2)))
+liqbelow2 = np.zeros(shape=(np.size(Z,1),np.size(Z,2)))
+iceabove2 = np.zeros(shape=(np.size(Z,1),np.size(Z,2)))
+for i in range(0,np.size(Z,2)):
+        strgi = "%1.f" % (i+1) # string of longitude
+        for j in range(0,np.size(Z,1)):
+                strgj = "%1.f" % (j+1) # string of latitude
+                for k in range(2,np.size(Z,0)-2):
+                        strgk = "%1.f" % (k+1) # string of altitude
+                        if theta[k,j,i] < theta[k+1,j,i]-0.2:           # small inversion - typically ~500m
+                                bl2_1[j,i] = Z[k,j,i]
+                                break
+                for k in range(2,np.size(Z,0)-2):
+                        strgk = "%1.f" % (k+1) # string of altitude
+                        if theta[k,j,i] < theta[k+1,j,i]-0.4:           # large inversion - typically ~1500m
+                                bl2_2[j,i] = Z[k,j,i]
+                                w2[j,i] = w_theta2[k,j,i]
+                                allicebelow2[j,i] = np.nanpercentile(data2['qnisg'][timeindex,0:k,j,i],99.7)/float(1e3)
+                                break
 
 del nc2
 del data2
@@ -217,27 +263,52 @@ phb = nc3.variables['PHB'][time_sci]
 tempvar1 = (ph+phb)/9.81
 data3['Zsci'] = np.nanmean(0.5*(tempvar1[0:len(tempvar1)-2,:,:]+tempvar1[1:len(tempvar1)-1,:,:]),0)
 
-# ni3 = np.nanmean(np.nanmean(data3['nisg80'][0:3,0:16,:,:],0),0)/float(1e3)
-# ql3 = np.nanmean(np.nanmean(data3['qliq'][0:3,0:16,:,:],0),0)*float(1e3)
-ni3 = data3['nisg80'][1,zind1,:,:]/float(1e3)
-t3 = data3['Tk'][1,zind3,:,:]
-
 data3['qcloud'] = nc3.variables['QCLOUD'][time_sci]# Qcloud mean over M218 flight times @ lon=-29 [z,lat,lon]
 data3['qcloud'][data3['qcloud']<0]=0
-dz3 = data3['Zsci'][23:30,:,:] - data3['Zsci'][22:29,:,:]
-tempvar = np.squeeze(data3['qcloud'][timeindex,22:29,:,:])*1e3*dz3*data3['rho'][timeindex,22:29,:,:]
-lwp3 = np.nansum(tempvar,0)
 
-data3['qisg'] = (nc3.variables['QICE'][time_sci,:,:,:]+
-        nc3.variables['QSNOW'][time_sci,:,:,:]+
-        nc3.variables['QGRAUP'][time_sci,:,:,:])
-data3['qisg'][data3['qisg']<0]=0
+data3['qnisg'] = (nc3.variables['QNICE'][time_sci,:,:,:]+
+        nc3.variables['QNSNOW'][time_sci,:,:,:]+
+        nc3.variables['QNGRAUPEL'][time_sci,:,:,:])*(data3['rho'])
 
-dz3 = data3['Zsci'][23:30,:,:] - data3['Zsci'][22:29,:,:]
-tempvar = np.squeeze(data3['qisg'][timeindex,22:29,:,:])*1e3*dz3*data3['rho'][timeindex,22:29,:,:]
-iwp3 = np.nansum(tempvar,0)
+data3['nisg50'] = data3['qnisg'] - (nc3.variables['NI50'][time_sci,:,:,:] - 
+        nc3.variables['NG50'][time_sci,:,:,:])*(data3['rho'])*(data3['rho'])
 
-w3 = nc3.variables['W'][time_sci[timeindex],zind3,:,:]
+data3['qrain'] = nc3.variables['QRAIN'][time_sci]# Qcloud mean over M218 flight times @ lon=-29 [z,lat,lon]
+data3['qrain'][data3['qrain']<0]=0
+data3['qliq'] = data3['qcloud'] + data3['qrain']
+
+w_theta3 = 0.5*(nc3.variables['W'][time_sci[timeindex],0:-1,:,:] + nc3.variables['W'][time_sci[timeindex],1:,:,:])
+
+ind = {}
+theta = data3['theta'][timeindex,:,:,:]
+Z = data3['Zsci'][:,:,:]
+bl3_1 = np.zeros(shape=(np.size(Z,1),np.size(Z,2)))
+bl3_2 = np.zeros(shape=(np.size(Z,1),np.size(Z,2)))
+temp3 = np.zeros(shape=(np.size(Z,1),np.size(Z,2)))
+w3 = np.zeros(shape=(np.size(Z,1),np.size(Z,2)))
+blindex3 = np.zeros(shape=(1,np.size(Z,1),np.size(Z,2)))
+allicebelow3 = np.zeros(shape=(np.size(Z,1),np.size(Z,2)))
+smallicebelow3 = np.zeros(shape=(np.size(Z,1),np.size(Z,2)))
+largeicebelow3 = np.zeros(shape=(np.size(Z,1),np.size(Z,2)))
+liqbelow3 = np.zeros(shape=(np.size(Z,1),np.size(Z,2)))
+iceabove3 = np.zeros(shape=(np.size(Z,1),np.size(Z,2)))
+for i in range(0,np.size(Z,2)):
+        strgi = "%1.f" % (i+1) # string of longitude
+        for j in range(0,np.size(Z,1)):
+                strgj = "%1.f" % (j+1) # string of latitude
+                for k in range(2,np.size(Z,0)-2):
+                        strgk = "%1.f" % (k+1) # string of altitude
+                        if theta[k,j,i] < theta[k+1,j,i]-0.2:           # small inversion - typically ~500m
+                                bl3_1[j,i] = Z[k,j,i]
+                                break
+                for k in range(2,np.size(Z,0)-2):
+                        strgk = "%1.f" % (k+1) # string of altitude
+                        if theta[k,j,i] < theta[k+1,j,i]-0.4:           # large inversion - typically ~1500m
+                                bl3_2[j,i] = Z[k,j,i]
+                                w3[j,i] = w_theta3[k,j,i]
+                                allicebelow3[j,i] = np.nanpercentile(data3['qnisg'][timeindex,0:k,j,i],99.7)/float(1e3)
+                                break
+
 
 del nc3
 del data3
@@ -263,28 +334,51 @@ phb = nc4.variables['PHB'][time_sci]
 tempvar1 = (ph+phb)/9.81
 data4['Zsci'] = np.nanmean(0.5*(tempvar1[0:len(tempvar1)-2,:,:]+tempvar1[1:len(tempvar1)-1,:,:]),0)
 
-# ni4 = np.nanmean(np.nanmean(data4['nisg80'][0:3,0:16,:,:],0),0)/float(1e3)
-# ql4 = np.nanmean(np.nanmean(data4['qliq'][0:3,0:16,:,:],0),0)*float(1e3)
-
-ni4 = data4['nisg80'][1,zind1,:,:]/float(1e3)
-t4 = data4['Tk'][1,zind3,:,:]
-
 data4['qcloud'] = nc4.variables['QCLOUD'][time_sci]# Qcloud mean over M218 flight times @ lon=-29 [z,lat,lon]
 data4['qcloud'][data4['qcloud']<0]=0
-dz4 = data4['Zsci'][23:30,:,:] - data4['Zsci'][22:29,:,:]
-tempvar = np.squeeze(data4['qcloud'][timeindex,22:29,:,:])*1e3*dz4*data4['rho'][timeindex,22:29,:,:]
-lwp4 = np.nansum(tempvar,0)
 
-data4['qisg'] = (nc4.variables['QICE'][time_sci,:,:,:]+
-        nc4.variables['QSNOW'][time_sci,:,:,:]+
-        nc4.variables['QGRAUP'][time_sci,:,:,:])
-data4['qisg'][data4['qisg']<0]=0
+data4['qnisg'] = (nc4.variables['QNICE'][time_sci,:,:,:]+
+        nc4.variables['QNSNOW'][time_sci,:,:,:]+
+        nc4.variables['QNGRAUPEL'][time_sci,:,:,:])*(data1['rho'])
 
-dz4 = data4['Zsci'][23:30,:,:] - data4['Zsci'][22:29,:,:]
-tempvar = np.squeeze(data4['qisg'][timeindex,22:29,:,:])*1e3*dz4*data4['rho'][timeindex,22:29,:,:]
-iwp4 = np.nansum(tempvar,0)
+data4['nisg50'] = data4['qnisg'] - (nc4.variables['NI50'][time_sci,:,:,:] - 
+        nc4.variables['NG50'][time_sci,:,:,:])*(data4['rho'])*(data4['rho'])
 
-w4 = nc4.variables['W'][time_sci[timeindex],zind3,:,:]
+data4['qrain'] = nc4.variables['QRAIN'][time_sci]# Qcloud mean over M218 flight times @ lon=-29 [z,lat,lon]
+data4['qrain'][data4['qrain']<0]=0
+data4['qliq'] = data4['qcloud'] + data4['qrain']
+
+w_theta4 = 0.5*(nc4.variables['W'][time_sci[timeindex],0:-1,:,:] + nc4.variables['W'][time_sci[timeindex],1:,:,:])
+
+ind = {}
+theta = data4['theta'][timeindex,:,:,:]
+Z = data4['Zsci'][:,:,:]
+bl4_1 = np.zeros(shape=(np.size(Z,1),np.size(Z,2)))
+bl4_2 = np.zeros(shape=(np.size(Z,1),np.size(Z,2)))
+temp4 = np.zeros(shape=(np.size(Z,1),np.size(Z,2)))
+w4 = np.zeros(shape=(np.size(Z,1),np.size(Z,2)))
+blindex4 = np.zeros(shape=(1,np.size(Z,1),np.size(Z,2)))
+allicebelow4 = np.zeros(shape=(np.size(Z,1),np.size(Z,2)))
+smallicebelow4 = np.zeros(shape=(np.size(Z,1),np.size(Z,2)))
+largeicebelow4 = np.zeros(shape=(np.size(Z,1),np.size(Z,2)))
+liqbelow4 = np.zeros(shape=(np.size(Z,1),np.size(Z,2)))
+iceabove4 = np.zeros(shape=(np.size(Z,1),np.size(Z,2)))
+for i in range(0,np.size(Z,2)):
+        strgi = "%1.f" % (i+1) # string of longitude
+        for j in range(0,np.size(Z,1)):
+                strgj = "%1.f" % (j+1) # string of latitude
+                for k in range(2,np.size(Z,0)-2):
+                        strgk = "%1.f" % (k+1) # string of altitude
+                        if theta[k,j,i] < theta[k+1,j,i]-0.2:           # small inversion - typically ~500m
+                                bl4_1[j,i] = Z[k,j,i]
+                                break
+                for k in range(2,np.size(Z,0)-2):
+                        strgk = "%1.f" % (k+1) # string of altitude
+                        if theta[k,j,i] < theta[k+1,j,i]-0.4:           # large inversion - typically ~1500m
+                                bl4_2[j,i] = Z[k,j,i]
+                                w4[j,i] = w_theta4[k,j,i]
+                                allicebelow4[j,i] = np.nanpercentile(data4['qnisg'][timeindex,0:k,j,i],99.7)/float(1e3)
+                                break
 
 del nc4
 del data4
@@ -310,28 +404,51 @@ phb = nc5.variables['PHB'][time_sci]
 tempvar1 = (ph+phb)/9.81
 data5['Zsci'] = np.nanmean(0.5*(tempvar1[0:len(tempvar1)-2,:,:]+tempvar1[1:len(tempvar1)-1,:,:]),0)
 
-# ni5 = np.nanmean(np.nanmean(data5['nisg80'][0:3,0:16,:,:],0),0)/float(1e3)
-# ql5 = np.nanmean(np.nanmean(data5['qliq'][0:3,0:16,:,:],0),0)*float(1e3)
-
-ni5 = data5['nisg80'][1,zind1,:,:]/float(1e3)
-t5 = data5['Tk'][1,zind3,:,:]
-
 data5['qcloud'] = nc5.variables['QCLOUD'][time_sci]# Qcloud mean over M218 flight times @ lon=-29 [z,lat,lon]
 data5['qcloud'][data5['qcloud']<0]=0
-dz5 = data5['Zsci'][23:30,:,:] - data5['Zsci'][22:29,:,:]
-tempvar = np.squeeze(data5['qcloud'][timeindex,22:29,:,:])*1e3*dz5*data5['rho'][timeindex,22:29,:,:]
-lwp5 = np.nansum(tempvar,0)
 
-data5['qisg'] = (nc5.variables['QICE'][time_sci,:,:,:]+
-        nc5.variables['QSNOW'][time_sci,:,:,:]+
-        nc5.variables['QGRAUP'][time_sci,:,:,:])
-data5['qisg'][data5['qisg']<0]=0
+data5['qnisg'] = (nc5.variables['QNICE'][time_sci,:,:,:]+
+        nc5.variables['QNSNOW'][time_sci,:,:,:]+
+        nc5.variables['QNGRAUPEL'][time_sci,:,:,:])*(data1['rho'])
 
-dz5 = data5['Zsci'][23:30,:,:] - data5['Zsci'][22:29,:,:]
-tempvar = np.squeeze(data5['qisg'][timeindex,22:29,:,:])*1e3*dz5*data5['rho'][timeindex,22:29,:,:]
-iwp5 = np.nansum(tempvar,0)
+data5['nisg50'] = data5['qnisg'] - (nc5.variables['NI50'][time_sci,:,:,:] - 
+        nc5.variables['NG50'][time_sci,:,:,:])*(data5['rho'])*(data5['rho'])
 
-w5 = nc5.variables['W'][time_sci[timeindex],zind3,:,:]
+data5['qrain'] = nc5.variables['QRAIN'][time_sci]# Qcloud mean over M218 flight times @ lon=-29 [z,lat,lon]
+data5['qrain'][data5['qrain']<0]=0
+data5['qliq'] = data5['qcloud'] + data5['qrain']
+
+w_theta5 = 0.5*(nc5.variables['W'][time_sci[timeindex],0:-1,:,:] + nc5.variables['W'][time_sci[timeindex],1:,:,:])
+
+ind = {}
+theta = data5['theta'][timeindex,:,:,:]
+Z = data5['Zsci'][:,:,:]
+bl5_1 = np.zeros(shape=(np.size(Z,1),np.size(Z,2)))
+bl5_2 = np.zeros(shape=(np.size(Z,1),np.size(Z,2)))
+temp5 = np.zeros(shape=(np.size(Z,1),np.size(Z,2)))
+w5 = np.zeros(shape=(np.size(Z,1),np.size(Z,2)))
+blindex5 = np.zeros(shape=(1,np.size(Z,1),np.size(Z,2)))
+allicebelow5 = np.zeros(shape=(np.size(Z,1),np.size(Z,2)))
+smallicebelow5 = np.zeros(shape=(np.size(Z,1),np.size(Z,2)))
+largeicebelow5 = np.zeros(shape=(np.size(Z,1),np.size(Z,2)))
+liqbelow5 = np.zeros(shape=(np.size(Z,1),np.size(Z,2)))
+iceabove5 = np.zeros(shape=(np.size(Z,1),np.size(Z,2)))
+for i in range(0,np.size(Z,2)):
+        strgi = "%1.f" % (i+1) # string of longitude
+        for j in range(0,np.size(Z,1)):
+                strgj = "%1.f" % (j+1) # string of latitude
+                for k in range(2,np.size(Z,0)-2):
+                        strgk = "%1.f" % (k+1) # string of altitude
+                        if theta[k,j,i] < theta[k+1,j,i]-0.2:           # small inversion - typically ~500m
+                                bl5_1[j,i] = Z[k,j,i]
+                                break
+                for k in range(2,np.size(Z,0)-2):
+                        strgk = "%1.f" % (k+1) # string of altitude
+                        if theta[k,j,i] < theta[k+1,j,i]-0.4:           # large inversion - typically ~1500m
+                                bl5_2[j,i] = Z[k,j,i]
+				w5[j,i] = w_theta5[k,j,i]
+                                allicebelow5[j,i] = np.nanpercentile(data5['qnisg'][timeindex,0:k,j,i],99.7)/float(1e3)
+                                break
 
 del nc5
 del data5
@@ -403,24 +520,27 @@ lons, lats = m.makegrid(data1['x_dim'], data1['y_dim']) # get lat/lons of ny by 
 x, y = m(lons, lats) # compute map proj coordinates.
 
 # contour levels
-maxdat = 5
-clevs = np.arange(0.0,np.log10(maxdat + 0.1),0.1)
+maxdat1 = 10
+mindat1 = 0
+#clevs = np.arange(0.0,maxdat,200)
 
 # data = np.nanmean(data1['nisg80'][0:3,zind1,:,:],0)
-data = ni1
-data[data == 0] = np.nan
-data[data > maxdat] = maxdat
+data = allicebelow1 # w1 # bl1_1
+# data[data == 0] = np.nan
+# data[data > maxdat] = maxdat
 
-cs = m.contourf(x,y,np.log10(data),clevs,cmap=mpl_cm.binary)
+cs = m.pcolor(x,y,data,vmin=mindat1,vmax=maxdat1,cmap=mpl_cm.Reds)
 
 x27,y27 = m(newlon27, newlat27)
 plt.plot(x27,y27,'r',linewidth=1)
 plt.annotate(runlab1,xy=(-78,-28),xytext=(-78,-28),fontsize=10)
 
+#??? from here until ???END lines may have been inserted/deleted
 cbaxes = fig.add_axes([0.15,0.74,0.02, 0.2])  # This is the position for the colorbar
-cb = plt.colorbar(cs, ticks=clevs, cax = cbaxes)
-tcks = np.power(10,clevs)
-cb.ax.set_yticklabels(np.round(tcks,1))
+cb = plt.colorbar(cs, cax = cbaxes)
+# cb = plt.colorbar(cs, ticks=clevs, cax = cbaxes)
+# tcks = np.power(10,clevs)
+# cb.ax.set_yticklabels(np.round(tcks,1))
 cb.ax.xaxis.set_label_position('top')
 cb.ax.axes.set_xlabel(strg1,color='k',fontsize=10)
 
@@ -441,27 +561,27 @@ lons, lats = m.makegrid(data1['x_dim'], data1['y_dim']) # get lat/lons of ny by 
 x, y = m(lons, lats) # compute map proj coordinates.
 
 # contour levels
-#maxdat2 = 1
+mindat2 = -0.15
 #clevs2 = np.arange(-1,maxdat2 + 0.01,0.2)
-maxdat2 = 0.2
-mindat2 = -0.2
-clevs2 = np.arange(mindat2,maxdat2 + 0.01,0.05)
+maxdat2 = 0.15
+#clevs2 = np.arange(0,2500.01,500)
 
 # data = np.nanmean(data1['nisg80'][0:3,zind1,:,:],0)
-data = w1
-data[data < mindat2] = mindat2
-data[data > maxdat2] = maxdat2
+data = w1 # bl1_2 #iwp1 #w1
+#data[data == 0] = np.nan
+# data[data > maxdat2] = maxdat2
 
 cs = m.pcolor(x,y,data,vmin=mindat2,vmax=maxdat2,cmap=mpl_cm.RdBu_r)
+#cs = m.pcolor(x,y,data,vmin=0,vmax=2500,cmap=mpl_cm.viridis)
 
 x27,y27 = m(newlon27, newlat27)
 plt.plot(x27,y27,'r',linewidth=1)
 plt.annotate(runlab1,xy=(-78,-28),xytext=(-78,-28),fontsize=10)
 
 cbaxes = fig.add_axes([0.8,0.74,0.02, 0.2])  # This is the position for the colorbar
-cb = plt.colorbar(cs, ticks=clevs2, cax = cbaxes)
-# tcks = np.power(10,clevs)
-# cb.ax.set_yticklabels(clevs2)
+cb = plt.colorbar(cs, cax = cbaxes)
+# # tcks = np.power(10,clevs)
+# # cb.ax.set_yticklabels(clevs2)
 cb.ax.xaxis.set_label_position('top')
 cb.ax.axes.set_xlabel(strg2,color='k',fontsize=10)
 
@@ -481,10 +601,10 @@ m.drawcoastlines(linewidth=1.)
 lons, lats = m.makegrid(data1['x_dim'], data1['y_dim']) # get lat/lons of ny by nx evenly space grid.
 x, y = m(lons, lats) # compute map proj coordinates.
 
-data = ni2
-data[data > maxdat] = maxdat
+data = allicebelow2 #w2 # bl2_1
+# data[data > maxdat] = maxdat
 
-cs = m.contourf(x,y,np.log10(data),clevs,cmap=mpl_cm.binary)
+cs = m.pcolor(x,y,data,vmin=mindat1,vmax=maxdat1,cmap=mpl_cm.Reds)
 
 plt.plot(x27,y27,'r',linewidth=1)
 plt.annotate(runlab2,xy=(-78,-28),xytext=(-78,-28),fontsize=10)
@@ -510,11 +630,12 @@ x, y = m(lons, lats) # compute map proj coordinates.
 # clevs = np.arange(0.0,maxdat2 + 0.01,0.01)
 
 # data = np.nanmean(data1['nisg80'][0:3,zind1,:,:],0)
-data = w2
-data[data < mindat2] = mindat2
-data[data > maxdat2] = maxdat2
+data = w2 # bl2_2 # iwp2 #w2
+#data[data == 0] = np.nan
+# data[data > maxdat2] = maxdat2
 
 cs = m.pcolor(x,y,data,vmin=mindat2,vmax=maxdat2,cmap=mpl_cm.RdBu_r)
+#cs = m.pcolor(x,y,data,vmin=0,vmax=2500,cmap=mpl_cm.viridis)
 
 x27,y27 = m(newlon27, newlat27)
 plt.plot(x27,y27,'r',linewidth=1)
@@ -540,10 +661,10 @@ m.drawcoastlines(linewidth=1.)
 lons, lats = m.makegrid(data1['x_dim'], data1['y_dim']) # get lat/lons of ny by nx evenly space grid.
 x, y = m(lons, lats) # compute map proj coordinates.
 
-data = ni3
-data[data > maxdat] = maxdat
+data = allicebelow3 # w3 # bl3_1
+# data[data > maxdat] = maxdat
 
-cs = m.contourf(x,y,np.log10(data),clevs,cmap=mpl_cm.binary)
+cs = m.pcolor(x,y,data,vmin=mindat1,vmax=maxdat1,cmap=mpl_cm.Reds)
 
 plt.plot(x27,y27,'r',linewidth=1)
 plt.annotate(runlab3,xy=(-78,-28),xytext=(-78,-28),fontsize=10)
@@ -569,11 +690,12 @@ x, y = m(lons, lats) # compute map proj coordinates.
 # clevs = np.arange(0.0,maxdat2 + 0.01,0.01)
 
 # data = np.nanmean(data1['nisg80'][0:3,zind1,:,:],0)
-data = w3
-data[data < mindat2] = mindat2
-data[data > maxdat2] = maxdat2
+data = w3 #bl3_2 # iwp3 #w3
+#data[data == 0] = np.nan
+# data[data > maxdat2] = maxdat2
 
 cs = m.pcolor(x,y,data,vmin=mindat2,vmax=maxdat2,cmap=mpl_cm.RdBu_r)
+# cs = m.pcolor(x,y,data,vmin=0,vmax=2500,cmap=mpl_cm.viridis)
 
 x27,y27 = m(newlon27, newlat27)
 plt.plot(x27,y27,'r',linewidth=1)
@@ -601,12 +723,12 @@ lons, lats = m.makegrid(data1['x_dim'], data1['y_dim']) # get lat/lons of ny by 
 x, y = m(lons, lats) # compute map proj coordinates.
 
 # data = np.nanmean(data1['nisg80'][6:9,zind1,:,:],0)
-data = ni4
-data[data > maxdat] = maxdat
+data = allicebelow4 # w4 # bl4_1
+# data[data > maxdat] = maxdat
 
 # contour levels
 # clevs = np.arange(0.0,1.1,0.1) 
-cs = m.contourf(x,y,np.log10(data),clevs,cmap=mpl_cm.binary)
+cs = m.pcolor(x,y,data,vmin=mindat1,vmax=maxdat1,cmap=mpl_cm.Reds)
 
 # add colorbar.
 plt.plot(x27,y27,'r',linewidth=1)
@@ -633,11 +755,12 @@ x, y = m(lons, lats) # compute map proj coordinates.
 # clevs = np.arange(0.0,maxdat2 + 0.01,0.01)
 
 # data = np.nanmean(data1['nisg80'][0:3,zind1,:,:],0)
-data = w4
-data[data < mindat2] = mindat2
-data[data > maxdat2] = maxdat2
+data = w4 # bl4_2 # iwp4 #w4
+#data[data == 0] = np.nan
+# data[data > maxdat2] = maxdat2
 
 cs = m.pcolor(x,y,data,vmin=mindat2,vmax=maxdat2,cmap=mpl_cm.RdBu_r)
+#cs = m.pcolor(x,y,data,vmin=0,vmax=2500,cmap=mpl_cm.viridis)
 
 x27,y27 = m(newlon27, newlat27)
 plt.plot(x27,y27,'r',linewidth=1)
@@ -660,10 +783,10 @@ m.drawcoastlines(linewidth=1.)
 lons, lats = m.makegrid(data1['x_dim'], data1['y_dim']) # get lat/lons of ny by nx evenly space grid.
 x, y = m(lons, lats) # compute map proj coordinates.
 
-data = ni5
-data[data > maxdat] = maxdat
+data = allicebelow5 # w5 # bl5_1
+# data[data > maxdat] = maxdat
 
-cs = m.contourf(x,y,np.log10(data),clevs,cmap=mpl_cm.binary)
+cs = m.pcolor(x,y,data,vmin=mindat1,vmax=maxdat1,cmap=mpl_cm.Reds)
 
 x29,y29 = m(newlon29, newlat29)
 plt.plot(x27,y27,'r',linewidth=1)
@@ -690,69 +813,18 @@ x, y = m(lons, lats) # compute map proj coordinates.
 # clevs = np.arange(0.0,maxdat + 0.01,0.01)
 
 # data = np.nanmean(data1['nisg80'][0:3,zind1,:,:],0)
-data = w5
-data[data < mindat2] = mindat2
-data[data > maxdat2] = maxdat2
+data = w5 # bl5_2 #iwp5 #w5
+#data[data == 0] = np.nan
+# data[data > maxdat2] = maxdat2
 
 cs = m.pcolor(x,y,data,vmin=mindat2,vmax=maxdat2,cmap=mpl_cm.RdBu_r)
+#cs = m.pcolor(x,y,data,vmin=0,vmax=2500,cmap=mpl_cm.viridis)
 
 x27,y27 = m(newlon27, newlat27)
 plt.plot(x27,y27,'r',linewidth=1)
 plt.annotate(runlab5,xy=(-78,-28),xytext=(-78,-28),fontsize=10)
 
-
-###################################
-##  CRF
-###################################
-# ax  = fig.add_axes([0.68,0.52,0.25,0.34])   # left, bottom, width, height
-# ax.set_xlim([0,1])
-# ax.set_ylim([0,1])
-# plt.axis('off')
-
-# swupb1 = nc1.variables['SWUPB'][:,:,:]
-# swupbc1 = nc1.variables['SWUPBC'][:,:,:]
-# swdnb1 = nc1.variables['SWDNB'][:,:,:]
-# swdnbc1 = nc1.variables['SWDNBC'][:,:,:]
-# swsurf1 = np.nanmean((swdnb1 - swdnbc1 - swupb1 + swupbc1), 0)		### SWCRF AT SURFACE 	(i.e. how much clouds cool the surface => -ve!)
-# swsurf1_dailyav = np.nanmean(swsurf1)
-# swsurf1_std = np.nanstd(swdnb1 - swdnbc1 - swupb1 + swupbc1)
-
-# swupb2 = nc2.variables['SWUPB'][:,:,:]
-# swupbc2 = nc2.variables['SWUPBC'][:,:,:]
-# swdnb2 = nc2.variables['SWDNB'][:,:,:]
-# swdnbc2 = nc2.variables['SWDNBC'][:,:,:]
-# swsurf2 = np.nanmean((swdnb2 - swdnbc2 - swupb2 + swupbc2), 0)
-# swsurf2_dailyav = np.nanmean(swsurf2)
-# swsurf2_std = np.nanstd(swdnb2 - swdnbc2 - swupb2 + swupbc2)
-
-# swupb3 = nc3.variables['SWUPB'][:,:,:]
-# swupbc3 = nc3.variables['SWUPBC'][:,:,:]
-# swdnb3 = nc3.variables['SWDNB'][:,:,:]
-# swdnbc3 = nc3.variables['SWDNBC'][:,:,:]
-# swsurf3 = np.nanmean((swdnb3 - swdnbc3 - swupb3 + swupbc3), 0)
-# swsurf3_dailyav = np.nanmean(swsurf3)
-# swsurf3_std = np.nanstd(swdnb3 - swdnbc3 - swupb3 + swupbc3)
-
-# swupb4 = nc4.variables['SWUPB'][:,:,:]
-# swupbc4 = nc4.variables['SWUPBC'][:,:,:]
-# swdnb4 = nc4.variables['SWDNB'][:,:,:]
-# swdnbc4 = nc4.variables['SWDNBC'][:,:,:]
-# swsurf4 = np.nanmean((swdnb4 - swdnbc4 - swupb4 + swupbc4), 0)
-# swsurf4_dailyav = np.nanmean(swsurf4)
-# swsurf4_std = np.nanstd(swdnb4 - swdnbc4 - swupb4 + swupbc4)
-
-# swupb5 = nc5.variables['SWUPB'][:,:,:]
-# swupbc5 = nc5.variables['SWUPBC'][:,:,:]
-# swdnb5 = nc5.variables['SWDNB'][:,:,:]
-# swdnbc5 = nc5.variables['SWDNBC'][:,:,:]
-# swsurf5 = np.nanmean((swdnb5 - swdnbc5 - swupb5 + swupbc5), 0)
-# swsurf5_dailyav = np.nanmean(swsurf5)
-# swsurf5_std = np.nanstd(+swdnb5 - swdnbc5 - swupb5 + swupbc5)
-
-# plt.annotate("CRF_{SW,Surf}=",swsurf1_dailyav," +/- ",swsurf1_std,xy=(0.1,0.9),xytext=(0.11,0.91),fontsize=SMALL_SIZE)
-
-# plt.savefig('/data/scihub-users/giyoung/PYTHON/WRF/FIGS/Misc/05_GRL_IcePatches_W1500m_z21.svg')
-plt.savefig('/data/scihub-users/giyoung/PYTHON/WRF/FIGS/Misc/05_GRL_IcePatches_W1500m_z21.png',dpi=300)
+# plt.savefig('/data/scihub-users/giyoung/PYTHON/WRF/FIGS/Misc/05_GRL_NisgBelow_W_v2.png',dpi=300)
 plt.show()
 
 
