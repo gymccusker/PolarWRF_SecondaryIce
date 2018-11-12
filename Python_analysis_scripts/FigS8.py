@@ -154,7 +154,7 @@ for i in range(0,np.size(Z,2)):
                                 bl1_2[j,i] = Z[k,j,i]
 			        temp1[j,i] = data1['Tk'][timeindex,k+1,j,i]
                                 allicebelow1[j,i] = np.nansum(data1['qnisg'][timeindex,0:k,j,i])/float(1e3)		# /L
-                                iceabove1[j,i] = data1['qnisg'][timeindex,k+1,j,i]/float(1e3)
+                                # iceabove1[j,i] = data1['qnisg'][timeindex,k+1,j,i]/float(1e3)
                                 # if allicebelow1[j,i]>0.005: icebelowfreq1[j,i]=1
                                 break
 
@@ -235,7 +235,7 @@ for i in range(0,np.size(Z,2)):
                                 # w2[j,i] = nc2.variables['W'][time_sci[timeindex],k,j,i]
                                 # blindex2[0,j,i] = k
                                 allicebelow2[j,i] = np.nansum(data2['qnisg'][timeindex,0:k,j,i])/float(1e3)
-                                iceabove2[j,i] = data2['qnisg'][timeindex,k+1,j,i]/float(1e3)
+                                # iceabove2[j,i] = data2['qnisg'][timeindex,k+1,j,i]/float(1e3)
                                 # smallicebelow2[j,i] = np.nanpercentile(data2['nisg50'][timeindex,0:k,j,i],99.7)/float(1e3)
                                 # largeicebelow2[j,i] = np.nanpercentile(data2['nisg80'][timeindex,0:k,j,i],99.7)/float(1e3)
                                 # liqbelow2[j,i] = np.nanmean(data2['qliq'][timeindex,0:k,j,i],0)*float(1e3)
@@ -310,7 +310,7 @@ for i in range(0,np.size(Z,2)):
                                 # w3[j,i] = nc3.variables['W'][time_sci[timeindex],k,j,i]
                                 # blindex3[0,j,i] = k
                                 allicebelow3[j,i] = np.nanpercentile(data3['qnisg'][timeindex,0:k,j,i],99.7)/float(1e3)
-                                iceabove3[j,i] = data3['qnisg'][timeindex,k+1,j,i]/float(1e3)
+                                # iceabove3[j,i] = data3['qnisg'][timeindex,k+1,j,i]/float(1e3)
                                 # smallicebelow3[j,i] = np.nanpercentile(data3['nisg50'][timeindex,0:k,j,i],99.7)/float(1e3)
                                 # largeicebelow3[j,i] = np.nanpercentile(data3['nisg80'][timeindex,0:k,j,i],99.7)/float(1e3)
                                 # liqbelow3[j,i] = np.nanmean(data3['qliq'][timeindex,0:k,j,i],0)*float(1e3)
@@ -386,7 +386,7 @@ for i in range(0,np.size(Z,2)):
                                 # w4[j,i] = nc4.variables['W'][time_sci[timeindex],k,j,i]
                                 # blindex4[0,j,i] = k
                                 allicebelow4[j,i] = np.nanpercentile(data4['qnisg'][timeindex,0:k,j,i],99.7)/float(1e3)
-                                iceabove4[j,i] = data4['qnisg'][timeindex,k+1,j,i]/float(1e3)
+                                # iceabove4[j,i] = data4['qnisg'][timeindex,k+1,j,i]/float(1e3)
                                 # smallicebelow4[j,i] = np.nanpercentile(data4['nisg50'][timeindex,0:k,j,i],99.7)/float(1e3)
                                 # largeicebelow4[j,i] = np.nanpercentile(data4['nisg80'][timeindex,0:k,j,i],99.7)/float(1e3)
                                 # liqbelow4[j,i] = np.nanmean(data4['qliq'][timeindex,0:k,j,i],0)*float(1e3)
@@ -461,7 +461,7 @@ for i in range(0,np.size(Z,2)):
                                 # w5[j,i] = nc5.variables['W'][time_sci[timeindex],k,j,i]
                                 # blindex5[0,j,i] = k
                                 allicebelow5[j,i] = np.nanpercentile(data5['qnisg'][timeindex,0:k,j,i],99.7)/float(1e3)
-                                iceabove5[j,i] = data5['qnisg'][timeindex,k+1,j,i]/float(1e3)
+                                # iceabove5[j,i] = data5['qnisg'][timeindex,k+1,j,i]/float(1e3)
                                 # smallicebelow5[j,i] = np.nanpercentile(data5['nisg50'][timeindex,0:k,j,i],99.7)/float(1e3)
                                 # largeicebelow5[j,i] = np.nanpercentile(data5['nisg80'][timeindex,0:k,j,i],99.7)/float(1e3)
                                 # liqbelow5[j,i] = np.nanmean(data5['qliq'][timeindex,0:k,j,i],0)*float(1e3)
@@ -518,7 +518,7 @@ plt.rc('legend',fontsize=SMALL_SIZE)
 
 
 ## create figure and axes instances
-fig = plt.figure(figsize=(8,9))
+# fig = plt.figure(figsize=(8,9))
 
 # ###################################
 # ## 	CNTRL
@@ -846,141 +846,6 @@ fig = plt.figure(figsize=(8,9))
 # plt.show()
 
 
-# plt.subplot(1,2,1); plt.plot(np.nanmean(data1['theta'][timeindex,0:40,190:340,107:202],2),np.nanmean(data1['Zsci'][0:40,190:340,107:202],2));
-# plt.grid('on'); plt.subplot(1,2,2); 
-# plt.plot(np.nanmean(nc1.variables['W'][time_sci[timeindex],0:40,190:340,107:202],2),np.nanmean(data1['Zsci'][0:40,190:340,107:202],2),'.') ;
-# plt.grid('on'); plt.show()
-
-
-##### Picking out BL top
-# ind[strgi] = np.where(np.logical_and(np.logical_and(W[i,:]>-0.07,W[i,:]<0.07),theta[i+1,:]<theta[i,:]+0.05))
-
-
-# ind = {}
-# # theta = data1['theta'][timeindex,0:35,190:340,107:202]
-# # Z = data1['Zsci'][0:35,190:340,107:202]
-# theta = data1['theta'][timeindex,:,:,:]
-# Z = data1['Zsci'][:,:,:]
-# bl_1 = np.zeros(shape=(np.size(Z,1),np.size(Z,2)))
-# bl_2 = np.zeros(shape=(np.size(Z,1),np.size(Z,2)))
-# for i in range(0,np.size(Z,2)):
-#         strgi = "%1.f" % (i+1) # string of longitude
-#         for j in range(0,np.size(Z,1)):
-#                 strgj = "%1.f" % (j+1) # string of latitude
-#                 for k in range(0,np.size(Z,0)-2):
-#                         strgk = "%1.f" % (k+1) # string of altitude
-#                         if theta[k,j,i] < theta[k+1,j,i]-0.2:           # small inversion - typically ~500m
-#                                 bl_1[j,i] = Z[k,j,i]
-#                                 break
-#                 for k in range(0,np.size(Z,0)-2):
-#                         strgk = "%1.f" % (k+1) # string of altitude
-#                         if theta[k,j,i] < theta[k+1,j,i]-0.4:           # large inversion - typically ~1500m
-#                                 bl_2[j,i] = Z[k,j,i]
-#                                 break
-
-#                         # elif theta[k,j,i] < theta[k+1,j,i]-0.4:         # big jump inversion
-#                         #         bl_2[j,i] = Z[k,j,i]        
-#                                 # break
-#                         # OR: a larger theta jump than ?? deg?
-
-#                         # ind[strgk] = np.where(theta[k,j,i] < theta[k+1,j,i]-0.5)
-#                         # if np.size(ind[strgk]) > 0: 
-#                         #         index = np.array([ind[strgk][0][0],ind[strgk][1][0]])
-#                         #         bl[index[0],index[1]] = Z[k,index[0],index[1]]
-
-# plt.subplot(231)
-# m = Basemap(resolution='i',projection='stere', rsphere=6370000.0, \
-#         width=data1['width_meters'],height=data1['height_meters'],\
-#         lat_0=data1['cen_lat'],lon_0=data1['cen_lon'],lat_1=data1['truelat1'])
-
-# ##define parallels/meridians
-# m.drawparallels(np.arange(-90.,-60.,2.),color='k',labels=[0,0,0,0],linewidth=0.8,fontsize=10)
-# m.drawmeridians(np.arange(-180.,181.,5.),color='k',labels=[0,0,0,1],linewidth=0.8,fontsize=10)
-# m.drawcoastlines(linewidth=1.)
-
-# lons, lats = m.makegrid(data1['x_dim'], data1['y_dim']) # get lat/lons of ny by nx evenly space grid.
-# x, y = m(lons, lats) # compute map proj coordinates.
-
-# cs = m.pcolor(x,y,largeicebelow1,vmin=0,vmax=3);
-# # plt.colorbar(cs);
-# plt.title('Large ice below')
-
-# plt.subplot(232)
-# m = Basemap(resolution='i',projection='stere', rsphere=6370000.0, \
-#         width=data1['width_meters'],height=data1['height_meters'],\
-#         lat_0=data1['cen_lat'],lon_0=data1['cen_lon'],lat_1=data1['truelat1'])
-
-# ##define parallels/meridians
-# m.drawparallels(np.arange(-90.,-60.,2.),color='k',labels=[0,0,0,0],linewidth=0.8,fontsize=10)
-# m.drawmeridians(np.arange(-180.,181.,5.),color='k',labels=[0,0,0,1],linewidth=0.8,fontsize=10)
-# m.drawcoastlines(linewidth=1.)
-
-# lons, lats = m.makegrid(data1['x_dim'], data1['y_dim']) # get lat/lons of ny by nx evenly space grid.
-# x, y = m(lons, lats) # compute map proj coordinates.
-
-# cs = m.pcolor(x,y,liqbelow1,vmin=0,vmax=0.1);
-# # plt.colorbar(cs);
-# plt.title('Mean Liquid below')
-
-# plt.subplot(233)
-# m = Basemap(resolution='i',projection='stere', rsphere=6370000.0, \
-#         width=data1['width_meters'],height=data1['height_meters'],\
-#         lat_0=data1['cen_lat'],lon_0=data1['cen_lon'],lat_1=data1['truelat1'])
-
-# ##define parallels/meridians
-# m.drawparallels(np.arange(-90.,-60.,2.),color='k',labels=[0,0,0,0],linewidth=0.8,fontsize=10)
-# m.drawmeridians(np.arange(-180.,181.,5.),color='k',labels=[0,0,0,1],linewidth=0.8,fontsize=10)
-# m.drawcoastlines(linewidth=1.)
-
-# lons, lats = m.makegrid(data1['x_dim'], data1['y_dim']) # get lat/lons of ny by nx evenly space grid.
-# x, y = m(lons, lats) # compute map proj coordinates.
-
-# cs = m.pcolor(x,y,smallicebelow1,vmin=0,vmax=3);
-# # plt.colorbar(cs);
-# plt.title('Small ice below')
-
-
-# plt.subplot(234)
-# m = Basemap(resolution='i',projection='stere', rsphere=6370000.0, \
-#         width=data1['width_meters'],height=data1['height_meters'],\
-#         lat_0=data1['cen_lat'],lon_0=data1['cen_lon'],lat_1=data1['truelat1'])
-
-# ##define parallels/meridians
-# m.drawparallels(np.arange(-90.,-60.,2.),color='k',labels=[0,0,0,0],linewidth=0.8,fontsize=10)
-# m.drawmeridians(np.arange(-180.,181.,5.),color='k',labels=[0,0,0,1],linewidth=0.8,fontsize=10)
-# m.drawcoastlines(linewidth=1.)
-
-# lons, lats = m.makegrid(data1['x_dim'], data1['y_dim']) # get lat/lons of ny by nx evenly space grid.
-# x, y = m(lons, lats) # compute map proj coordinates.
-
-# cs = m.pcolor(x,y,iceabove1,vmin=0,vmax=3);
-# # plt.colorbar(cs);
-# plt.title('All ice above')
-
-
-# plt.subplot(235)
-# m = Basemap(resolution='i',projection='stere', rsphere=6370000.0, \
-#         width=data1['width_meters'],height=data1['height_meters'],\
-#         lat_0=data1['cen_lat'],lon_0=data1['cen_lon'],lat_1=data1['truelat1'])
-
-# ##define parallels/meridians
-# m.drawparallels(np.arange(-90.,-60.,2.),color='k',labels=[0,0,0,0],linewidth=0.8,fontsize=10)
-# m.drawmeridians(np.arange(-180.,181.,5.),color='k',labels=[0,0,0,1],linewidth=0.8,fontsize=10)
-# m.drawcoastlines(linewidth=1.)
-
-# lons, lats = m.makegrid(data1['x_dim'], data1['y_dim']) # get lat/lons of ny by nx evenly space grid.
-# x, y = m(lons, lats) # compute map proj coordinates.
-
-# cs = m.pcolor(x,y,bl1_2,vmin=0,vmax=2500);
-# # plt.colorbar(cs);
-# plt.title('BL Height')
-
-# plt.show()
-
-
-# plt.subplot(1,2,1);plt.plot(theta[0:42,40:50,25],Z[0:42,40:50,25],'o--');plt.grid('on');plt.ylim([0,5000]);
-# plt.subplot(1,2,2);plt.plot(bl5_1[40:50,25]);plt.plot(bl5_2[40:50,25]); plt.grid('on');plt.ylim([0,5000]);
-# plt.show()
 
 allicebelow1[allicebelow1<0.005] = np.nan
 allicebelow2[allicebelow2<0.005] = np.nan
@@ -1004,36 +869,74 @@ iceabove5[iceabove5<0.005] = np.nan
 # model = lm.fit(X,y)
 # lm.score(X,y)
 
+SMALL_SIZE = 10
+MED_SIZE = 12
+LARGE_SIZE = 14
+
+plt.rc('font',size=MED_SIZE)
+plt.rc('axes',titlesize=SMALL_SIZE)
+plt.rc('axes',labelsize=SMALL_SIZE)
+plt.rc('xtick',labelsize=SMALL_SIZE)
+plt.rc('ytick',labelsize=SMALL_SIZE)
+plt.rc('legend',fontsize=SMALL_SIZE)
+
+## create figure and axes instances
+fig = plt.figure(figsize=(7,5.5))
+
+###################################
+##      CNTRL
+###################################
+# ax  = fig.add_axes([0.1,0.1,0.2,0.3])   # left, bottom, width, height
+
+
 bins = np.arange(np.round(np.nanmin(temp5)),np.round(np.nanmax(temp5)),1.0)
 
-plt.subplot(231)
+# plt.subplot(231)
+ax  = fig.add_axes([0.12,0.55,0.24,0.35])   # left, bottom, width, height
 index1 = np.where(np.ndarray.flatten(allicebelow1)>=0.5)
 flattemp1 = np.ndarray.flatten(temp1)[index1]
 binned1 = np.histogram(flattemp1,bins)
 plt.step(binned1[1][:-1],binned1[0]/float(np.nanmax(binned1[0])))
+plt.title('CNTRL')
+plt.ylabel('Normalised frequency \n of occurrence')
 
-plt.subplot(232)
+# plt.subplot(232)
+ax  = fig.add_axes([0.42,0.55,0.24,0.35])   # left, bottom, width, height
 index2 = np.where(np.ndarray.flatten(allicebelow2)>=0.5)
 flattemp2 = np.ndarray.flatten(temp2)[index2]
 binned2 = np.histogram(flattemp2,bins)
 plt.step(binned2[1][:-1],binned2[0]/float(np.nanmax(binned2[0])))
+plt.title('NoThresh')
 
-plt.subplot(234)
+# plt.subplot(234)
+ax  = fig.add_axes([0.12,0.1,0.24,0.35])   # left, bottom, width, height
 index3 = np.where(np.ndarray.flatten(allicebelow3)>=0.5)
 flattemp3 = np.ndarray.flatten(temp3)[index3]
 binned3 = np.histogram(flattemp3,bins)
 plt.step(binned3[1][:-1],binned3[0]/float(np.nanmax(binned3[0])))
+plt.title('2xHM')
+plt.xlabel('Temperature [K]')
+plt.ylabel('Normalised frequency \n of occurrence')
 
-plt.subplot(235)
+# plt.subplot(235)
+ax  = fig.add_axes([0.42,0.1,0.24,0.35])   # left, bottom, width, height
 index4 = np.where(np.ndarray.flatten(allicebelow4)>=0.5)
 flattemp4 = np.ndarray.flatten(temp4)[index4]
 binned4 = np.histogram(flattemp4,bins)
 plt.step(binned4[1][:-1],binned4[0]/float(np.nanmax(binned4[0])))
+plt.title('5xHM')
+plt.xlabel('Temperature [K]')
 
-plt.subplot(236)
+# plt.subplot(236)
+ax  = fig.add_axes([0.72,0.1,0.24,0.35])   # left, bottom, width, height
 index5 = np.where(np.ndarray.flatten(allicebelow5)>=0.5)
 flattemp5 = np.ndarray.flatten(temp5)[index5]
 binned5 = np.histogram(flattemp5,bins)
 plt.step(binned5[1][:-1],binned5[0]/float(np.nanmax(binned5[0])))
+plt.title('10xHM')
+plt.xlabel('Temperature [K]')
 
+plt.savefig('../Figures/FigS8_NisgBelow_Temp.svg')
 plt.show()
+
+
