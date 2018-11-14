@@ -1,0 +1,5 @@
+# Ignore figures
+*.svg
+*.png
+*.pdf
+Figures/
