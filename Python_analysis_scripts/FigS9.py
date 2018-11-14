@@ -155,7 +155,7 @@ for i in range(0,np.size(Z,2)):
                         if theta[k,j,i] < theta[k+1,j,i]-0.4:           # large inversion - typically ~1500m
                                 bl1_2[j,i] = Z[k,j,i]
 				w1[j,i] = w_theta1[k,j,i]
-                                allicebelow1[j,i] = np.nanpercentile(data1['qnisg'][timeindex,0:k,j,i],99.7)/float(1e3)
+                                allicebelow1[j,i] = np.nansum(data1['qnisg'][timeindex,0:k,j,i])/float(1e3)		# /L
                                 break
 #del nc1
 # qnisg_above1 = data1['qnisg'][timeindex,blindex]/float(1e3)
@@ -236,7 +236,7 @@ for i in range(0,np.size(Z,2)):
                         if theta[k,j,i] < theta[k+1,j,i]-0.4:           # large inversion - typically ~1500m
                                 bl2_2[j,i] = Z[k,j,i]
                                 w2[j,i] = w_theta2[k,j,i]
-                                allicebelow2[j,i] = np.nanpercentile(data2['qnisg'][timeindex,0:k,j,i],99.7)/float(1e3)
+                                allicebelow2[j,i] = np.nansum(data2['qnisg'][timeindex,0:k,j,i])/float(1e3)		# /L
                                 break
 
 del nc2
@@ -306,7 +306,7 @@ for i in range(0,np.size(Z,2)):
                         if theta[k,j,i] < theta[k+1,j,i]-0.4:           # large inversion - typically ~1500m
                                 bl3_2[j,i] = Z[k,j,i]
                                 w3[j,i] = w_theta3[k,j,i]
-                                allicebelow3[j,i] = np.nanpercentile(data3['qnisg'][timeindex,0:k,j,i],99.7)/float(1e3)
+                                allicebelow3[j,i] = np.nansum(data3['qnisg'][timeindex,0:k,j,i])/float(1e3)		# /L
                                 break
 
 
@@ -377,7 +377,7 @@ for i in range(0,np.size(Z,2)):
                         if theta[k,j,i] < theta[k+1,j,i]-0.4:           # large inversion - typically ~1500m
                                 bl4_2[j,i] = Z[k,j,i]
                                 w4[j,i] = w_theta4[k,j,i]
-                                allicebelow4[j,i] = np.nanpercentile(data4['qnisg'][timeindex,0:k,j,i],99.7)/float(1e3)
+                                allicebelow4[j,i] = np.nansum(data4['qnisg'][timeindex,0:k,j,i])/float(1e3)		# /L
                                 break
 
 del nc4
@@ -447,7 +447,7 @@ for i in range(0,np.size(Z,2)):
                         if theta[k,j,i] < theta[k+1,j,i]-0.4:           # large inversion - typically ~1500m
                                 bl5_2[j,i] = Z[k,j,i]
 				w5[j,i] = w_theta5[k,j,i]
-                                allicebelow5[j,i] = np.nanpercentile(data5['qnisg'][timeindex,0:k,j,i],99.7)/float(1e3)
+                                allicebelow5[j,i] = np.nansum(data5['qnisg'][timeindex,0:k,j,i])/float(1e3)		# /L
                                 break
 
 del nc5
@@ -520,7 +520,7 @@ lons, lats = m.makegrid(data1['x_dim'], data1['y_dim']) # get lat/lons of ny by 
 x, y = m(lons, lats) # compute map proj coordinates.
 
 # contour levels
-maxdat1 = 10
+maxdat1 = 50
 mindat1 = 0
 #clevs = np.arange(0.0,maxdat,200)
 
