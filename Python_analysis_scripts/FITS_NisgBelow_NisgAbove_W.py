@@ -405,7 +405,7 @@ data5['nisg80'] = nc5.variables['NISG80'][time_sci,:,:,:]*(data5['rho'])*(data5[
 ph = nc5.variables['PH'][time_sci]
 phb = nc5.variables['PHB'][time_sci]
 tempvar1 = (ph+phb)/9.81
-data5['Zsci'] = np.nanmean(0.5*(tempvar1[0:len(tempvar1)-2,:,:]+tempvar1[1:len(tempvar1)-1,:,:]),0)
+data5['Zsci'] = 0.5*(tempvar1[:,0:-1,:,:]+tempvar1[:,1:,:,:])
 
 data5['qcloud'] = nc5.variables['QCLOUD'][time_sci]# Qcloud mean over M218 flight times @ lon=-29 [z,lat,lon]
 data5['qcloud'][data5['qcloud']<0]=0
@@ -421,42 +421,49 @@ data5['qrain'] = nc5.variables['QRAIN'][time_sci]# Qcloud mean over M218 flight 
 data5['qrain'][data5['qrain']<0]=0
 data5['qliq'] = data5['qcloud'] + data5['qrain']
 
-w_theta5 = 0.5*(nc5.variables['W'][time_sci[timeindex],0:-1,:,:] + nc5.variables['W'][time_sci[timeindex],1:,:,:])
+w_theta5 = 0.5*(nc5.variables['W'][time_sci,0:-1,:,:] + nc5.variables['W'][time_sci,1:,:,:])
 
 ind = {}
-theta = data5['theta'][timeindex,:,:,:]
-Z = data5['Zsci'][:,:,:]
-bl5_1 = np.zeros(shape=(np.size(Z,1),np.size(Z,2)))
-bl5_2 = np.zeros(shape=(np.size(Z,1),np.size(Z,2)))
-temp5 = np.zeros(shape=(np.size(Z,1),np.size(Z,2)))
-w5 = np.zeros(shape=(np.size(Z,1),np.size(Z,2)))
-blindex5 = np.zeros(shape=(1,np.size(Z,1),np.size(Z,2)))
-allicebelow5 = np.zeros(shape=(np.size(Z,1),np.size(Z,2)))
-smallicebelow5 = np.zeros(shape=(np.size(Z,1),np.size(Z,2)))
-largeicebelow5 = np.zeros(shape=(np.size(Z,1),np.size(Z,2)))
-liqbelow5 = np.zeros(shape=(np.size(Z,1),np.size(Z,2)))
-iceabove5 = np.zeros(shape=(np.size(Z,1),np.size(Z,2)))
-for i in range(0,np.size(Z,2)):
-        strgi = "%1.f" % (i+1) # string of longitude
-        for j in range(0,np.size(Z,1)):
-                strgj = "%1.f" % (j+1) # string of latitude
-		heightindex = np.where(Z[:,j,i]<=3000.0)
-                for k in range(2,np.size(Z,0)-2):
-                        strgk = "%1.f" % (k+1) # string of altitude
-                        if theta[k,j,i] < theta[k+1,j,i]-0.2:           # small inversion - typically ~500m
-                                bl5_1[j,i] = Z[k,j,i]
-                                break
-                for k in range(2,np.size(Z,0)-2):
-                        strgk = "%1.f" % (k+1) # string of altitude
-                        if theta[k,j,i] < theta[k+1,j,i]-0.4:           # large inversion - typically ~1500m
-                                bl5_2[j,i] = Z[k,j,i]
-				w5[j,i] = w_theta5[k,j,i]
-                                allicebelow5[j,i] = np.nanmean(data5['qnisg'][timeindex,0:k,j,i])/float(1e3)   # /L
-                                iceabove5[j,i] = np.nanmean(data5['qnisg'][timeindex,k:heightindex[0][-1],j,i])/float(1e3)
-                                # if iceabove5[j,i]==np.nan:
-                                #         allicebelow5[j,i] = []
-                                #         iceabove5[j,i] = []
-                                break
+theta = data5['theta'][:,:,:,:]
+Z = data5['Zsci'][:,:,:,:]
+bl5_1 = np.zeros(shape=(np.size(Z,0),1,np.size(Z,2),np.size(Z,3)))
+bl5_2 = np.zeros(shape=(np.size(Z,0),1,np.size(Z,2),np.size(Z,3)))
+temp5 = np.zeros(shape=(np.size(Z,0),1,np.size(Z,2),np.size(Z,3)))
+w5 = np.zeros(shape=(np.size(Z,0),1,np.size(Z,2),np.size(Z,3)))
+blindex5 = np.zeros(shape=(np.size(Z,0),1,1,np.size(Z,2),np.size(Z,3)))
+allicebelow5 = np.zeros(shape=(np.size(Z,0),1,np.size(Z,2),np.size(Z,3)))
+smallicebelow5 = np.zeros(shape=(np.size(Z,0),1,np.size(Z,2),np.size(Z,3)))
+largeicebelow5 = np.zeros(shape=(np.size(Z,0),1,np.size(Z,2),np.size(Z,3)))
+liqbelow5 = np.zeros(shape=(np.size(Z,0),1,np.size(Z,2),np.size(Z,3)))
+iceabove5 = np.zeros(shape=(np.size(Z,0),1,np.size(Z,2),np.size(Z,3)))
+blice5 = np.zeros(shape=(np.size(Z,0),1,np.size(Z,2),np.size(Z,3)))
+tropice5 = np.zeros(shape=(np.size(Z,0),1,np.size(Z,2),np.size(Z,3)))
+for t in range(0,np.size(time_sci)):
+        for i in range(0,np.size(Z,3)):
+                strgi = "%1.f" % (i+1) # string of longitude
+                for j in range(0,np.size(Z,2)):
+                        strgj = "%1.f" % (j+1) # string of latitude
+        		heightindex = np.where(Z[t,:,j,i]<=3000.0)
+                        for k in range(2,np.size(Z,1)-3):
+                                strgk = "%1.f" % (k+1) # string of altitude
+                                if theta[t,k,j,i] < theta[t,k+1,j,i]-0.2:           # small inversion - typically ~500m
+                                        bl5_1[t,:,j,i] = Z[t,k,j,i]
+                                        break
+                        for k in range(2,np.size(Z,1)-3):
+                                strgk = "%1.f" % (k+1) # string of altitude
+                                if theta[t,k,j,i] < theta[t,k+1,j,i]-0.4:           # large inversion - typically ~1500m
+                                        bl5_2[t,:,j,i] = Z[t,k,j,i]
+        				w5[t,:,j,i] = w_theta5[t,k,j,i]
+                                        allicebelow5[t,:,j,i] = np.nanmedian(data5['qnisg'][t,0:k,j,i])/float(1e3)   # /L
+                                        iceabove5[t,:,j,i] = np.nanmedian(data5['qnisg'][t,k:heightindex[0][-1],j,i])/float(1e3)
+                                        if np.nansum(data5['qnisg'][t,0:k,j,i])>0.005:
+                                                blice5[t,:,j,i] = 1.0
+                                        if np.nansum(data5['qnisg'][t,k:heightindex[0][-1],j,i])>0.005:
+                                                tropice5[t,:,j,i] = 1.0
+                                        # if iceabove5[j,i]==np.nan:
+                                        #         allicebelow5[j,i] = []
+                                        #         iceabove5[j,i] = []
+                                        break
 
 del nc5
 del data5
@@ -532,6 +539,11 @@ watBL = np.ndarray.flatten(w5)
 
 icebelow[icebelow<0.005] = np.nan
 iceabove[iceabove<0.005] = np.nan
+
+iceindex = np.where(np.logical_and(np.ndarray.flatten(blice5)==1,np.ndarray.flatten(tropice5)==1))
+
+# np.float((np.size(bliceindex[0]))/np.float(np.size(np.ndarray.flatten(tropice5))))*100.0
+
 
 mask1 = ~np.isnan(icebelow) & ~np.isnan(iceabove)
 slope1, intercept1, r_value1, p_value1, std_err1 = stats.linregress(iceabove[mask1], icebelow[mask1])
