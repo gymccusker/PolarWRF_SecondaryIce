@@ -456,9 +456,9 @@ for t in range(0,np.size(time_sci)):
         				w5[t,j,i] = w_theta5[t,k,j,i]
                                         allicebelow5[t,j,i] = np.nanmedian(data5['qnisg'][t,0:k,j,i])/float(1e3)   # /L
                                         iceabove5[t,j,i] = np.nanmedian(data5['qnisg'][t,k:heightindex[0][-1],j,i])/float(1e3)
-                                        if np.nansum(data5['qnisg'][t,0:k,j,i])>0.05:
+                                        if np.nansum(data5['qnisg'][t,0:k,j,i])>0.005:
                                                 blice5[t,j,i] = 1.0
-                                        if np.nansum(data5['qnisg'][t,k:heightindex[0][-1],j,i])>0.05:
+                                        if np.nansum(data5['qnisg'][t,k:heightindex[0][-1],j,i])>0.005:
                                                 tropice5[t,j,i] = 1.0
                                         # if iceabove5[j,i]==np.nan:
                                         #         allicebelow5[j,i] = []
@@ -513,23 +513,12 @@ plt.rc('ytick',labelsize=SMALL_SIZE)
 plt.rc('legend',fontsize=SMALL_SIZE)
 # plt.rc('figure',titlesize=LARGE_SIZE)
 
-bins = np.arange(-0.5,1.5,0.1)
+bins = np.arange(-0.5,1.5,0.05)
 
 ni5 = {}
 ni5_med = 0.
 ni5_nanmedian = 0.
-
-for i in range(0,len(bins)):
-    strgi = "%1.f" % (i+1) # string of index number
-    ind[strgi] = np.where(np.logical_and(w5>=bins[i]-0.05, w5<bins[i]+0.05))
-    ni5[strgi] = allicebelow5[ind[strgi]];
-    if i==0:
-        ni5_nanmedian = np.nanmedian(ni5[strgi])
-    if i>0:
-        ni5_med = np.nanmedian(ni5[strgi])
-        ni5_nanmedian = np.append(ni5_nanmedian,ni5_med)                
-
-
+              
 # allicebelow5[allicebelow5<0.005] = np.nan
 # iceabove5[iceabove5<0.005] = np.nan
 
@@ -537,8 +526,8 @@ icebelow = np.ndarray.flatten(allicebelow5)
 iceabove = np.ndarray.flatten(iceabove5)
 watBL = np.ndarray.flatten(w5)
 
-icebelow[icebelow<0.05] = np.nan
-iceabove[iceabove<0.05] = np.nan
+# icebelow[icebelow<0.005] = np.nan
+# iceabove[iceabove<0.005] = np.nan
 
 iceindex = np.where(np.logical_and(np.ndarray.flatten(blice5)==1,np.ndarray.flatten(tropice5)==1))
 print("Percentage ice above+below BL:", np.float(np.size(iceindex[0]))/np.float(np.size(np.ndarray.flatten(blice5)))*100.0)
@@ -551,12 +540,20 @@ slope1, intercept1, r_value1, p_value1, std_err1 = stats.linregress(iceabove[mas
 line1 = slope1*iceabove+intercept1
 print("r-squared1:", r_value1**2)
 
-# mask2 = ~np.isnan(icebelow) & ~np.isnan(watBL)
-# slope2, intercept2, r_value2, p_value2, std_err2 = stats.linregress(watBL[mask2], icebelow[mask2])
-# line2 = slope2*watBL+intercept2
-# print("r-squared2:", r_value2**2)
+mask2 = ~np.isnan(icebelow) & ~np.isnan(watBL)
+slope2, intercept2, r_value2, p_value2, std_err2 = stats.linregress(watBL[mask2], icebelow[mask2])
+line2 = slope2*watBL+intercept2
+print("r-squared2:", r_value2**2)
 
-# r2_score(np.ndarray.flatten(allicebelow5),np.ndarray.flatten(iceabove5))
+for i in range(0,len(bins)):
+    strgi = "%1.f" % (i+1) # string of index number
+    ind[strgi] = np.where(np.logical_and(watBL>=bins[i]-0.025, watBL<bins[i]+0.025))
+    ni5[strgi] = icebelow[ind[strgi]];
+    if i==0:
+        ni5_nanmedian = np.nanmedian(ni5[strgi])
+    if i>0:
+        ni5_med = np.nanmedian(ni5[strgi])
+        ni5_nanmedian = np.append(ni5_nanmedian,ni5_med)  
 
 
 fig = plt.figure(figsize=(7,6))
@@ -566,22 +563,27 @@ plt.gcf().subplots_adjust(top=0.96)
 
 plt.subplot(121)
 plt.plot(iceabove,icebelow,'.',markersize=2)
-plt.plot(iceabove,line1,'r-')
+plt.plot(iceabove,line1)
 plt.grid('on')
 #plt.ylim([0.0,1.0])
 #plt.xlim([0.0,1.0])
 plt.title('10xHM')
+ax = plt.gca();
+# ax.set_yscale("log", nonposy='clip');
+# ax.set_xscale("log", nonposy='clip');
 plt.ylabel('Median $N_{isg}$ within BL, $L^{-1}$')
 plt.xlabel('Median $N_{isg}$ above BL, $L^{-1}$')
 
 plt.subplot(122)
 plt.plot(watBL,icebelow,'.',markersize=2)
-# plt.plot(watBL,line2,'r-')
-plt.plot(bins,ni5_nanmedian)
+plt.plot(watBL,line2,'r-')
+# plt.plot(bins,ni5_nanmedian,'o')
 plt.grid('on')
-plt.xlim([-0.5,1.5])
+plt.xlim([-1.0,1.5])
 # plt.ylim([0.0,1.0])
 plt.title('10xHM')
 plt.xlabel('W, $ms^{-1}$')
+ax = plt.gca();
+# ax.set_yscale("log", nonposy='clip');
 
 plt.show()
