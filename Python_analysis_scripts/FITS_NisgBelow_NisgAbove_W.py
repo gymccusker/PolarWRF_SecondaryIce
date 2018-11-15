@@ -426,18 +426,18 @@ w_theta5 = 0.5*(nc5.variables['W'][time_sci,0:-1,:,:] + nc5.variables['W'][time_
 ind = {}
 theta = data5['theta'][:,:,:,:]
 Z = data5['Zsci'][:,:,:,:]
-bl5_1 = np.zeros(shape=(np.size(Z,0),1,np.size(Z,2),np.size(Z,3)))
-bl5_2 = np.zeros(shape=(np.size(Z,0),1,np.size(Z,2),np.size(Z,3)))
-temp5 = np.zeros(shape=(np.size(Z,0),1,np.size(Z,2),np.size(Z,3)))
-w5 = np.zeros(shape=(np.size(Z,0),1,np.size(Z,2),np.size(Z,3)))
-blindex5 = np.zeros(shape=(np.size(Z,0),1,1,np.size(Z,2),np.size(Z,3)))
-allicebelow5 = np.zeros(shape=(np.size(Z,0),1,np.size(Z,2),np.size(Z,3)))
-smallicebelow5 = np.zeros(shape=(np.size(Z,0),1,np.size(Z,2),np.size(Z,3)))
-largeicebelow5 = np.zeros(shape=(np.size(Z,0),1,np.size(Z,2),np.size(Z,3)))
-liqbelow5 = np.zeros(shape=(np.size(Z,0),1,np.size(Z,2),np.size(Z,3)))
-iceabove5 = np.zeros(shape=(np.size(Z,0),1,np.size(Z,2),np.size(Z,3)))
-blice5 = np.zeros(shape=(np.size(Z,0),1,np.size(Z,2),np.size(Z,3)))
-tropice5 = np.zeros(shape=(np.size(Z,0),1,np.size(Z,2),np.size(Z,3)))
+bl5_1 = np.zeros(shape=(np.size(Z,0),np.size(Z,2),np.size(Z,3)))
+bl5_2 = np.zeros(shape=(np.size(Z,0),np.size(Z,2),np.size(Z,3)))
+temp5 = np.zeros(shape=(np.size(Z,0),np.size(Z,2),np.size(Z,3)))
+w5 = np.zeros(shape=(np.size(Z,0),np.size(Z,2),np.size(Z,3)))
+blindex5 = np.zeros(shape=(np.size(Z,0),1,np.size(Z,2),np.size(Z,3)))
+allicebelow5 = np.zeros(shape=(np.size(Z,0),np.size(Z,2),np.size(Z,3)))
+smallicebelow5 = np.zeros(shape=(np.size(Z,0),np.size(Z,2),np.size(Z,3)))
+largeicebelow5 = np.zeros(shape=(np.size(Z,0),np.size(Z,2),np.size(Z,3)))
+liqbelow5 = np.zeros(shape=(np.size(Z,0),np.size(Z,2),np.size(Z,3)))
+iceabove5 = np.zeros(shape=(np.size(Z,0),np.size(Z,2),np.size(Z,3)))
+blice5 = np.zeros(shape=(np.size(Z,0),np.size(Z,2),np.size(Z,3)))
+tropice5 = np.zeros(shape=(np.size(Z,0),np.size(Z,2),np.size(Z,3)))
 for t in range(0,np.size(time_sci)):
         for i in range(0,np.size(Z,3)):
                 strgi = "%1.f" % (i+1) # string of longitude
@@ -447,19 +447,19 @@ for t in range(0,np.size(time_sci)):
                         for k in range(2,np.size(Z,1)-3):
                                 strgk = "%1.f" % (k+1) # string of altitude
                                 if theta[t,k,j,i] < theta[t,k+1,j,i]-0.2:           # small inversion - typically ~500m
-                                        bl5_1[t,:,j,i] = Z[t,k,j,i]
+                                        bl5_1[t,j,i] = Z[t,k,j,i]
                                         break
                         for k in range(2,np.size(Z,1)-3):
                                 strgk = "%1.f" % (k+1) # string of altitude
                                 if theta[t,k,j,i] < theta[t,k+1,j,i]-0.4:           # large inversion - typically ~1500m
-                                        bl5_2[t,:,j,i] = Z[t,k,j,i]
-        				w5[t,:,j,i] = w_theta5[t,k,j,i]
-                                        allicebelow5[t,:,j,i] = np.nanmedian(data5['qnisg'][t,0:k,j,i])/float(1e3)   # /L
-                                        iceabove5[t,:,j,i] = np.nanmedian(data5['qnisg'][t,k:heightindex[0][-1],j,i])/float(1e3)
-                                        if np.nansum(data5['qnisg'][t,0:k,j,i])>0.005:
-                                                blice5[t,:,j,i] = 1.0
-                                        if np.nansum(data5['qnisg'][t,k:heightindex[0][-1],j,i])>0.005:
-                                                tropice5[t,:,j,i] = 1.0
+                                        bl5_2[t,j,i] = np.squeeze(Z[t,k,j,i])
+        				w5[t,j,i] = w_theta5[t,k,j,i]
+                                        allicebelow5[t,j,i] = np.nanmedian(data5['qnisg'][t,0:k,j,i])/float(1e3)   # /L
+                                        iceabove5[t,j,i] = np.nanmedian(data5['qnisg'][t,k:heightindex[0][-1],j,i])/float(1e3)
+                                        if np.nansum(data5['qnisg'][t,0:k,j,i])>0.05:
+                                                blice5[t,j,i] = 1.0
+                                        if np.nansum(data5['qnisg'][t,k:heightindex[0][-1],j,i])>0.05:
+                                                tropice5[t,j,i] = 1.0
                                         # if iceabove5[j,i]==np.nan:
                                         #         allicebelow5[j,i] = []
                                         #         iceabove5[j,i] = []
@@ -513,7 +513,7 @@ plt.rc('ytick',labelsize=SMALL_SIZE)
 plt.rc('legend',fontsize=SMALL_SIZE)
 # plt.rc('figure',titlesize=LARGE_SIZE)
 
-bins = np.arange(-1.0,2.0,0.2)
+bins = np.arange(-0.5,1.5,0.1)
 
 ni5 = {}
 ni5_med = 0.
@@ -521,8 +521,8 @@ ni5_nanmedian = 0.
 
 for i in range(0,len(bins)):
     strgi = "%1.f" % (i+1) # string of index number
-    ind[strgi] = np.where(np.logical_and(w5>=bins[i]-0.1, w5<bins[i]+0.1))
-    ni5[strgi] = allicebelow5[ind[strgi]]/np.nanmax(allicebelow5);
+    ind[strgi] = np.where(np.logical_and(w5>=bins[i]-0.05, w5<bins[i]+0.05))
+    ni5[strgi] = allicebelow5[ind[strgi]];
     if i==0:
         ni5_nanmedian = np.nanmedian(ni5[strgi])
     if i>0:
@@ -537,10 +537,11 @@ icebelow = np.ndarray.flatten(allicebelow5)
 iceabove = np.ndarray.flatten(iceabove5)
 watBL = np.ndarray.flatten(w5)
 
-icebelow[icebelow<0.005] = np.nan
-iceabove[iceabove<0.005] = np.nan
+icebelow[icebelow<0.05] = np.nan
+iceabove[iceabove<0.05] = np.nan
 
 iceindex = np.where(np.logical_and(np.ndarray.flatten(blice5)==1,np.ndarray.flatten(tropice5)==1))
+print("Percentage ice above+below BL:", np.float(np.size(iceindex[0]))/np.float(np.size(np.ndarray.flatten(blice5)))*100.0)
 
 # np.float((np.size(bliceindex[0]))/np.float(np.size(np.ndarray.flatten(tropice5))))*100.0
 
@@ -550,10 +551,10 @@ slope1, intercept1, r_value1, p_value1, std_err1 = stats.linregress(iceabove[mas
 line1 = slope1*iceabove+intercept1
 print("r-squared1:", r_value1**2)
 
-mask2 = ~np.isnan(icebelow) & ~np.isnan(watBL)
-slope2, intercept2, r_value2, p_value2, std_err2 = stats.linregress(watBL[mask2], icebelow[mask2])
-line2 = slope2*watBL+intercept2
-print("r-squared2:", r_value2**2)
+# mask2 = ~np.isnan(icebelow) & ~np.isnan(watBL)
+# slope2, intercept2, r_value2, p_value2, std_err2 = stats.linregress(watBL[mask2], icebelow[mask2])
+# line2 = slope2*watBL+intercept2
+# print("r-squared2:", r_value2**2)
 
 # r2_score(np.ndarray.flatten(allicebelow5),np.ndarray.flatten(iceabove5))
 
@@ -575,8 +576,8 @@ plt.xlabel('Median $N_{isg}$ above BL, $L^{-1}$')
 
 plt.subplot(122)
 plt.plot(watBL,icebelow,'.',markersize=2)
-plt.plot(watBL,line2,'r-')
-# plt.plot(bins,ni5_nanmedian)
+# plt.plot(watBL,line2,'r-')
+plt.plot(bins,ni5_nanmedian)
 plt.grid('on')
 plt.xlim([-0.5,1.5])
 # plt.ylim([0.0,1.0])
