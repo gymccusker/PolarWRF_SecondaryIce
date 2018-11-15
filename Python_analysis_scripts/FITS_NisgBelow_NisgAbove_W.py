@@ -12,6 +12,7 @@ import matplotlib.cm as mpl_cm
 from mpl_toolkits.basemap import Basemap, cm
 from sklearn.metrics import r2_score
 from sklearn import linear_model
+from scipy import stats
 
 ###################################
 # Pick file
@@ -450,8 +451,11 @@ for i in range(0,np.size(Z,2)):
                         if theta[k,j,i] < theta[k+1,j,i]-0.4:           # large inversion - typically ~1500m
                                 bl5_2[j,i] = Z[k,j,i]
 				w5[j,i] = w_theta5[k,j,i]
-                                allicebelow5[j,i] = np.nansum(data5['qnisg'][timeindex,0:k,j,i])/float(1e3)   # /L
-                                iceabove5[j,i] = np.nansum(data5['qnisg'][timeindex,k:heightindex[0][-1],j,i])/float(1e3)
+                                allicebelow5[j,i] = np.nanmean(data5['qnisg'][timeindex,0:k,j,i])/float(1e3)   # /L
+                                iceabove5[j,i] = np.nanmean(data5['qnisg'][timeindex,k:heightindex[0][-1],j,i])/float(1e3)
+                                # if iceabove5[j,i]==np.nan:
+                                #         allicebelow5[j,i] = []
+                                #         iceabove5[j,i] = []
                                 break
 
 del nc5
@@ -522,7 +526,24 @@ for i in range(0,len(bins)):
 # allicebelow5[allicebelow5<0.005] = np.nan
 # iceabove5[iceabove5<0.005] = np.nan
 
-r2_score(np.ndarray.flatten(allicebelow5),np.ndarray.flatten(iceabove5))
+icebelow = np.ndarray.flatten(allicebelow5)
+iceabove = np.ndarray.flatten(iceabove5)
+watBL = np.ndarray.flatten(w5)
+
+icebelow[icebelow<0.005] = np.nan
+iceabove[iceabove<0.005] = np.nan
+
+mask1 = ~np.isnan(icebelow) & ~np.isnan(iceabove)
+slope1, intercept1, r_value1, p_value1, std_err1 = stats.linregress(iceabove[mask1], icebelow[mask1])
+line1 = slope1*iceabove+intercept1
+print("r-squared1:", r_value1**2)
+
+mask2 = ~np.isnan(icebelow) & ~np.isnan(watBL)
+slope2, intercept2, r_value2, p_value2, std_err2 = stats.linregress(watBL[mask2], icebelow[mask2])
+line2 = slope2*watBL+intercept2
+print("r-squared2:", r_value2**2)
+
+# r2_score(np.ndarray.flatten(allicebelow5),np.ndarray.flatten(iceabove5))
 
 
 fig = plt.figure(figsize=(7,6))
@@ -531,21 +552,22 @@ fig = plt.figure(figsize=(7,6))
 plt.gcf().subplots_adjust(top=0.96)
 
 plt.subplot(121)
-plt.plot(np.ndarray.flatten(iceabove5),np.ndarray.flatten(allicebelow5),'.',markersize=2)
-# plt.plot(bins,ni1_nanmedian)
+plt.plot(iceabove,icebelow,'.',markersize=2)
+plt.plot(iceabove,line1,'r-')
 plt.grid('on')
 #plt.ylim([0.0,1.0])
 #plt.xlim([0.0,1.0])
 plt.title('10xHM')
-plt.ylabel('Normalised total $N_{isg}$ within BL, \n $L^{-1}$')
-plt.xlabel('Normalised total $N_{isg}$ above BL, \n $L^{-1}$')
+plt.ylabel('Median $N_{isg}$ within BL, $L^{-1}$')
+plt.xlabel('Median $N_{isg}$ above BL, $L^{-1}$')
 
 plt.subplot(122)
-plt.plot(np.ndarray.flatten(w5),np.ndarray.flatten(allicebelow5)/np.nanmax(np.ndarray.flatten(allicebelow5)),'.',markersize=2)
+plt.plot(watBL,icebelow,'.',markersize=2)
+plt.plot(watBL,line2,'r-')
 # plt.plot(bins,ni5_nanmedian)
 plt.grid('on')
 plt.xlim([-0.5,1.5])
-plt.ylim([0.0,1.0])
+# plt.ylim([0.0,1.0])
 plt.title('10xHM')
 plt.xlabel('W, $ms^{-1}$')
 
