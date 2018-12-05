@@ -1003,7 +1003,7 @@ plt.annotate(runlab5,xy=(-5.0,6e-3),xytext=(-5.1,6.1e-3),fontsize=14)
 # print runlab4," = Mean:",ni4_nanmean_tot," 99.7:",np.nanpercentile(Nisg_4,99.7)
 # print runlab5," = Mean:",ni5_nanmean_tot," 99.7:",np.nanpercentile(Nisg_5,99.7)
 
-plt.savefig('/data/scihub-users/giyoung/PYTHON/WRF/FIGS/Misc/01_Domain_FreqDist_NisgvsT_v2.svg')
+# plt.savefig('/data/scihub-users/giyoung/PYTHON/WRF/FIGS/Misc/01_Domain_FreqDist_NisgvsT_v2.svg')
 plt.show()
 
 

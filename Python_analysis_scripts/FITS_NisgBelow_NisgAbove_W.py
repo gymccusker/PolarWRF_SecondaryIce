@@ -453,12 +453,13 @@ for t in range(0,np.size(time_sci)):
                                 strgk = "%1.f" % (k+1) # string of altitude
                                 if theta[t,k,j,i] < theta[t,k+1,j,i]-0.4:           # large inversion - typically ~1500m
                                         bl5_2[t,j,i] = np.squeeze(Z[t,k,j,i])
-        				w5[t,j,i] = w_theta5[t,k,j,i]
-                                        allicebelow5[t,j,i] = np.nanmedian(data5['qnisg'][t,0:k,j,i])/float(1e3)   # /L
-                                        iceabove5[t,j,i] = np.nanmedian(data5['qnisg'][t,k:heightindex[0][-1],j,i])/float(1e3)
-                                        if np.nansum(data5['qnisg'][t,0:k,j,i])>0.005:
+        				w5[t,j,i] = w_theta5[t,k-1,j,i]
+                                        allicebelow5[t,j,i] = np.nanmax(data5['qnisg'][t,0:k,j,i])/float(1e3)   # /L
+                                        if np.size(data5['qnisg'][t,k:heightindex[0][-1],j,i])>0:
+                                                iceabove5[t,j,i] = np.nanmax(data5['qnisg'][t,k:heightindex[0][-1],j,i])/float(1e3)
+                                        if np.nanpercentile(data5['qnisg'][t,0:k,j,i],99.7)>1.0:
                                                 blice5[t,j,i] = 1.0
-                                        if np.nansum(data5['qnisg'][t,k:heightindex[0][-1],j,i])>0.005:
+                                        if np.nanpercentile(data5['qnisg'][t,k:heightindex[0][-1],j,i],99.7)>1.0:
                                                 tropice5[t,j,i] = 1.0
                                         # if iceabove5[j,i]==np.nan:
                                         #         allicebelow5[j,i] = []
@@ -513,7 +514,8 @@ plt.rc('ytick',labelsize=SMALL_SIZE)
 plt.rc('legend',fontsize=SMALL_SIZE)
 # plt.rc('figure',titlesize=LARGE_SIZE)
 
-bins = np.arange(-0.5,1.5,0.05)
+binwidth = 0.2
+bins = np.arange(-0.5,1.5,binwidth)
 
 ni5 = {}
 ni5_med = 0.
@@ -547,14 +549,19 @@ print("r-squared2:", r_value2**2)
 
 for i in range(0,len(bins)):
     strgi = "%1.f" % (i+1) # string of index number
-    ind[strgi] = np.where(np.logical_and(watBL>=bins[i]-0.025, watBL<bins[i]+0.025))
+    ind[strgi] = np.where(np.logical_and(watBL>=bins[i]-binwidth/2.0, watBL<bins[i]+binwidth/2.0))
     ni5[strgi] = icebelow[ind[strgi]];
+    ni5[strgi] = ni5[strgi][~np.isnan(ni5[strgi])]
     if i==0:
-        ni5_nanmedian = np.nanmedian(ni5[strgi])
+        ni5_nanmedian = np.nanpercentile(ni5[strgi],99.7)
+        # ni5_array = [[ni5[strgi]]]
     if i>0:
-        ni5_med = np.nanmedian(ni5[strgi])
+        ni5_med = np.nanpercentile(ni5[strgi],99.7)
         ni5_nanmedian = np.append(ni5_nanmedian,ni5_med)  
+        # ni5_array = np.append(ni5_array,ni5[strgi])
 
+ni5_array = [[ni5['1'],ni5['2'],ni5['3'],ni5['4'],ni5['5'],ni5['6'],ni5['7'],ni5['8'],ni5['9'],ni5['10']]]
+# ,ni5['11'],ni5['12'],ni5['13'],ni5['14'],ni5['15'],ni5['16'],ni5['17'],ni5['18'],ni5['19'],ni5['20']]]
 
 fig = plt.figure(figsize=(7,6))
 
@@ -563,27 +570,34 @@ plt.gcf().subplots_adjust(top=0.96)
 
 plt.subplot(121)
 plt.plot(iceabove,icebelow,'.',markersize=2)
-plt.plot(iceabove,line1)
+# plt.plot(iceabove,line1)
 plt.grid('on')
 #plt.ylim([0.0,1.0])
 #plt.xlim([0.0,1.0])
 plt.title('10xHM')
 ax = plt.gca();
-# ax.set_yscale("log", nonposy='clip');
-# ax.set_xscale("log", nonposy='clip');
-plt.ylabel('Median $N_{isg}$ within BL, $L^{-1}$')
-plt.xlabel('Median $N_{isg}$ above BL, $L^{-1}$')
+ax.set_yscale("log", nonposy='clip'); plt.ylim([1e-10,4e2])
+ax.set_xscale("log", nonposy='clip'); plt.xlim([1e-10,4e2])
+plt.ylabel('Max $N_{isg}$ within BL, $L^{-1}$')
+plt.xlabel('Max $N_{isg}$ above BL, $L^{-1}$')
+plt.plot(iceabove,line1,'.')
 
 plt.subplot(122)
-plt.plot(watBL,icebelow,'.',markersize=2)
-plt.plot(watBL,line2,'r-')
+# plt.plot(watBL,icebelow,'.',markersize=2)
+plt.boxplot(ni5_array[0],whis=[5, 99.7]) # showfliers=False
+# plt.plot(watBL,line2,'r-')
 # plt.plot(bins,ni5_nanmedian,'o')
 plt.grid('on')
-plt.xlim([-1.0,1.5])
 # plt.ylim([0.0,1.0])
 plt.title('10xHM')
 plt.xlabel('W, $ms^{-1}$')
+# plt.xlim([-1.0,1.5])
 ax = plt.gca();
+a = ax.get_xticks().tolist()
+for m in range(0,len(bins)):
+        a[m] = "%.1f" % bins[m] 
+ax.set_xticklabels(a)
+
 # ax.set_yscale("log", nonposy='clip');
 
 plt.show()
