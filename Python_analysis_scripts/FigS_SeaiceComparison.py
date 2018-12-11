@@ -140,17 +140,17 @@ data_cice = np.squeeze(nc_seaice.variables['sic'][:])
 #============================== SEAICE
 
 
-filename_mslp = '/data/scihub-users/giyoung/MAC/Reanalyses/DATA/MSLP_27NOV2015_1800_EI_MSLP_CLIVARM.nc'
+# filename_mslp = '/data/scihub-users/giyoung/MAC/Reanalyses/DATA/MSLP_27NOV2015_1800_EI_MSLP_CLIVARM.nc'
 
-nc_mslp = NetCDFFile(filename_mslp, 'r')
+# nc_mslp = NetCDFFile(filename_mslp, 'r')
 
-lat_mslp = nc_mslp.variables['lat'][:]
-lon_mslp = nc_mslp.variables['lon'][:]
-mslp = np.squeeze(nc_mslp.variables['psl'][:,:])
+# lat_mslp = nc_mslp.variables['lat'][:]
+# lon_mslp = nc_mslp.variables['lon'][:]
+# mslp = np.squeeze(nc_mslp.variables['psl'][:,:])
 
-# Make levels which span the dataset
-contourf_levels = np.arange(980,1029,1)
-contour_levels = np.arange(940,1040,2)
+# # Make levels which span the dataset
+# contourf_levels = np.arange(980,1029,1)
+# contour_levels = np.arange(940,1040,2)
 
 
 #########################################################################################################
@@ -240,8 +240,8 @@ p3 =  Polygon([(xd3_1,yd3_1),(xd3_2,yd3_2),(xd3_3,yd3_3),(xd3_4,yd3_4)],\
               facecolor='none',linestyle='--',edgecolor='k',linewidth=1)
 plt.gca().add_patch(p3)
 
-plt.annotate(str(int(dx1/1000.))+' km',xy=(0.85,0.95),xycoords='axes fraction',fontsize=10,fontweight='bold')
-plt.annotate(str(int(dx2/1000.))+' km',xy=(xd2_2,yd2_1*1.02),xycoords='data',fontsize=10,fontweight='bold')
+plt.annotate(str(int(dx1/1000.))+' km',xy=(0.85,0.95),xycoords='axes fraction',fontsize=8,fontweight='bold')
+plt.annotate(str(int(dx2/1000.))+' km',xy=(xd2_2,yd2_1*1.02),xycoords='data',fontsize=8,fontweight='bold')
 
 
 #============================== SEAICE
@@ -271,7 +271,7 @@ plt.legend(bbox_to_anchor=(0.3, 0.76, 1., .102), loc=3, ncol=1)
 #============================== COLOURBAR
 
 # add colorbar.
-cbaxes = fig.add_axes([0.3,0.84, 0.4, 0.04])  # This is the position for the colorbar
+cbaxes = fig.add_axes([0.3,0.8, 0.4, 0.04])  # This is the position for the colorbar
 cb = plt.colorbar(csf, cax = cbaxes, orientation = 'horizontal')
 cb.ax.xaxis.set_ticks_position('top')
 cb.ax.xaxis.set_label_position('top')
@@ -307,8 +307,8 @@ p3 =  Polygon([(xd3_1,yd3_1),(xd3_2,yd3_2),(xd3_3,yd3_3),(xd3_4,yd3_4)],\
               facecolor='none',linestyle='--',edgecolor='k',linewidth=1)
 plt.gca().add_patch(p3)
 
-plt.annotate(str(int(dx1/1000.))+' km',xy=(0.85,0.95),xycoords='axes fraction',fontsize=10,fontweight='bold')
-plt.annotate(str(int(dx2/1000.))+' km',xy=(xd2_2,yd2_1*1.02),xycoords='data',fontsize=10,fontweight='bold')
+plt.annotate(str(int(dx1/1000.))+' km',xy=(0.85,0.95),xycoords='axes fraction',fontsize=8,fontweight='bold')
+plt.annotate(str(int(dx2/1000.))+' km',xy=(xd2_2,yd2_1*1.02),xycoords='data',fontsize=8,fontweight='bold')
 
 
 # plt.savefig('../Figures/S_SeaiceComparison.svg')
