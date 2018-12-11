@@ -158,6 +158,20 @@ contour_levels = np.arange(940,1040,2)
 data1 = {}
 data1['x_dim'] = len(nc1.dimensions['west_east'])
 data1['y_dim'] = len(nc1.dimensions['south_north'])
+
+# Get the grid spacing
+data1['dx'] = float(nc1.DX)
+data1['dy'] = float(nc1.DY)
+
+data1['width_meters']  = data1['dx'] * (data1['x_dim'] - 1)
+data1['height_meters'] = data1['dy'] * (data1['y_dim'] - 1)
+
+data1['cen_lat']  = float(nc1.CEN_LAT)
+data1['cen_lon']  = float(nc1.CEN_LON)
+data1['truelat1'] = float(nc1.TRUELAT1)
+data1['truelat2'] = float(nc1.TRUELAT2)
+data1['standlon'] = float(nc1.STAND_LON)
+
 data1['seaice'] = nc1.variables['SEAICE'][36] 	# sea ice at 1800 UTC for comparison with NSIDC
 data1['xlat'] = nc1.variables['XLAT'][36]
 data1['xlon'] = nc1.variables['XLONG'][36]
