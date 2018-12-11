@@ -156,6 +156,8 @@ contour_levels = np.arange(940,1040,2)
 #########################################################################################################
 #########################################################################################################
 
+wrf_seaice = nc
+
 
 ##################################################
 ##################################################
@@ -213,11 +215,11 @@ xd3_4,yd3_4 = m(lon3[n3y-1,n3x-1],lat3[n3y-1,n3x-1])
 
 # draw nests
 p2 =  Polygon([(xd2_1,yd2_1),(xd2_2,yd2_2),(xd2_3,yd2_3),(xd2_4,yd2_4)],\
-              facecolor='none',edgecolor='k',linewidth=2)
+              facecolor='none',edgecolor='k',linewidth=1)
 plt.gca().add_patch(p2)
 
 p3 =  Polygon([(xd3_1,yd3_1),(xd3_2,yd3_2),(xd3_3,yd3_3),(xd3_4,yd3_4)],\
-              facecolor='none',linestyle='--',edgecolor='k',linewidth=2)
+              facecolor='none',linestyle='--',edgecolor='k',linewidth=1)
 plt.gca().add_patch(p3)
 
 plt.annotate(str(int(dx1/1000.))+' km',xy=(0.85,0.95),xycoords='axes fraction',fontsize=10,fontweight='bold')
@@ -249,14 +251,14 @@ xH,yH = m(lonH, latH)
 plt.scatter(xH,yH,marker='x',color='k',linewidth=4,s=80)
 
 
-data219 = np.load('/data/scihub-users/giyoung/MAC/FlightData/flight219/M219_CORE_CAPS_CIP25_2DS_GRIMM.npy').item()
-x_m219,y_m219 = m(data219['CORE']['lon'], data219['CORE']['lat'])
-plt.scatter(x_m219,y_m219,marker='o',color='mediumorchid',linewidth=1,s=1.,label='M219')
+# data219 = np.load('/data/scihub-users/giyoung/MAC/FlightData/flight219/M219_CORE_CAPS_CIP25_2DS_GRIMM.npy').item()
+# x_m219,y_m219 = m(data219['CORE']['lon'], data219['CORE']['lat'])
+# plt.scatter(x_m219,y_m219,marker='o',color='mediumorchid',linewidth=1,s=1.,label='M219')
 
 
-data218 = np.load('/data/scihub-users/giyoung/MAC/FlightData/flight218/M218_CORE_CAPS_CIP25_2DS_GRIMM.npy').item()
-x_m218,y_m218 = m(data218['CORE']['lon'], data218['CORE']['lat'])
-plt.scatter(x_m218,y_m218,marker='o',color='darkorange',linewidth=1,s=1.,label='M218')
+# data218 = np.load('/data/scihub-users/giyoung/MAC/FlightData/flight218/M218_CORE_CAPS_CIP25_2DS_GRIMM.npy').item()
+# x_m218,y_m218 = m(data218['CORE']['lon'], data218['CORE']['lat'])
+# plt.scatter(x_m218,y_m218,marker='o',color='darkorange',linewidth=1,s=1.,label='M218')
 
 plt.legend(bbox_to_anchor=(0.3, 0.76, 1., .102), loc=3, ncol=1)
 # plt.annotate('(a)',xy=(-70,-40),xytext=(-70,-40),fontsize=10)
@@ -265,7 +267,7 @@ plt.legend(bbox_to_anchor=(0.3, 0.76, 1., .102), loc=3, ncol=1)
 
 # add colorbar.
 cbaxes = fig.add_axes([0.42,0.68, 0.02, 0.24])  # This is the position for the colorbar
-cb = plt.colorbar(csf, cax = cbaxes)
+cb = plt.colorbar(csf, cax = cbaxes, orientation = horizontal)
 # cb.ax.xaxis.set_ticks_position('top')
 # cb.ax.xaxis.set_label_position('top')
 cb.ax.axes.set_ylabel('NSIDC sea ice fraction')
