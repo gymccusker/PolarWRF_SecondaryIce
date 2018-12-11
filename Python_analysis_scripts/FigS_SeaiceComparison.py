@@ -258,7 +258,7 @@ plt.legend(bbox_to_anchor=(0.3, 0.76, 1., .102), loc=3, ncol=1)
 
 # add colorbar.
 cbaxes = fig.add_axes([0.42,0.68, 0.2, 0.02])  # This is the position for the colorbar
-cb = plt.colorbar(csf, cax = cbaxes, orientation = horizontal)
+cb = plt.colorbar(csf, cax = cbaxes, orientation = 'horizontal')
 cb.ax.xaxis.set_ticks_position('top')
 cb.ax.xaxis.set_label_position('top')
 cb.ax.axes.set_ylabel('Sea ice fraction')
