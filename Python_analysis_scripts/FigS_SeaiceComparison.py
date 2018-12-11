@@ -15,7 +15,7 @@ from matplotlib.patches import Polygon
 ###################################
 # Pick file
 ###################################
-filename1 = '/data/scihub-users/giyoung/PWRF_V3.6.1/RUNS/MAC_WRF/31_DeMott_WATSAT_eta70_MYNN/wrfout_d02_2015-11-27_00:00:00'
+filename1 = '/data/scihub-users/giyoung/PWRF_V3.6.1/RUNS/MAC_WRF/31_DeMott_WATSAT_eta70_MYNN/wrfout_d01_2015-11-27_00:00:00'
 # filename2 = '/data/scihub-users/giyoung/PWRF_V3.6.1/RUNS/MAC_WRF/30_DeMott_WATSAT_HM_noThresh_eta70_MYNN/wrfout_d02_2015-11-27_00:00:00'
 # filename3 = '/data/scihub-users/giyoung/PWRF_V3.6.1/RUNS/MAC_WRF/36_DeMott_WATSAT_2xHM_noThresh_eta70_MYNN/wrfout_d02_2015-11-27_00:00:00'
 # filename4 = '/data/scihub-users/giyoung/PWRF_V3.6.1/RUNS/MAC_WRF/57_DeMott_WATSAT_5xHM_noThresh_eta70_MYNN/wrfout_d02_2015-11-27_00:00:00'
@@ -271,7 +271,7 @@ plt.legend(bbox_to_anchor=(0.3, 0.76, 1., .102), loc=3, ncol=1)
 #============================== COLOURBAR
 
 # add colorbar.
-cbaxes = fig.add_axes([0.42,0.68, 0.2, 0.02])  # This is the position for the colorbar
+cbaxes = fig.add_axes([0.42,0.78, 0.3, 0.02])  # This is the position for the colorbar
 cb = plt.colorbar(csf, cax = cbaxes, orientation = 'horizontal')
 cb.ax.xaxis.set_ticks_position('top')
 cb.ax.xaxis.set_label_position('top')
@@ -281,7 +281,7 @@ cb.ax.axes.set_ylabel('Sea ice fraction')
 
 #########################################################################################################
 
-ax  = fig.add_axes([0.12,0.54,0.35,0.7])	# left, bottom, width, height
+ax  = fig.add_axes([0.54,0.12,0.35,0.7])	# left, bottom, width, height
 m = Basemap(resolution='i',projection='stere', rsphere=6370000.0, \
         width=data1['width_meters'],height=data1['height_meters'],\
         lat_0=data1['cen_lat'],lon_0=data1['cen_lon'],lat_1=data1['truelat1'])
