@@ -311,7 +311,7 @@ plt.annotate(str(int(dx1/1000.))+' km',xy=(0.85,0.95),xycoords='axes fraction',f
 plt.annotate(str(int(dx2/1000.))+' km',xy=(xd2_2,yd2_1*1.02),xycoords='data',fontsize=8,fontweight='bold')
 
 
-# plt.savefig('../Figures/S_SeaiceComparison.svg')
+plt.savefig('../Figures/S_SeaiceComparison.svg')
 plt.show()
 
 
