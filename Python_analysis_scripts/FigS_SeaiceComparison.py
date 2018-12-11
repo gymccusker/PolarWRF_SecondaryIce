@@ -255,12 +255,12 @@ csf = m.contourf(x_cice,y_cice,data_cice,clevs,cmap=mpl_cm.Blues_r)
 
 #============================== MSLP
  
-# make lat/lon grid
-lons_mslp, lats_mslp = np.meshgrid(lon_mslp,lat_mslp)
-x_mslp, y_mslp = m(lons_mslp, lats_mslp)
+# # make lat/lon grid
+# lons_mslp, lats_mslp = np.meshgrid(lon_mslp,lat_mslp)
+# x_mslp, y_mslp = m(lons_mslp, lats_mslp)
 
-cs = m.contour(x_mslp,y_mslp,mslp,contour_levels,colors='grey',linewidth=0.1)
-plt.clabel(cs,fontsize=8, inline=True, fmt='%1.f')	
+# cs = m.contour(x_mslp,y_mslp,mslp,contour_levels,colors='grey',linewidth=0.1)
+# plt.clabel(cs,fontsize=8, inline=True, fmt='%1.f')	
 # inline=10,
 #============================== ADDITIONAL LOCATIONS
 
