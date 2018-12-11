@@ -155,8 +155,12 @@ contour_levels = np.arange(940,1040,2)
 
 #########################################################################################################
 #########################################################################################################
-
-wrf_seaice = nc
+data1 = {}
+data1['x_dim'] = len(nc1.dimensions['west_east'])
+data1['y_dim'] = len(nc1.dimensions['south_north'])
+data1['seaice'] = nc1.variables['SEAICE'][36] 	# sea ice at 1800 UTC for comparison with NSIDC
+data1['xlat'] = nc1.variables['XLAT'][36]
+data1['xlon'] = nc1.variables['XLONG'][36]
 
 
 ##################################################
@@ -248,32 +252,37 @@ plt.clabel(cs,fontsize=8, inline=True, fmt='%1.f')
 
 xH,yH = m(lonH, latH)
 
-plt.scatter(xH,yH,marker='x',color='k',linewidth=4,s=80)
-
-
-# data219 = np.load('/data/scihub-users/giyoung/MAC/FlightData/flight219/M219_CORE_CAPS_CIP25_2DS_GRIMM.npy').item()
-# x_m219,y_m219 = m(data219['CORE']['lon'], data219['CORE']['lat'])
-# plt.scatter(x_m219,y_m219,marker='o',color='mediumorchid',linewidth=1,s=1.,label='M219')
-
-
-# data218 = np.load('/data/scihub-users/giyoung/MAC/FlightData/flight218/M218_CORE_CAPS_CIP25_2DS_GRIMM.npy').item()
-# x_m218,y_m218 = m(data218['CORE']['lon'], data218['CORE']['lat'])
-# plt.scatter(x_m218,y_m218,marker='o',color='darkorange',linewidth=1,s=1.,label='M218')
-
 plt.legend(bbox_to_anchor=(0.3, 0.76, 1., .102), loc=3, ncol=1)
-# plt.annotate('(a)',xy=(-70,-40),xytext=(-70,-40),fontsize=10)
 
 #============================== COLOURBAR
 
 # add colorbar.
-cbaxes = fig.add_axes([0.42,0.68, 0.02, 0.24])  # This is the position for the colorbar
+cbaxes = fig.add_axes([0.42,0.68, 0.2, 0.02])  # This is the position for the colorbar
 cb = plt.colorbar(csf, cax = cbaxes, orientation = horizontal)
-# cb.ax.xaxis.set_ticks_position('top')
-# cb.ax.xaxis.set_label_position('top')
-cb.ax.axes.set_ylabel('NSIDC sea ice fraction')
+cb.ax.xaxis.set_ticks_position('top')
+cb.ax.xaxis.set_label_position('top')
+cb.ax.axes.set_ylabel('Sea ice fraction')
 
 #########################################################################################################
 
+#########################################################################################################
+
+ax  = fig.add_axes([0.12,0.12,0.35,0.7])	# left, bottom, width, height
+m = Basemap(resolution='i',projection='stere', rsphere=6370000.0, \
+        width=data1['width_meters'],height=data1['height_meters'],\
+        lat_0=data1['cen_lat'],lon_0=data1['cen_lon'],lat_1=data1['truelat1'])
+
+# define parallels/meridians
+m.drawparallels(np.arange(-90.,-60.,2.),color='k',labels=[0,0,0,0],linewidth=0.8,fontsize=10)
+m.drawmeridians(np.arange(-180.,181.,5.),color='k',labels=[0,0,0,1],linewidth=0.8,fontsize=10)
+m.drawcoastlines(linewidth=1.)
+
+lons, lats = m.makegrid(data1['x_dim'], data1['y_dim']) # get lat/lons of ny by nx evenly space grid.
+x, y = m(lons, lats) # compute map proj coordinates.
+
+data = data1['seaice']
+
+cs = m.contourf(x,y,data,clevs,cmap=mpl_cm.Blues_r)
 
 # plt.savefig('../Figures/S_SeaiceComparison.svg')
 plt.show()
