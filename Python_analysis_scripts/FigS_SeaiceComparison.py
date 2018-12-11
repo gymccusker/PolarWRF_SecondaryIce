@@ -201,7 +201,7 @@ fig = plt.figure(figsize=(6,4))
 
 #########################################################################################################
 
-ax  = fig.add_axes([0.12,0.12,0.35,0.7])	# left, bottom, width, height
+ax  = fig.add_axes([0.12,0.1,0.35,0.7])	# left, bottom, width, height
 m = Basemap(resolution='i',projection='stere', rsphere=6370000.0, \
         width=width_meters,height=height_meters,\
         lat_0=cen_lat,lon_0=cen_lon,lat_1=truelat1)#,lat_2=truelat2) truelat2 not used in polar proj.
@@ -271,25 +271,25 @@ plt.legend(bbox_to_anchor=(0.3, 0.76, 1., .102), loc=3, ncol=1)
 #============================== COLOURBAR
 
 # add colorbar.
-cbaxes = fig.add_axes([0.42,0.78, 0.3, 0.02])  # This is the position for the colorbar
+cbaxes = fig.add_axes([0.3,0.84, 0.4, 0.04])  # This is the position for the colorbar
 cb = plt.colorbar(csf, cax = cbaxes, orientation = 'horizontal')
 cb.ax.xaxis.set_ticks_position('top')
 cb.ax.xaxis.set_label_position('top')
-cb.ax.axes.set_ylabel('Sea ice fraction')
+cb.ax.axes.set_xlabel('Sea ice fraction')
 
 #########################################################################################################
 
 #########################################################################################################
 
-ax  = fig.add_axes([0.54,0.12,0.35,0.7])	# left, bottom, width, height
+ax  = fig.add_axes([0.54,0.1,0.35,0.7])	# left, bottom, width, height
 m = Basemap(resolution='i',projection='stere', rsphere=6370000.0, \
         width=data1['width_meters'],height=data1['height_meters'],\
         lat_0=data1['cen_lat'],lon_0=data1['cen_lon'],lat_1=data1['truelat1'])
 
 # define parallels/meridians
-m.drawparallels(np.arange(-90.,-60.,2.),color='k',labels=[0,0,0,0],linewidth=0.8,fontsize=10)
-m.drawmeridians(np.arange(-180.,181.,5.),color='k',labels=[0,0,0,1],linewidth=0.8,fontsize=10)
-m.drawcoastlines(linewidth=1.)
+m.drawparallels(np.arange(-90.,-60.,2.),labels=[1,0,0,0],linewidth=0.8,fontsize=10)
+m.drawmeridians(np.arange(-180.,181.,5.),labels=[0,0,1,0],linewidth=0.8,fontsize=10)
+m.drawcoastlines(linewidth=1.)  
 
 lons, lats = m.makegrid(data1['x_dim'], data1['y_dim']) # get lat/lons of ny by nx evenly space grid.
 x, y = m(lons, lats) # compute map proj coordinates.
@@ -297,6 +297,19 @@ x, y = m(lons, lats) # compute map proj coordinates.
 data = data1['seaice']
 
 cs = m.contourf(x,y,data,clevs,cmap=mpl_cm.Blues_r)
+
+# draw nests
+p2 =  Polygon([(xd2_1,yd2_1),(xd2_2,yd2_2),(xd2_3,yd2_3),(xd2_4,yd2_4)],\
+              facecolor='none',edgecolor='k',linewidth=1)
+plt.gca().add_patch(p2)
+
+p3 =  Polygon([(xd3_1,yd3_1),(xd3_2,yd3_2),(xd3_3,yd3_3),(xd3_4,yd3_4)],\
+              facecolor='none',linestyle='--',edgecolor='k',linewidth=1)
+plt.gca().add_patch(p3)
+
+plt.annotate(str(int(dx1/1000.))+' km',xy=(0.85,0.95),xycoords='axes fraction',fontsize=10,fontweight='bold')
+plt.annotate(str(int(dx2/1000.))+' km',xy=(xd2_2,yd2_1*1.02),xycoords='data',fontsize=10,fontweight='bold')
+
 
 # plt.savefig('../Figures/S_SeaiceComparison.svg')
 plt.show()
