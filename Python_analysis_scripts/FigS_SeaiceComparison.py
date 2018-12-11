@@ -281,7 +281,7 @@ cb.ax.axes.set_ylabel('Sea ice fraction')
 
 #########################################################################################################
 
-ax  = fig.add_axes([0.12,0.12,0.35,0.7])	# left, bottom, width, height
+ax  = fig.add_axes([0.12,0.54,0.35,0.7])	# left, bottom, width, height
 m = Basemap(resolution='i',projection='stere', rsphere=6370000.0, \
         width=data1['width_meters'],height=data1['height_meters'],\
         lat_0=data1['cen_lat'],lon_0=data1['cen_lon'],lat_1=data1['truelat1'])
