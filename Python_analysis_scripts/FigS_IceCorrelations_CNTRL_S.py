@@ -40,7 +40,7 @@ nc1 = NetCDFFile(filename1, 'r')
 # nc2 = NetCDFFile(filename2, 'r')
 # nc3 = NetCDFFile(filename3, 'r')
 # nc4 = NetCDFFile(filename4, 'r')
-nc5 = NetCDFFile(filename5, 'r')
+# nc5 = NetCDFFile(filename5, 'r')
 
 ###################################
 # DEFINE TEMPERATURE BINNING
