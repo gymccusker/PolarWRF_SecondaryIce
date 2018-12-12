@@ -458,9 +458,9 @@ for t in range(0,np.size(time_sci)):
                                         if np.size(data1['qnisg'][t,k:heightindex[0][-1],j,i])>0:
                                                 iceabove1[t,j,i] = np.nanmax(data1['qnisg'][t,k:heightindex[0][-1],j,i])/float(1e3) # k to height index (3000m)
                                                 # iceabove1[t,j,i] = data1['qnisg'][t,k+2,j,i]/float(1e3) # k+1 only
-                                        if np.nanpercentile(data1['qnisg'][t,0:k,j,i],99.7)>1.0:
+                                        if np.nanpercentile(data1['qnisg'][t,0:k,j,i],99.7)>0.5:
                                                 blice1[t,j,i] = 1.0
-                                       	if np.nanpercentile(data1['qnisg'][t,k:heightindex[0][-1],j,i],99.7)>1.0:
+                                       	if np.nanpercentile(data1['qnisg'][t,k:heightindex[0][-1],j,i],99.7)>0.5:
                                             	    tropice1[t,j,i] = 1.0
                                         	# tropice1[t,j,i] = 0.0
                                         # if iceabove1[j,i]==np.nan:
@@ -585,7 +585,7 @@ ax = plt.gca();
 # ax.set_xscale("log", nonposy='clip'); plt.xlim([1e-10,4e2])
 plt.ylabel('Max $N_{isg}$ within BL, $L^{-1}$')
 plt.xlabel('$N_{isg}$ above BL, $L^{-1}$')
-plt.annotate(strg1,xy=(150,340),xytext=(151,341),fontsize=8)
+plt.annotate(strg1,xy=(120,340),xytext=(121,341),fontsize=8)
 plt.annotate(strg2,xy=(200,320),xytext=(201,321),fontsize=8)
 
 plt.subplot(122)
