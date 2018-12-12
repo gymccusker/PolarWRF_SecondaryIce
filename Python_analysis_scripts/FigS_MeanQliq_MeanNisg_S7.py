@@ -150,8 +150,8 @@ data1['qisg'] = (nc1.variables['QICE'][time_sci,:,:,:]+
         nc1.variables['QGRAUP'][time_sci,:,:,:])
 data1['qisg'][data1['qisg']<0]=0
 
-data1['nisg50'] = data1['qnisg'] - (nc1.variables['NI50'][time_sci,:,:,:] - 
-        nc1.variables['NG50'][time_sci,:,:,:])*(data1['rho'])*(data1['rho'])
+# data1['nisg50'] = data1['qnisg'] - (nc1.variables['NI50'][time_sci,:,:,:] - 
+#         nc1.variables['NG50'][time_sci,:,:,:])*(data1['rho'])*(data1['rho'])
 
 data1['qrain'] = nc1.variables['QRAIN'][time_sci]# Qcloud mean over M218 flight times @ lon=-29 [z,lat,lon]
 data1['qrain'][data1['qrain']<0]=0
@@ -242,8 +242,8 @@ data2['qisg'] = (nc2.variables['QICE'][time_sci,:,:,:]+
         nc2.variables['QGRAUP'][time_sci,:,:,:])
 data2['qisg'][data2['qisg']<0]=0
 
-data2['nisg50'] = data2['qnisg'] - (nc2.variables['NI50'][time_sci,:,:,:] - 
-        nc2.variables['NG50'][time_sci,:,:,:])*(data2['rho'])*(data2['rho'])
+# data2['nisg50'] = data2['qnisg'] - (nc2.variables['NI50'][time_sci,:,:,:] - 
+#         nc2.variables['NG50'][time_sci,:,:,:])*(data2['rho'])*(data2['rho'])
 
 ind = {}
 theta = data2['theta'][timeindex,:,:,:]
@@ -313,8 +313,8 @@ data3['qisg'] = (nc3.variables['QICE'][time_sci,:,:,:]+
         nc3.variables['QGRAUP'][time_sci,:,:,:])
 data3['qisg'][data3['qisg']<0]=0
 
-data3['nisg50'] = data3['qnisg'] - (nc3.variables['NI50'][time_sci,:,:,:] - 
-        nc3.variables['NG50'][time_sci,:,:,:])*(data3['rho'])*(data3['rho'])
+# data3['nisg50'] = data3['qnisg'] - (nc3.variables['NI50'][time_sci,:,:,:] - 
+#         nc3.variables['NG50'][time_sci,:,:,:])*(data3['rho'])*(data3['rho'])
 
 data3['qrain'] = nc3.variables['QRAIN'][time_sci]# Qcloud mean over M218 flight times @ lon=-29 [z,lat,lon]
 data3['qrain'][data3['qrain']<0]=0
@@ -389,8 +389,8 @@ data4['qisg'] = (nc4.variables['QICE'][time_sci,:,:,:]+
         nc4.variables['QGRAUP'][time_sci,:,:,:])
 data4['qisg'][data4['qisg']<0]=0
 
-data4['nisg50'] = data4['qnisg'] - (nc4.variables['NI50'][time_sci,:,:,:] - 
-        nc4.variables['NG50'][time_sci,:,:,:])*(data4['rho'])*(data4['rho'])
+# data4['nisg50'] = data4['qnisg'] - (nc4.variables['NI50'][time_sci,:,:,:] - 
+#         nc4.variables['NG50'][time_sci,:,:,:])*(data4['rho'])*(data4['rho'])
 
 data4['qrain'] = nc4.variables['QRAIN'][time_sci]# Qcloud mean over M218 flight times @ lon=-29 [z,lat,lon]
 data4['qrain'][data4['qrain']<0]=0
@@ -464,8 +464,8 @@ data5['qisg'] = (nc5.variables['QICE'][time_sci,:,:,:]+
         nc5.variables['QGRAUP'][time_sci,:,:,:])
 data5['qisg'][data5['qisg']<0]=0
 
-data5['nisg50'] = data5['qnisg'] - (nc5.variables['NI50'][time_sci,:,:,:] - 
-        nc5.variables['NG50'][time_sci,:,:,:])*(data5['rho'])*(data5['rho'])
+# data5['nisg50'] = data5['qnisg'] - (nc5.variables['NI50'][time_sci,:,:,:] - 
+#         nc5.variables['NG50'][time_sci,:,:,:])*(data5['rho'])*(data5['rho'])
 
 data5['qrain'] = nc5.variables['QRAIN'][time_sci]# Qcloud mean over M218 flight times @ lon=-29 [z,lat,lon]
 data5['qrain'][data5['qrain']<0]=0
