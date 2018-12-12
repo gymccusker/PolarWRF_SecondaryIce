@@ -570,7 +570,7 @@ xd3_3,yd3_3 = m(lon3[0,n3x-1],lat3[0,n3x-1])
 xd3_4,yd3_4 = m(lon3[n3y-1,n3x-1],lat3[n3y-1,n3x-1])
 
 p3 =  Polygon([(xd3_1,yd3_1),(xd3_2,yd3_2),(xd3_3,yd3_3),(xd3_4,yd3_4)],\
-              facecolor='none',linestyle='--',edgecolor='k',linewidth=1)
+              facecolor='none',linestyle='--',edgecolor='k',linewidth=2)
 plt.gca().add_patch(p3)
 
 x27,y27 = m(newlon27, newlat27)
@@ -653,7 +653,7 @@ data = allicebelow2 #w2 # bl2_1
 cs = m.pcolor(x,y,data,vmin=mindat1,vmax=maxdat1,cmap=mpl_cm.Reds)
 
 p3 =  Polygon([(xd3_1,yd3_1),(xd3_2,yd3_2),(xd3_3,yd3_3),(xd3_4,yd3_4)],\
-              facecolor='none',linestyle='--',edgecolor='k',linewidth=1)
+              facecolor='none',linestyle='--',edgecolor='k',linewidth=2)
 plt.gca().add_patch(p3)
 
 plt.plot(x27,y27,'r',linewidth=1)
@@ -793,7 +793,7 @@ data = allicebelow4 # w4 # bl4_1
 cs = m.pcolor(x,y,data,vmin=mindat1,vmax=maxdat1,cmap=mpl_cm.Reds)
 
 p3 =  Polygon([(xd3_1,yd3_1),(xd3_2,yd3_2),(xd3_3,yd3_3),(xd3_4,yd3_4)],\
-              facecolor='none',linestyle='--',edgecolor='k',linewidth=1)
+              facecolor='none',linestyle='--',edgecolor='k',linewidth=2)
 plt.gca().add_patch(p3)
 
 # add colorbar.
@@ -859,7 +859,7 @@ data = allicebelow5 # w5 # bl5_1
 cs = m.pcolor(x,y,data,vmin=mindat1,vmax=maxdat1,cmap=mpl_cm.Reds)
 
 p3 =  Polygon([(xd3_1,yd3_1),(xd3_2,yd3_2),(xd3_3,yd3_3),(xd3_4,yd3_4)],\
-              facecolor='none',linestyle='--',edgecolor='k',linewidth=1)
+              facecolor='none',linestyle='--',edgecolor='k',linewidth=2)
 plt.gca().add_patch(p3)
 
 x29,y29 = m(newlon29, newlat29)
@@ -902,7 +902,7 @@ x27,y27 = m(newlon27, newlat27)
 plt.plot(x27,y27,'r',linewidth=1)
 plt.annotate(runlab5,xy=(-78,-28),xytext=(-78,-28),fontsize=10)
 
-# plt.savefig('../Figures/FigS9_MaxNisgBelow_Wk-1.png',dpi=300)
+plt.savefig('../Figures/FigS_MaxNisgBelow_Wk-1_v2.png',dpi=300)
 plt.show()
 
 
