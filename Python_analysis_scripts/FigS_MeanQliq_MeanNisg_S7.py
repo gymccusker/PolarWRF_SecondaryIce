@@ -145,9 +145,10 @@ data1['Zsci'] = np.nanmean(0.5*(tempvar1[0:len(tempvar1)-2,:,:]+tempvar1[1:len(t
 data1['qcloud'] = nc1.variables['QCLOUD'][time_sci]# Qcloud mean over M218 flight times @ lon=-29 [z,lat,lon]
 data1['qcloud'][data1['qcloud']<0]=0
 
-data1['qnisg'] = (nc1.variables['QNICE'][time_sci,:,:,:]+
-        nc1.variables['QNSNOW'][time_sci,:,:,:]+
-        nc1.variables['QNGRAUPEL'][time_sci,:,:,:])*(data1['rho'])
+data1['qisg'] = (nc1.variables['QICE'][time_sci,:,:,:]+
+        nc1.variables['QSNOW'][time_sci,:,:,:]+
+        nc1.variables['QGRAUP'][time_sci,:,:,:])
+data1['qisg'][data1['qisg']<0]=0
 
 data1['nisg50'] = data1['qnisg'] - (nc1.variables['NI50'][time_sci,:,:,:] - 
         nc1.variables['NG50'][time_sci,:,:,:])*(data1['rho'])*(data1['rho'])
@@ -187,7 +188,7 @@ for i in range(0,np.size(Z,2)):
                 				# temp1[j,i] = data1['Tk'][timeindex,k,j,i]
                 				# w1[j,i] = nc1.variables['W'][time_sci[timeindex],k,j,i]
                 				# blindex1[0,j,i] = k
-                                icebelow1[j,i] = np.nanmean(data1['qnisg'][timeindex,0:k,j,i],0)/float(1e3)
+                                icebelow1[j,i] = np.nanmean(data1['qisg'][timeindex,0:k,j,i],0)*float(1e3)
                                 # smicebelow1[j,i] = np.nanpercentile(data1['nisg50'][timeindex,0:k,j,i],99.7)/float(1e3)
                                 # largeicebelow1[j,i] = np.nanpercentile(data1['nisg80'][timeindex,0:k,j,i],99.7)/float(1e3)
                                 liqbelow1[j,i] = np.nanmean(data1['qliq'][timeindex,0:k,j,i],0)*float(1e3)
@@ -227,6 +228,7 @@ data2['nisg80'] = nc2.variables['NISG80'][time_sci,:,:,:]*(data2['rho'])*(data2[
 # data2['nisg80'][data2['nisg80']<=0] = np.nan
 data2['qliq'] = nc2.variables['QCLOUD'][time_sci,:,:,:] + nc2.variables['QRAIN'][time_sci,:,:,:]
 data2['qliq'][data2['qliq']<0]=0
+
 ph = nc2.variables['PH'][time_sci]
 phb = nc2.variables['PHB'][time_sci]
 tempvar1 = (ph+phb)/9.81
@@ -235,16 +237,13 @@ data2['Zsci'] = np.nanmean(0.5*(tempvar1[0:len(tempvar1)-2,:,:]+tempvar1[1:len(t
 data2['qcloud'] = nc2.variables['QCLOUD'][time_sci]# Qcloud mean over M218 flight times @ lon=-29 [z,lat,lon]
 data2['qcloud'][data2['qcloud']<0]=0
 
-data2['qnisg'] = (nc2.variables['QNICE'][time_sci,:,:,:]+
-        nc2.variables['QNSNOW'][time_sci,:,:,:]+
-        nc2.variables['QNGRAUPEL'][time_sci,:,:,:])*(data1['rho'])
+data2['qisg'] = (nc2.variables['QICE'][time_sci,:,:,:]+
+        nc2.variables['QSNOW'][time_sci,:,:,:]+
+        nc2.variables['QGRAUP'][time_sci,:,:,:])
+data2['qisg'][data2['qisg']<0]=0
 
 data2['nisg50'] = data2['qnisg'] - (nc2.variables['NI50'][time_sci,:,:,:] - 
         nc2.variables['NG50'][time_sci,:,:,:])*(data2['rho'])*(data2['rho'])
-
-data2['qrain'] = nc2.variables['QRAIN'][time_sci]# Qcloud mean over M218 flight times @ lon=-29 [z,lat,lon]
-data2['qrain'][data2['qrain']<0]=0
-data2['qliq'] = data2['qcloud'] + data2['qrain']
 
 ind = {}
 theta = data2['theta'][timeindex,:,:,:]
@@ -275,7 +274,7 @@ for i in range(0,np.size(Z,2)):
 				# temp2[j,i] = data2['Tk'][timeindex,k,j,i]
     #                             w2[j,i] = nc2.variables['W'][time_sci[timeindex],k,j,i]
     #                             blindex2[0,j,i] = k
-                                icebelow2[j,i] = np.nanmean(data2['qnisg'][timeindex,0:k,j,i],0)/float(1e3)
+                                icebelow2[j,i] = np.nanmean(data2['qisg'][timeindex,0:k,j,i],0)*float(1e3)
                                 # smicebelow2[j,i] = np.nanpercentile(data2['nisg50'][timeindex,0:k,j,i],99.7)/float(1e3)
                                 # largeicebelow2[j,i] = np.nanpercentile(data2['nisg80'][timeindex,0:k,j,i],99.7)/float(1e3)
                                 liqbelow2[j,i] = np.nanmean(data2['qliq'][timeindex,0:k,j,i],0)*float(1e3)
@@ -309,9 +308,10 @@ data3['Zsci'] = np.nanmean(0.5*(tempvar1[0:len(tempvar1)-2,:,:]+tempvar1[1:len(t
 data3['qcloud'] = nc3.variables['QCLOUD'][time_sci]# Qcloud mean over M218 flight times @ lon=-29 [z,lat,lon]
 data3['qcloud'][data3['qcloud']<0]=0
 
-data3['qnisg'] = (nc3.variables['QNICE'][time_sci,:,:,:]+
-        nc3.variables['QNSNOW'][time_sci,:,:,:]+
-        nc3.variables['QNGRAUPEL'][time_sci,:,:,:])*(data3['rho'])
+data3['qisg'] = (nc3.variables['QICE'][time_sci,:,:,:]+
+        nc3.variables['QSNOW'][time_sci,:,:,:]+
+        nc3.variables['QGRAUP'][time_sci,:,:,:])
+data3['qisg'][data3['qisg']<0]=0
 
 data3['nisg50'] = data3['qnisg'] - (nc3.variables['NI50'][time_sci,:,:,:] - 
         nc3.variables['NG50'][time_sci,:,:,:])*(data3['rho'])*(data3['rho'])
@@ -349,7 +349,7 @@ for i in range(0,np.size(Z,2)):
 				# temp3[j,i] = data3['Tk'][timeindex,k,j,i]
     #                             w3[j,i] = nc3.variables['W'][time_sci[timeindex],k,j,i]
     #                             blindex3[0,j,i] = k
-                                icebelow3[j,i] = np.nanmean(data3['qnisg'][timeindex,0:k,j,i],0)/float(1e3)
+                                icebelow3[j,i] = np.nanmean(data3['qisg'][timeindex,0:k,j,i],0)*float(1e3)
                                 # smicebelow3[j,i] = np.nanpercentile(data3['nisg50'][timeindex,0:k,j,i],99.7)/float(1e3)
                                 # largeicebelow3[j,i] = np.nanpercentile(data3['nisg80'][timeindex,0:k,j,i],99.7)/float(1e3)
                                 liqbelow3[j,i] = np.nanmean(data3['qliq'][timeindex,0:k,j,i],0)*float(1e3)
@@ -384,9 +384,10 @@ data4['Zsci'] = np.nanmean(0.5*(tempvar1[0:len(tempvar1)-2,:,:]+tempvar1[1:len(t
 data4['qcloud'] = nc4.variables['QCLOUD'][time_sci]# Qcloud mean over M218 flight times @ lon=-29 [z,lat,lon]
 data4['qcloud'][data4['qcloud']<0]=0
 
-data4['qnisg'] = (nc4.variables['QNICE'][time_sci,:,:,:]+
-        nc4.variables['QNSNOW'][time_sci,:,:,:]+
-        nc4.variables['QNGRAUPEL'][time_sci,:,:,:])*(data1['rho'])
+data4['qisg'] = (nc4.variables['QICE'][time_sci,:,:,:]+
+        nc4.variables['QSNOW'][time_sci,:,:,:]+
+        nc4.variables['QGRAUP'][time_sci,:,:,:])
+data4['qisg'][data4['qisg']<0]=0
 
 data4['nisg50'] = data4['qnisg'] - (nc4.variables['NI50'][time_sci,:,:,:] - 
         nc4.variables['NG50'][time_sci,:,:,:])*(data4['rho'])*(data4['rho'])
@@ -424,7 +425,7 @@ for i in range(0,np.size(Z,2)):
                                 # temp4[j,i] = data4['Tk'][timeindex,k,j,i]
                                 # w4[j,i] = nc4.variables['W'][time_sci[timeindex],k,j,i]
                                 # blindex4[0,j,i] = k
-                                icebelow4[j,i] = np.nanmean(data4['qnisg'][timeindex,0:k,j,i],0)/float(1e3)
+                                icebelow4[j,i] = np.nanmean(data4['qisg'][timeindex,0:k,j,i],0)*float(1e3)
                                 # smicebelow4[j,i] = np.nanpercentile(data4['nisg50'][timeindex,0:k,j,i],99.7)/float(1e3)
                                 # largeicebelow4[j,i] = np.nanpercentile(data4['nisg80'][timeindex,0:k,j,i],99.7)/float(1e3)
                                 liqbelow4[j,i] = np.nanmean(data4['qliq'][timeindex,0:k,j,i],0)*float(1e3)
@@ -458,9 +459,10 @@ data5['Zsci'] = np.nanmean(0.5*(tempvar1[0:len(tempvar1)-2,:,:]+tempvar1[1:len(t
 data5['qcloud'] = nc5.variables['QCLOUD'][time_sci]# Qcloud mean over M218 flight times @ lon=-29 [z,lat,lon]
 data5['qcloud'][data5['qcloud']<0]=0
 
-data5['qnisg'] = (nc5.variables['QNICE'][time_sci,:,:,:]+
-        nc5.variables['QNSNOW'][time_sci,:,:,:]+
-        nc5.variables['QNGRAUPEL'][time_sci,:,:,:])*(data1['rho'])
+data5['qisg'] = (nc5.variables['QICE'][time_sci,:,:,:]+
+        nc5.variables['QSNOW'][time_sci,:,:,:]+
+        nc5.variables['QGRAUP'][time_sci,:,:,:])
+data5['qisg'][data5['qisg']<0]=0
 
 data5['nisg50'] = data5['qnisg'] - (nc5.variables['NI50'][time_sci,:,:,:] - 
         nc5.variables['NG50'][time_sci,:,:,:])*(data5['rho'])*(data5['rho'])
@@ -498,7 +500,7 @@ for i in range(0,np.size(Z,2)):
 				# temp5[j,i] = data5['Tk'][timeindex,k,j,i]
     #                             w5[j,i] = nc5.variables['W'][time_sci[timeindex],k,j,i]
     #                             blindex5[0,j,i] = k
-                                icebelow5[j,i] = np.nanmean(data5['qnisg'][timeindex,0:k,j,i],0)/float(1e3)
+                                icebelow5[j,i] = np.nanmean(data5['qisg'][timeindex,0:k,j,i],0)*float(1e3)
                                 # smicebelow5[j,i] = np.nanpercentile(data5['nisg50'][timeindex,0:k,j,i],99.7)/float(1e3)
                                 # largeicebelow5[j,i] = np.nanpercentile(data5['nisg80'][timeindex,0:k,j,i],99.7)/float(1e3)
                                 liqbelow5[j,i] = np.nanmean(data5['qliq'][timeindex,0:k,j,i],0)*float(1e3)
