@@ -517,7 +517,7 @@ plt.rc('legend',fontsize=SMALL_SIZE)
 # plt.rc('figure',titlesize=LARGE_SIZE)
 
 binwidth = 0.4
-bins = np.arange(-2.0,2.0,binwidth)
+bins = np.arange(-2.0,3.0,binwidth)
 
 ni1 = {}
 ni1_med = 0.
@@ -565,8 +565,8 @@ for i in range(0,len(bins)):
         ni1_nanpercentile = np.append(ni1_nanpercentile,ni1_med)  
         # ni1_array = np.append(ni1_array,ni1[strgi])
 
-ni1_array = [[ni1['1'],ni1['2'],ni1['3'],ni1['4'],ni1['5'],ni1['6'],ni1['7'],ni1['8'],ni1['9'],ni1['10']]]
-# ,ni1['11'],ni1['12'],ni1['13'],ni1['14'],ni1['15'],ni1['16'],ni1['17'],ni1['18'],ni1['19'],ni1['20']]]
+ni1_array = [[ni1['1'],ni1['2'],ni1['3'],ni1['4'],ni1['5'],ni1['6'],ni1['7'],ni1['8'],ni1['9'],ni1['10'],ni1['11'],ni1['12'],ni1['13']]]
+# ,ni1['14'],ni1['15'],ni1['16'],ni1['17'],ni1['18'],ni1['19'],ni1['20']]]
 
 fig = plt.figure(figsize=(8,5))
 
@@ -579,7 +579,7 @@ plt.plot(iceabove,line1)
 plt.grid('on')
 #plt.ylim([0.0,1.0])
 #plt.xlim([0.0,1.0])
-plt.title('10xHM')
+plt.title('CNTRL')
 ax = plt.gca();
 # ax.set_yscale("log", nonposy='clip'); plt.ylim([1e-10,4e2])
 # ax.set_xscale("log", nonposy='clip'); plt.xlim([1e-10,4e2])
@@ -595,7 +595,7 @@ plt.plot(watBL,icebelow,'.',markersize=2)
 plt.plot(bins,ni1_nanpercentile,'-o')
 plt.grid('on')
 # plt.ylim([0.0,1.0])
-plt.title('10xHM')
+plt.title('CNTRL')
 plt.xlabel('W, $ms^{-1}$')
 # plt.xlim([-1.0,1.5])
 # ax = plt.gca();
@@ -605,5 +605,5 @@ plt.xlabel('W, $ms^{-1}$')
 # ax.set_xticklabels(a)
 
 # ax.set_yscale("log", nonposy='clip');
-
+plt.savefig('../Figures/FigS_IceCorrelations_CNTRL.svg')
 plt.show()
