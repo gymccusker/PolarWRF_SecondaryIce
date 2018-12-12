@@ -40,6 +40,46 @@ nc4 = NetCDFFile(filename4, 'r')
 nc5 = NetCDFFile(filename5, 'r')
 
 ###################################
+# DEFINE NEST SUBSET
+###################################
+
+nc_dom2 = "/data/scihub-users/giyoung/WRF_V3.6/WPS/geo_em.d02.nc"
+geo2= NetCDFFile(nc_dom2,'r')
+
+#=============================== get geo 2 variables
+
+lat2      = geo2.variables['XLAT_M']
+lon2      = geo2.variables['XLONG_M']
+topo2     = geo2.variables['HGT_M']
+
+lat2  = lat2[0,:,:]
+lon2  = lon2[0,:,:]
+topo2 = topo2[0,:,:]
+
+dx2 = float(geo2.DX)
+dy2 = float(geo2.DY)
+
+n2x = len(geo2.dimensions['west_east'])
+n2y = len(geo2.dimensions['south_north'])
+#=============================== MICRO DOMAIN
+
+lonindex_udom = np.where(np.logical_and(lon2>=-29.5, lon2<=-26.5))
+
+lat3  = lat2[190:340,np.unique(lonindex_udom[1])]
+lon3  = lon2[190:340,np.unique(lonindex_udom[1])]
+
+n3x = np.size(lon3,1)
+n3y = np.size(lat3,0)
+
+xd3_1,yd3_1 = m(lon3[n3y-1,0],lat3[n3y-1,0]) 
+xd3_2,yd3_2 = m(lon3[0,0],lat3[0,0]) 
+xd3_3,yd3_3 = m(lon3[0,n3x-1],lat3[0,n3x-1]) 
+xd3_4,yd3_4 = m(lon3[n3y-1,n3x-1],lat3[n3y-1,n3x-1])
+
+p3 =  Polygon([(xd3_1,yd3_1),(xd3_2,yd3_2),(xd3_3,yd3_3),(xd3_4,yd3_4)],\
+              facecolor='none',linestyle='--',edgecolor='k',linewidth=2)
+
+###################################
 # DEFINE TEMPERATURE BINNING
 ###################################
 
@@ -531,6 +571,8 @@ data = allicebelow1 # w1 # bl1_1
 
 cs = m.pcolor(x,y,data,vmin=mindat1,vmax=maxdat1,cmap=mpl_cm.Reds)
 
+plt.gca().add_patch(p3)
+
 x27,y27 = m(newlon27, newlat27)
 plt.plot(x27,y27,'r',linewidth=1)
 plt.annotate(runlab1,xy=(-78,-28),xytext=(-78,-28),fontsize=10)
@@ -824,7 +866,7 @@ x27,y27 = m(newlon27, newlat27)
 plt.plot(x27,y27,'r',linewidth=1)
 plt.annotate(runlab5,xy=(-78,-28),xytext=(-78,-28),fontsize=10)
 
-plt.savefig('../Figures/FigS9_MaxNisgBelow_Wk-1.png',dpi=300)
+# plt.savefig('../Figures/FigS9_MaxNisgBelow_Wk-1.png',dpi=300)
 plt.show()
 
 
