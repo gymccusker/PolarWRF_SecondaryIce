@@ -577,7 +577,7 @@ lons, lats = m.makegrid(data1['x_dim'], data1['y_dim']) # get lat/lons of ny by 
 x, y = m(lons, lats) # compute map proj coordinates.
 
 # contour levels
-maxdat1 = 0.3
+maxdat1 = 0.2
 mindat1 = 0
 #clevs = np.arange(0.0,maxdat,200)
 
@@ -586,7 +586,7 @@ data = icebelow1 # w1 # bl1_1
 # data[data == 0] = np.nan
 # data[data > maxdat] = maxdat
 
-cs = m.pcolor(x,y,data,vmin=mindat1,vmax=maxdat1,cmap=mpl_cm.Blues)
+cs = m.pcolor(x,y,data,vmin=mindat1,vmax=maxdat1,cmap=mpl_cm.Reds)
 
 xd3_1,yd3_1 = m(lon3[n3y-1,0],lat3[n3y-1,0]) 
 xd3_2,yd3_2 = m(lon3[0,0],lat3[0,0]) 
@@ -674,7 +674,7 @@ x, y = m(lons, lats) # compute map proj coordinates.
 data = icebelow2 #w2 # bl2_1
 # data[data > maxdat] = maxdat
 
-cs = m.pcolor(x,y,data,vmin=mindat1,vmax=maxdat1,cmap=mpl_cm.Blues)
+cs = m.pcolor(x,y,data,vmin=mindat1,vmax=maxdat1,cmap=mpl_cm.Reds)
 
 p3 =  Polygon([(xd3_1,yd3_1),(xd3_2,yd3_2),(xd3_3,yd3_3),(xd3_4,yd3_4)],\
               facecolor='none',linestyle='--',edgecolor='k',linewidth=2)
@@ -742,7 +742,7 @@ x, y = m(lons, lats) # compute map proj coordinates.
 data = icebelow3 # w3 # bl3_1
 # data[data > maxdat] = maxdat
 
-cs = m.pcolor(x,y,data,vmin=mindat1,vmax=maxdat1,cmap=mpl_cm.Blues)
+cs = m.pcolor(x,y,data,vmin=mindat1,vmax=maxdat1,cmap=mpl_cm.Reds)
 
 p3 =  Polygon([(xd3_1,yd3_1),(xd3_2,yd3_2),(xd3_3,yd3_3),(xd3_4,yd3_4)],\
               facecolor='none',linestyle='--',edgecolor='k',linewidth=2)
@@ -814,7 +814,7 @@ data = icebelow4 # w4 # bl4_1
 
 # contour levels
 # clevs = np.arange(0.0,1.1,0.1) 
-cs = m.pcolor(x,y,data,vmin=mindat1,vmax=maxdat1,cmap=mpl_cm.Blues)
+cs = m.pcolor(x,y,data,vmin=mindat1,vmax=maxdat1,cmap=mpl_cm.Reds)
 
 p3 =  Polygon([(xd3_1,yd3_1),(xd3_2,yd3_2),(xd3_3,yd3_3),(xd3_4,yd3_4)],\
               facecolor='none',linestyle='--',edgecolor='k',linewidth=2)
@@ -880,7 +880,7 @@ x, y = m(lons, lats) # compute map proj coordinates.
 data = icebelow5 # w5 # bl5_1
 # data[data > maxdat] = maxdat
 
-cs = m.pcolor(x,y,data,vmin=mindat1,vmax=maxdat1,cmap=mpl_cm.Blues)
+cs = m.pcolor(x,y,data,vmin=mindat1,vmax=maxdat1,cmap=mpl_cm.Reds)
 
 p3 =  Polygon([(xd3_1,yd3_1),(xd3_2,yd3_2),(xd3_3,yd3_3),(xd3_4,yd3_4)],\
               facecolor='none',linestyle='--',edgecolor='k',linewidth=2)
