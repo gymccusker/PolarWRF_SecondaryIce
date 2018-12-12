@@ -10,6 +10,7 @@ import matplotlib
 import matplotlib.pyplot as plt
 import matplotlib.cm as mpl_cm
 from mpl_toolkits.basemap import Basemap, cm
+from matplotlib.patches import Polygon
 
 ###################################
 # Pick file
@@ -38,6 +39,38 @@ nc2 = NetCDFFile(filename2, 'r')
 nc3 = NetCDFFile(filename3, 'r')
 nc4 = NetCDFFile(filename4, 'r')
 nc5 = NetCDFFile(filename5, 'r')
+
+###################################
+# DEFINE NEST SUBSET
+###################################
+
+nc_dom2 = "/data/scihub-users/giyoung/WRF_V3.6/WPS/geo_em.d02.nc"
+geo2= NetCDFFile(nc_dom2,'r')
+
+#=============================== get geo 2 variables
+
+lat2      = geo2.variables['XLAT_M']
+lon2      = geo2.variables['XLONG_M']
+topo2     = geo2.variables['HGT_M']
+
+lat2  = lat2[0,:,:]
+lon2  = lon2[0,:,:]
+topo2 = topo2[0,:,:]
+
+dx2 = float(geo2.DX)
+dy2 = float(geo2.DY)
+
+n2x = len(geo2.dimensions['west_east'])
+n2y = len(geo2.dimensions['south_north'])
+#=============================== MICRO DOMAIN
+
+lonindex_udom = np.where(np.logical_and(lon2>=-29.5, lon2<=-26.5))
+
+lat3  = lat2[190:340,np.unique(lonindex_udom[1])]
+lon3  = lon2[190:340,np.unique(lonindex_udom[1])]
+
+n3x = np.size(lon3,1)
+n3y = np.size(lat3,0)
 
 ###################################
 # DEFINE TEMPERATURE BINNING
@@ -553,6 +586,15 @@ data = icebelow1 # w1 # bl1_1
 
 cs = m.pcolor(x,y,data,vmin=mindat1,vmax=maxdat1,cmap=mpl_cm.Reds)
 
+xd3_1,yd3_1 = m(lon3[n3y-1,0],lat3[n3y-1,0]) 
+xd3_2,yd3_2 = m(lon3[0,0],lat3[0,0]) 
+xd3_3,yd3_3 = m(lon3[0,n3x-1],lat3[0,n3x-1]) 
+xd3_4,yd3_4 = m(lon3[n3y-1,n3x-1],lat3[n3y-1,n3x-1])
+
+p3 =  Polygon([(xd3_1,yd3_1),(xd3_2,yd3_2),(xd3_3,yd3_3),(xd3_4,yd3_4)],\
+              facecolor='none',linestyle='--',edgecolor='k',linewidth=2)
+plt.gca().add_patch(p3)
+
 x27,y27 = m(newlon27, newlat27)
 plt.plot(x27,y27,'r',linewidth=1)
 plt.annotate(runlab1,xy=(-78,-28),xytext=(-78,-28),fontsize=10)
@@ -596,6 +638,10 @@ data = liqbelow1 # bl1_2 #iwp1 #w1
 cs = m.pcolor(x,y,data,vmin=mindat2,vmax=maxdat2,cmap=mpl_cm.Blues)
 #cs = m.pcolor(x,y,data,vmin=0,vmax=2500,cmap=mpl_cm.viridis)
 
+p3 =  Polygon([(xd3_1,yd3_1),(xd3_2,yd3_2),(xd3_3,yd3_3),(xd3_4,yd3_4)],\
+              facecolor='none',linestyle='--',edgecolor='k',linewidth=2)
+plt.gca().add_patch(p3)
+
 x27,y27 = m(newlon27, newlat27)
 plt.plot(x27,y27,'r',linewidth=1)
 plt.annotate(runlab1,xy=(-78,-28),xytext=(-78,-28),fontsize=10)
@@ -628,6 +674,10 @@ data = icebelow2 #w2 # bl2_1
 
 cs = m.pcolor(x,y,data,vmin=mindat1,vmax=maxdat1,cmap=mpl_cm.Reds)
 
+p3 =  Polygon([(xd3_1,yd3_1),(xd3_2,yd3_2),(xd3_3,yd3_3),(xd3_4,yd3_4)],\
+              facecolor='none',linestyle='--',edgecolor='k',linewidth=2)
+plt.gca().add_patch(p3)
+
 plt.plot(x27,y27,'r',linewidth=1)
 plt.annotate(runlab2,xy=(-78,-28),xytext=(-78,-28),fontsize=10)
 
@@ -659,6 +709,10 @@ data = liqbelow2 # bl2_2 # iwp2 #w2
 cs = m.pcolor(x,y,data,vmin=mindat2,vmax=maxdat2,cmap=mpl_cm.Blues)
 #cs = m.pcolor(x,y,data,vmin=0,vmax=2500,cmap=mpl_cm.viridis)
 
+p3 =  Polygon([(xd3_1,yd3_1),(xd3_2,yd3_2),(xd3_3,yd3_3),(xd3_4,yd3_4)],\
+              facecolor='none',linestyle='--',edgecolor='k',linewidth=2)
+plt.gca().add_patch(p3)
+
 x27,y27 = m(newlon27, newlat27)
 plt.plot(x27,y27,'r',linewidth=1)
 plt.annotate(runlab2,xy=(-78,-28),xytext=(-78,-28),fontsize=10)
@@ -687,6 +741,10 @@ data = icebelow3 # w3 # bl3_1
 # data[data > maxdat] = maxdat
 
 cs = m.pcolor(x,y,data,vmin=mindat1,vmax=maxdat1,cmap=mpl_cm.Reds)
+
+p3 =  Polygon([(xd3_1,yd3_1),(xd3_2,yd3_2),(xd3_3,yd3_3),(xd3_4,yd3_4)],\
+              facecolor='none',linestyle='--',edgecolor='k',linewidth=2)
+plt.gca().add_patch(p3)
 
 plt.plot(x27,y27,'r',linewidth=1)
 plt.annotate(runlab3,xy=(-78,-28),xytext=(-78,-28),fontsize=10)
@@ -718,6 +776,10 @@ data = liqbelow3 #bl3_2 # iwp3 #w3
 
 cs = m.pcolor(x,y,data,vmin=mindat2,vmax=maxdat2,cmap=mpl_cm.Blues)
 # cs = m.pcolor(x,y,data,vmin=0,vmax=2500,cmap=mpl_cm.viridis)
+
+p3 =  Polygon([(xd3_1,yd3_1),(xd3_2,yd3_2),(xd3_3,yd3_3),(xd3_4,yd3_4)],\
+              facecolor='none',linestyle='--',edgecolor='k',linewidth=2)
+plt.gca().add_patch(p3)
 
 x27,y27 = m(newlon27, newlat27)
 plt.plot(x27,y27,'r',linewidth=1)
@@ -752,6 +814,10 @@ data = icebelow4 # w4 # bl4_1
 # clevs = np.arange(0.0,1.1,0.1) 
 cs = m.pcolor(x,y,data,vmin=mindat1,vmax=maxdat1,cmap=mpl_cm.Reds)
 
+p3 =  Polygon([(xd3_1,yd3_1),(xd3_2,yd3_2),(xd3_3,yd3_3),(xd3_4,yd3_4)],\
+              facecolor='none',linestyle='--',edgecolor='k',linewidth=2)
+plt.gca().add_patch(p3)
+
 # add colorbar.
 plt.plot(x27,y27,'r',linewidth=1)
 plt.annotate(runlab4,xy=(-78,-28),xytext=(-78,-28),fontsize=10)
@@ -784,6 +850,10 @@ data = liqbelow4 # bl4_2 # iwp4 #w4
 cs = m.pcolor(x,y,data,vmin=mindat2,vmax=maxdat2,cmap=mpl_cm.Blues)
 #cs = m.pcolor(x,y,data,vmin=0,vmax=2500,cmap=mpl_cm.viridis)
 
+p3 =  Polygon([(xd3_1,yd3_1),(xd3_2,yd3_2),(xd3_3,yd3_3),(xd3_4,yd3_4)],\
+              facecolor='none',linestyle='--',edgecolor='k',linewidth=2)
+plt.gca().add_patch(p3)
+
 x27,y27 = m(newlon27, newlat27)
 plt.plot(x27,y27,'r',linewidth=1)
 plt.annotate(runlab4,xy=(-78,-28),xytext=(-78,-28),fontsize=10)
@@ -809,6 +879,10 @@ data = icebelow5 # w5 # bl5_1
 # data[data > maxdat] = maxdat
 
 cs = m.pcolor(x,y,data,vmin=mindat1,vmax=maxdat1,cmap=mpl_cm.Reds)
+
+p3 =  Polygon([(xd3_1,yd3_1),(xd3_2,yd3_2),(xd3_3,yd3_3),(xd3_4,yd3_4)],\
+              facecolor='none',linestyle='--',edgecolor='k',linewidth=2)
+plt.gca().add_patch(p3)
 
 x29,y29 = m(newlon29, newlat29)
 plt.plot(x27,y27,'r',linewidth=1)
@@ -841,12 +915,15 @@ data = liqbelow5 # bl5_2 #iwp5 #w5
 
 cs = m.pcolor(x,y,data,vmin=mindat2,vmax=maxdat2,cmap=mpl_cm.Blues)
 #cs = m.pcolor(x,y,data,vmin=0,vmax=2500,cmap=mpl_cm.viridis)
+p3 =  Polygon([(xd3_1,yd3_1),(xd3_2,yd3_2),(xd3_3,yd3_3),(xd3_4,yd3_4)],\
+              facecolor='none',linestyle='--',edgecolor='k',linewidth=2)
+plt.gca().add_patch(p3)
 
 x27,y27 = m(newlon27, newlat27)
 plt.plot(x27,y27,'r',linewidth=1)
 plt.annotate(runlab5,xy=(-78,-28),xytext=(-78,-28),fontsize=10)
 
-plt.savefig('/data/scihub-users/giyoung/PYTHON/WRF/FIGS/Misc/05_GRL_meanNisgBelow_meanQliqBelow.png',dpi=300)
+plt.savefig('../Figures/FigS_MeanNisgBelow_MeanQliqBelow_S7.png',dpi=300)
 plt.show()
 
 
