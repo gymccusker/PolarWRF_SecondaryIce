@@ -71,14 +71,6 @@ lon3  = lon2[190:340,np.unique(lonindex_udom[1])]
 n3x = np.size(lon3,1)
 n3y = np.size(lat3,0)
 
-xd3_1,yd3_1 = m(lon3[n3y-1,0],lat3[n3y-1,0]) 
-xd3_2,yd3_2 = m(lon3[0,0],lat3[0,0]) 
-xd3_3,yd3_3 = m(lon3[0,n3x-1],lat3[0,n3x-1]) 
-xd3_4,yd3_4 = m(lon3[n3y-1,n3x-1],lat3[n3y-1,n3x-1])
-
-p3 =  Polygon([(xd3_1,yd3_1),(xd3_2,yd3_2),(xd3_3,yd3_3),(xd3_4,yd3_4)],\
-              facecolor='none',linestyle='--',edgecolor='k',linewidth=2)
-
 ###################################
 # DEFINE TEMPERATURE BINNING
 ###################################
@@ -571,6 +563,13 @@ data = allicebelow1 # w1 # bl1_1
 
 cs = m.pcolor(x,y,data,vmin=mindat1,vmax=maxdat1,cmap=mpl_cm.Reds)
 
+xd3_1,yd3_1 = m(lon3[n3y-1,0],lat3[n3y-1,0]) 
+xd3_2,yd3_2 = m(lon3[0,0],lat3[0,0]) 
+xd3_3,yd3_3 = m(lon3[0,n3x-1],lat3[0,n3x-1]) 
+xd3_4,yd3_4 = m(lon3[n3y-1,n3x-1],lat3[n3y-1,n3x-1])
+
+p3 =  Polygon([(xd3_1,yd3_1),(xd3_2,yd3_2),(xd3_3,yd3_3),(xd3_4,yd3_4)],\
+              facecolor='none',linestyle='--',edgecolor='k',linewidth=2)
 plt.gca().add_patch(p3)
 
 x27,y27 = m(newlon27, newlat27)
