@@ -578,15 +578,15 @@ plt.grid('on')
 #plt.xlim([0.0,1.0])
 plt.title('10xHM')
 ax = plt.gca();
-ax.set_yscale("log", nonposy='clip'); plt.ylim([1e-10,4e2])
-ax.set_xscale("log", nonposy='clip'); plt.xlim([1e-10,4e2])
+# ax.set_yscale("log", nonposy='clip'); plt.ylim([1e-10,4e2])
+# ax.set_xscale("log", nonposy='clip'); plt.xlim([1e-10,4e2])
 plt.ylabel('Max $N_{isg}$ within BL, $L^{-1}$')
 plt.xlabel('Max $N_{isg}$ above BL, $L^{-1}$')
 plt.plot(iceabove,line1,'.')
 
 plt.subplot(122)
 # plt.plot(watBL,icebelow,'.',markersize=2)
-plt.boxplot(ni5_array[0],whis=[5, 99.7]) # showfliers=False
+plt.boxplot(ni5_array[0],whis=[5, 95]) # showfliers=False
 # plt.plot(watBL,line2,'r-')
 # plt.plot(bins,ni5_nanmedian,'o')
 plt.grid('on')
