@@ -629,7 +629,7 @@ x, y = m(lons, lats) # compute map proj coordinates.
 # contour levels
 mindat2 = 0
 #clevs2 = np.arange(-1,maxdat2 + 0.01,0.2)
-maxdat2 = 15
+maxdat2 = 10
 #clevs2 = np.arange(0,2500.01,500)
 
 # data = np.nanmean(data1['nisg80'][0:3,zind1,:,:],0)
@@ -637,7 +637,7 @@ data = iceabove1 # bl1_2 #iwp1 #w1
 #data[data == 0] = np.nan
 # data[data > maxdat2] = maxdat2
 
-cs = m.pcolor(x,y,data,vmin=mindat2,vmax=maxdat2,cmap=mpl_cm.Blues)
+cs = m.pcolor(x,y,data,vmin=mindat2,vmax=maxdat2,cmap=mpl_cm.Blues_r)
 #cs = m.pcolor(x,y,data,vmin=0,vmax=2500,cmap=mpl_cm.viridis)
 
 p3 =  Polygon([(xd3_1,yd3_1),(xd3_2,yd3_2),(xd3_3,yd3_3),(xd3_4,yd3_4)],\
@@ -708,7 +708,7 @@ data = iceabove2 # bl2_2 # iwp2 #w2
 #data[data == 0] = np.nan
 # data[data > maxdat2] = maxdat2
 
-cs = m.pcolor(x,y,data,vmin=mindat2,vmax=maxdat2,cmap=mpl_cm.Blues)
+cs = m.pcolor(x,y,data,vmin=mindat2,vmax=maxdat2,cmap=mpl_cm.Blues_r)
 #cs = m.pcolor(x,y,data,vmin=0,vmax=2500,cmap=mpl_cm.viridis)
 
 p3 =  Polygon([(xd3_1,yd3_1),(xd3_2,yd3_2),(xd3_3,yd3_3),(xd3_4,yd3_4)],\
@@ -776,7 +776,7 @@ data = iceabove3 #bl3_2 # iwp3 #w3
 #data[data == 0] = np.nan
 # data[data > maxdat2] = maxdat2
 
-cs = m.pcolor(x,y,data,vmin=mindat2,vmax=maxdat2,cmap=mpl_cm.Blues)
+cs = m.pcolor(x,y,data,vmin=mindat2,vmax=maxdat2,cmap=mpl_cm.Blues_r)
 # cs = m.pcolor(x,y,data,vmin=0,vmax=2500,cmap=mpl_cm.viridis)
 
 p3 =  Polygon([(xd3_1,yd3_1),(xd3_2,yd3_2),(xd3_3,yd3_3),(xd3_4,yd3_4)],\
@@ -849,7 +849,7 @@ data = iceabove4 # bl4_2 # iwp4 #w4
 #data[data == 0] = np.nan
 # data[data > maxdat2] = maxdat2
 
-cs = m.pcolor(x,y,data,vmin=mindat2,vmax=maxdat2,cmap=mpl_cm.Blues)
+cs = m.pcolor(x,y,data,vmin=mindat2,vmax=maxdat2,cmap=mpl_cm.Blues_r)
 #cs = m.pcolor(x,y,data,vmin=0,vmax=2500,cmap=mpl_cm.viridis)
 
 x27,y27 = m(newlon27, newlat27)
@@ -911,7 +911,7 @@ data = iceabove5 # bl5_2 #iwp5 #w5
 #data[data == 0] = np.nan
 # data[data > maxdat2] = maxdat2
 
-cs = m.pcolor(x,y,data,vmin=mindat2,vmax=maxdat2,cmap=mpl_cm.Blues)
+cs = m.pcolor(x,y,data,vmin=mindat2,vmax=maxdat2,cmap=mpl_cm.Blues_r)
 #cs = m.pcolor(x,y,data,vmin=0,vmax=2500,cmap=mpl_cm.viridis)
 
 p3 =  Polygon([(xd3_1,yd3_1),(xd3_2,yd3_2),(xd3_3,yd3_3),(xd3_4,yd3_4)],\
