@@ -529,8 +529,8 @@ icebelow = np.ndarray.flatten(allicebelow1)
 iceabove = np.ndarray.flatten(iceabove1)
 watBL = np.ndarray.flatten(w1)
 
-icebelow[icebelow<=0.01] = np.nan
-iceabove1[iceabove1<=0.01] = np.nan
+icebelow[icebelow<=0.5] = np.nan
+iceabove1[iceabove1<=0.5] = np.nan
 
 # icebelow[icebelow<0.005] = np.nan
 # iceabove[iceabove<0.005] = np.nan
