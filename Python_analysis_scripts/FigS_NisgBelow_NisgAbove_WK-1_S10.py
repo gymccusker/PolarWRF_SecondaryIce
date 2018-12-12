@@ -570,7 +570,7 @@ xd3_3,yd3_3 = m(lon3[0,n3x-1],lat3[0,n3x-1])
 xd3_4,yd3_4 = m(lon3[n3y-1,n3x-1],lat3[n3y-1,n3x-1])
 
 p3 =  Polygon([(xd3_1,yd3_1),(xd3_2,yd3_2),(xd3_3,yd3_3),(xd3_4,yd3_4)],\
-              facecolor='none',linestyle='--',edgecolor='k',linewidth=2)
+              facecolor='none',linestyle='--',edgecolor='k',linewidth=1)
 plt.gca().add_patch(p3)
 
 x27,y27 = m(newlon27, newlat27)
