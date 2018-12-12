@@ -517,7 +517,7 @@ plt.rc('legend',fontsize=SMALL_SIZE)
 # plt.rc('figure',titlesize=LARGE_SIZE)
 
 binwidth = 0.2
-bins = np.arange(-2.0,2.0,binwidth)
+bins = np.arange(-2.0,2.0,,binwidth)
 
 ni5 = {}
 ni5_med = 0.
@@ -562,7 +562,7 @@ for i in range(0,len(bins)):
         ni5_nanpercentile = np.append(ni5_nanpercentile,ni5_med)  
         # ni5_array = np.append(ni5_array,ni5[strgi])
 
-ni1_array = [[ni1['1'],ni1['2'],ni1['3'],ni1['4'],ni1['5'],ni1['6'],ni1['7'],ni1['8'],ni1['9'],ni1['10'],ni1['11'],ni1['12'],ni1['13'],ni1['14'],ni1['15'],ni1['16'],ni1['17'],ni1['18'],ni1['19'],ni1['20']]]
+ni5_array = [[ni5['1'],ni5['2'],ni5['3'],ni5['4'],ni5['5'],ni5['6'],ni5['7'],ni5['8'],ni5['9'],ni5['10'],ni5['11'],ni5['12'],ni5['13'],ni5['14'],ni5['15'],ni5['16'],ni5['17'],ni5['18'],ni5['19'],ni5['20']]]
 
 fig = plt.figure(figsize=(8,5))
 
