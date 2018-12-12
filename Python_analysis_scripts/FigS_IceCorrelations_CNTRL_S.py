@@ -586,8 +586,8 @@ ax = plt.gca();
 # ax.set_xscale("log", nonposy='clip'); plt.xlim([1e-10,4e2])
 plt.ylabel('Max $N_{isg}$ within BL, $L^{-1}$')
 plt.xlabel('$N_{isg}$ above BL, $L^{-1}$')
-plt.annotate(strg1,xy=(120,340),xytext=(121,341),fontsize=8)
-plt.annotate(strg2,xy=(200,320),xytext=(201,321),fontsize=8)
+plt.annotate(strg1,xy=(15,340),xytext=(15,341),fontsize=8)
+plt.annotate(strg2,xy=(15,320),xytext=(15,321),fontsize=8)
 
 plt.subplot(122)
 plt.plot(watBL,icebelow,'.',markersize=2)
