@@ -456,8 +456,8 @@ for t in range(0,np.size(time_sci)):
         				w5[t,j,i] = w_theta5[t,k-1,j,i]
                                         allicebelow5[t,j,i] = np.nanmax(data5['qnisg'][t,0:k,j,i])/float(1e3)   # /L
                                         if np.size(data5['qnisg'][t,k:heightindex[0][-1],j,i])>0:
-                                                # iceabove5[t,j,i] = np.nanmax(data5['qnisg'][t,k:heightindex[0][-1],j,i])/float(1e3) # k to height index (3000m)
-                                                iceabove5[t,j,i] = data5['qnisg'][t,k+2,j,i]/float(1e3) # k+1 only
+                                                iceabove5[t,j,i] = np.nanmax(data5['qnisg'][t,k:heightindex[0][-1],j,i])/float(1e3) # k to height index (3000m)
+                                                # iceabove5[t,j,i] = data5['qnisg'][t,k+2,j,i]/float(1e3) # k+1 only
                                         if np.nanpercentile(data5['qnisg'][t,0:k,j,i],99.7)>1.0:
                                                 blice5[t,j,i] = 1.0
                                        	if np.nanpercentile(data5['qnisg'][t,k:heightindex[0][-1],j,i],99.7)>1.0:
@@ -555,17 +555,17 @@ for i in range(0,len(bins)):
     ni5[strgi] = icebelow[ind[strgi]];
     ni5[strgi] = ni5[strgi][~np.isnan(ni5[strgi])]
     if i==0:
-        ni5_nanmedian = np.nanpercentile(ni5[strgi],99.7)
+        ni5_nanpercentile = np.nanpercentile(ni5[strgi],99.7)
         # ni5_array = [[ni5[strgi]]]
     if i>0:
         ni5_med = np.nanpercentile(ni5[strgi],99.7)
-        ni5_nanmedian = np.append(ni5_nanmedian,ni5_med)  
+        ni5_nanpercentile = np.append(ni5_nanpercentile,ni5_med)  
         # ni5_array = np.append(ni5_array,ni5[strgi])
 
 ni5_array = [[ni5['1'],ni5['2'],ni5['3'],ni5['4'],ni5['5'],ni5['6'],ni5['7'],ni5['8'],ni5['9'],ni5['10']]]
 # ,ni5['11'],ni5['12'],ni5['13'],ni5['14'],ni5['15'],ni5['16'],ni5['17'],ni5['18'],ni5['19'],ni5['20']]]
 
-fig = plt.figure(figsize=(7,6))
+fig = plt.figure(figsize=(8,5))
 
 # Also manually adjust the spacings which are used when creating subplots
 plt.gcf().subplots_adjust(top=0.96)
@@ -585,20 +585,20 @@ plt.xlabel('$N_{isg}$ above BL, $L^{-1}$')
 plt.plot(iceabove,line1,'.')
 
 plt.subplot(122)
-# plt.plot(watBL,icebelow,'.',markersize=2)
-plt.boxplot(ni5_array[0],whis=[5, 95]) # showfliers=False
+plt.plot(watBL,icebelow,'.',markersize=2)
+# plt.boxplot(ni5_array[0],whis=[5, 95]) # showfliers=False
 # plt.plot(watBL,line2,'r-')
-# plt.plot(bins,ni5_nanmedian,'o')
+plt.plot(bins,ni5_nanpercentile,'o')
 plt.grid('on')
 # plt.ylim([0.0,1.0])
 plt.title('10xHM')
 plt.xlabel('W, $ms^{-1}$')
 # plt.xlim([-1.0,1.5])
-ax = plt.gca();
-a = ax.get_xticks().tolist()
-for m in range(0,len(bins)):
-        a[m] = "%.1f" % bins[m] 
-ax.set_xticklabels(a)
+# ax = plt.gca();
+# a = ax.get_xticks().tolist()
+# for m in range(0,len(bins)):
+#         a[m] = "%.1f" % bins[m] 
+# ax.set_xticklabels(a)
 
 # ax.set_yscale("log", nonposy='clip');
 
