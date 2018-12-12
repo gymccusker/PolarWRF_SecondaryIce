@@ -516,7 +516,7 @@ plt.rc('ytick',labelsize=SMALL_SIZE)
 plt.rc('legend',fontsize=SMALL_SIZE)
 # plt.rc('figure',titlesize=LARGE_SIZE)
 
-binwidth = 0.2
+binwidth = 0.4
 bins = np.arange(-2.0,2.0,binwidth)
 
 ni1 = {}
@@ -535,7 +535,8 @@ watBL = np.ndarray.flatten(w1)
 
 iceindex = np.where(np.logical_and(np.ndarray.flatten(blice1)==1,np.ndarray.flatten(tropice1)==1))
 print("Percentage ice above+below BL:", np.float(np.size(iceindex[0]))/np.float(np.size(np.ndarray.flatten(blice1)))*100.0)
-
+perc_ice_lab = "%.1f" % perc_ice
+strg1 = '% ice above+below = ' + perc_ice_lab + '%'
 # np.float((np.size(bliceindex[0]))/np.float(np.size(np.ndarray.flatten(tropice1))))*100.0
 
 
@@ -543,6 +544,8 @@ mask1 = ~np.isnan(icebelow) & ~np.isnan(iceabove)
 slope1, intercept1, r_value1, p_value1, std_err1 = stats.linregress(iceabove[mask1], icebelow[mask1])
 line1 = slope1*iceabove+intercept1
 print("r-squared1:", r_value1**2)
+r2_lab = "%.2f" % r_value1**2
+strg2 = '$R^2$ = '+ r2_lab
 
 mask2 = ~np.isnan(icebelow) & ~np.isnan(watBL)
 slope2, intercept2, r_value2, p_value2, std_err2 = stats.linregress(watBL[mask2], icebelow[mask2])
@@ -562,7 +565,8 @@ for i in range(0,len(bins)):
         ni1_nanpercentile = np.append(ni1_nanpercentile,ni1_med)  
         # ni1_array = np.append(ni1_array,ni1[strgi])
 
-ni1_array = [[ni1['1'],ni1['2'],ni1['3'],ni1['4'],ni1['5'],ni1['6'],ni1['7'],ni1['8'],ni1['9'],ni1['10'],ni1['11'],ni1['12'],ni1['13'],ni1['14'],ni1['15'],ni1['16'],ni1['17'],ni1['18'],ni1['19'],ni1['20']]]
+ni1_array = [[ni1['1'],ni1['2'],ni1['3'],ni1['4'],ni1['5'],ni1['6'],ni1['7'],ni1['8'],ni1['9'],ni1['10']]]
+# ,ni1['11'],ni1['12'],ni1['13'],ni1['14'],ni1['15'],ni1['16'],ni1['17'],ni1['18'],ni1['19'],ni1['20']]]
 
 fig = plt.figure(figsize=(8,5))
 
@@ -581,7 +585,8 @@ ax = plt.gca();
 # ax.set_xscale("log", nonposy='clip'); plt.xlim([1e-10,4e2])
 plt.ylabel('Max $N_{isg}$ within BL, $L^{-1}$')
 plt.xlabel('$N_{isg}$ above BL, $L^{-1}$')
-
+plt.annotate(strg1,xy=(150,340),xytext=(151,341),fontsize=8)
+plt.annotate(strg2,xy=(200,320),xytext=(201,321),fontsize=8)
 
 plt.subplot(122)
 plt.plot(watBL,icebelow,'.',markersize=2)
