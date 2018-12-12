@@ -617,7 +617,7 @@ cs = m.pcolor(x,y,data,vmin=mindat2,vmax=maxdat2,cmap=mpl_cm.RdBu_r)
 #cs = m.pcolor(x,y,data,vmin=0,vmax=2500,cmap=mpl_cm.viridis)
 
 p3 =  Polygon([(xd3_1,yd3_1),(xd3_2,yd3_2),(xd3_3,yd3_3),(xd3_4,yd3_4)],\
-              facecolor='none',linestyle='--',edgecolor='k',linewidth=1)
+              facecolor='none',linestyle='--',edgecolor='k',linewidth=2)
 plt.gca().add_patch(p3)
 
 x27,y27 = m(newlon27, newlat27)
@@ -688,7 +688,7 @@ cs = m.pcolor(x,y,data,vmin=mindat2,vmax=maxdat2,cmap=mpl_cm.RdBu_r)
 #cs = m.pcolor(x,y,data,vmin=0,vmax=2500,cmap=mpl_cm.viridis)
 
 p3 =  Polygon([(xd3_1,yd3_1),(xd3_2,yd3_2),(xd3_3,yd3_3),(xd3_4,yd3_4)],\
-              facecolor='none',linestyle='--',edgecolor='k',linewidth=1)
+              facecolor='none',linestyle='--',edgecolor='k',linewidth=2)
 plt.gca().add_patch(p3)
 
 x27,y27 = m(newlon27, newlat27)
@@ -721,7 +721,7 @@ data = allicebelow3 # w3 # bl3_1
 cs = m.pcolor(x,y,data,vmin=mindat1,vmax=maxdat1,cmap=mpl_cm.Reds)
 
 p3 =  Polygon([(xd3_1,yd3_1),(xd3_2,yd3_2),(xd3_3,yd3_3),(xd3_4,yd3_4)],\
-              facecolor='none',linestyle='--',edgecolor='k',linewidth=1)
+              facecolor='none',linestyle='--',edgecolor='k',linewidth=2)
 plt.gca().add_patch(p3)
 
 plt.plot(x27,y27,'r',linewidth=1)
@@ -756,7 +756,7 @@ cs = m.pcolor(x,y,data,vmin=mindat2,vmax=maxdat2,cmap=mpl_cm.RdBu_r)
 # cs = m.pcolor(x,y,data,vmin=0,vmax=2500,cmap=mpl_cm.viridis)
 
 p3 =  Polygon([(xd3_1,yd3_1),(xd3_2,yd3_2),(xd3_3,yd3_3),(xd3_4,yd3_4)],\
-              facecolor='none',linestyle='--',edgecolor='k',linewidth=1)
+              facecolor='none',linestyle='--',edgecolor='k',linewidth=2)
 plt.gca().add_patch(p3)
 
 x27,y27 = m(newlon27, newlat27)
@@ -829,7 +829,7 @@ cs = m.pcolor(x,y,data,vmin=mindat2,vmax=maxdat2,cmap=mpl_cm.RdBu_r)
 #cs = m.pcolor(x,y,data,vmin=0,vmax=2500,cmap=mpl_cm.viridis)
 
 p3 =  Polygon([(xd3_1,yd3_1),(xd3_2,yd3_2),(xd3_3,yd3_3),(xd3_4,yd3_4)],\
-              facecolor='none',linestyle='--',edgecolor='k',linewidth=1)
+              facecolor='none',linestyle='--',edgecolor='k',linewidth=2)
 plt.gca().add_patch(p3)
 
 x27,y27 = m(newlon27, newlat27)
@@ -895,7 +895,7 @@ cs = m.pcolor(x,y,data,vmin=mindat2,vmax=maxdat2,cmap=mpl_cm.RdBu_r)
 #cs = m.pcolor(x,y,data,vmin=0,vmax=2500,cmap=mpl_cm.viridis)
 
 p3 =  Polygon([(xd3_1,yd3_1),(xd3_2,yd3_2),(xd3_3,yd3_3),(xd3_4,yd3_4)],\
-              facecolor='none',linestyle='--',edgecolor='k',linewidth=1)
+              facecolor='none',linestyle='--',edgecolor='k',linewidth=2)
 plt.gca().add_patch(p3)
 
 x27,y27 = m(newlon27, newlat27)
