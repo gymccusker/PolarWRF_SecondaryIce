@@ -122,7 +122,7 @@ zind3 = 21
 timeindex = 1
 
 # # define plot title
-strg1 = '$N_{isg}$, $L^{-1}$ \n Below BL' 
+strg1 = '$Q_{isg}$, $g kg^{-1}$ \n Below BL' 
 strg2 = '$Q_{liq}$, $g kg^{-1}$ \n Below BL'
 # strg2 = '$Q_{liq}$, $g kg^{-1}$'
 
@@ -577,7 +577,7 @@ lons, lats = m.makegrid(data1['x_dim'], data1['y_dim']) # get lat/lons of ny by 
 x, y = m(lons, lats) # compute map proj coordinates.
 
 # contour levels
-maxdat1 = 3
+maxdat1 = 0.5
 mindat1 = 0
 #clevs = np.arange(0.0,maxdat,200)
 
@@ -586,7 +586,7 @@ data = icebelow1 # w1 # bl1_1
 # data[data == 0] = np.nan
 # data[data > maxdat] = maxdat
 
-cs = m.pcolor(x,y,data,vmin=mindat1,vmax=maxdat1,cmap=mpl_cm.Reds)
+cs = m.pcolor(x,y,data,vmin=mindat1,vmax=maxdat1,cmap=mpl_cm.Blues)
 
 xd3_1,yd3_1 = m(lon3[n3y-1,0],lat3[n3y-1,0]) 
 xd3_2,yd3_2 = m(lon3[0,0],lat3[0,0]) 
@@ -629,7 +629,7 @@ x, y = m(lons, lats) # compute map proj coordinates.
 # contour levels
 mindat2 = 0
 #clevs2 = np.arange(-1,maxdat2 + 0.01,0.2)
-maxdat2 = 0.1
+maxdat2 = 0.2
 #clevs2 = np.arange(0,2500.01,500)
 
 # data = np.nanmean(data1['nisg80'][0:3,zind1,:,:],0)
@@ -674,7 +674,7 @@ x, y = m(lons, lats) # compute map proj coordinates.
 data = icebelow2 #w2 # bl2_1
 # data[data > maxdat] = maxdat
 
-cs = m.pcolor(x,y,data,vmin=mindat1,vmax=maxdat1,cmap=mpl_cm.Reds)
+cs = m.pcolor(x,y,data,vmin=mindat1,vmax=maxdat1,cmap=mpl_cm.Blues)
 
 p3 =  Polygon([(xd3_1,yd3_1),(xd3_2,yd3_2),(xd3_3,yd3_3),(xd3_4,yd3_4)],\
               facecolor='none',linestyle='--',edgecolor='k',linewidth=2)
@@ -742,7 +742,7 @@ x, y = m(lons, lats) # compute map proj coordinates.
 data = icebelow3 # w3 # bl3_1
 # data[data > maxdat] = maxdat
 
-cs = m.pcolor(x,y,data,vmin=mindat1,vmax=maxdat1,cmap=mpl_cm.Reds)
+cs = m.pcolor(x,y,data,vmin=mindat1,vmax=maxdat1,cmap=mpl_cm.Blues)
 
 p3 =  Polygon([(xd3_1,yd3_1),(xd3_2,yd3_2),(xd3_3,yd3_3),(xd3_4,yd3_4)],\
               facecolor='none',linestyle='--',edgecolor='k',linewidth=2)
@@ -814,7 +814,7 @@ data = icebelow4 # w4 # bl4_1
 
 # contour levels
 # clevs = np.arange(0.0,1.1,0.1) 
-cs = m.pcolor(x,y,data,vmin=mindat1,vmax=maxdat1,cmap=mpl_cm.Reds)
+cs = m.pcolor(x,y,data,vmin=mindat1,vmax=maxdat1,cmap=mpl_cm.Blues)
 
 p3 =  Polygon([(xd3_1,yd3_1),(xd3_2,yd3_2),(xd3_3,yd3_3),(xd3_4,yd3_4)],\
               facecolor='none',linestyle='--',edgecolor='k',linewidth=2)
@@ -880,7 +880,7 @@ x, y = m(lons, lats) # compute map proj coordinates.
 data = icebelow5 # w5 # bl5_1
 # data[data > maxdat] = maxdat
 
-cs = m.pcolor(x,y,data,vmin=mindat1,vmax=maxdat1,cmap=mpl_cm.Reds)
+cs = m.pcolor(x,y,data,vmin=mindat1,vmax=maxdat1,cmap=mpl_cm.Blues)
 
 p3 =  Polygon([(xd3_1,yd3_1),(xd3_2,yd3_2),(xd3_3,yd3_3),(xd3_4,yd3_4)],\
               facecolor='none',linestyle='--',edgecolor='k',linewidth=2)
@@ -917,6 +917,7 @@ data = liqbelow5 # bl5_2 #iwp5 #w5
 
 cs = m.pcolor(x,y,data,vmin=mindat2,vmax=maxdat2,cmap=mpl_cm.viridis)
 #cs = m.pcolor(x,y,data,vmin=0,vmax=2500,cmap=mpl_cm.viridis)
+
 p3 =  Polygon([(xd3_1,yd3_1),(xd3_2,yd3_2),(xd3_3,yd3_3),(xd3_4,yd3_4)],\
               facecolor='none',linestyle='--',edgecolor='k',linewidth=2)
 plt.gca().add_patch(p3)
@@ -927,142 +928,4 @@ plt.annotate(runlab5,xy=(-78,-28),xytext=(-78,-28),fontsize=10)
 
 plt.savefig('../Figures/FigS_MeanNisgBelow_MeanQliqBelow_S7.png',dpi=300)
 plt.show()
-
-
-# plt.subplot(1,2,1); plt.plot(np.nanmean(data1['theta'][timeindex,0:40,190:340,107:202],2),np.nanmean(data1['Zsci'][0:40,190:340,107:202],2));
-# plt.grid('on'); plt.subplot(1,2,2); 
-# plt.plot(np.nanmean(nc1.variables['W'][time_sci[timeindex],0:40,190:340,107:202],2),np.nanmean(data1['Zsci'][0:40,190:340,107:202],2),'.') ;
-# plt.grid('on'); plt.show()
-
-
-##### Picking out BL top
-# ind[strgi] = np.where(np.logical_and(np.logical_and(W[i,:]>-0.07,W[i,:]<0.07),theta[i+1,:]<theta[i,:]+0.05))
-
-
-# ind = {}
-# # theta = data1['theta'][timeindex,0:35,190:340,107:202]
-# # Z = data1['Zsci'][0:35,190:340,107:202]
-# theta = data1['theta'][timeindex,:,:,:]
-# Z = data1['Zsci'][:,:,:]
-# bl_1 = np.zeros(shape=(np.size(Z,1),np.size(Z,2)))
-# bl_2 = np.zeros(shape=(np.size(Z,1),np.size(Z,2)))
-# for i in range(0,np.size(Z,2)):
-#         strgi = "%1.f" % (i+1) # string of longitude
-#         for j in range(0,np.size(Z,1)):
-#                 strgj = "%1.f" % (j+1) # string of latitude
-#                 for k in range(0,np.size(Z,0)-2):
-#                         strgk = "%1.f" % (k+1) # string of altitude
-#                         if theta[k,j,i] < theta[k+1,j,i]-0.2:           # small inversion - typically ~500m
-#                                 bl_1[j,i] = Z[k,j,i]
-#                                 break
-#                 for k in range(0,np.size(Z,0)-2):
-#                         strgk = "%1.f" % (k+1) # string of altitude
-#                         if theta[k,j,i] < theta[k+1,j,i]-0.4:           # large inversion - typically ~1500m
-#                                 bl_2[j,i] = Z[k,j,i]
-#                                 break
-
-#                         # elif theta[k,j,i] < theta[k+1,j,i]-0.4:         # big jump inversion
-#                         #         bl_2[j,i] = Z[k,j,i]        
-#                                 # break
-#                         # OR: a larger theta jump than ?? deg?
-
-#                         # ind[strgk] = np.where(theta[k,j,i] < theta[k+1,j,i]-0.5)
-#                         # if np.size(ind[strgk]) > 0: 
-#                         #         index = np.array([ind[strgk][0][0],ind[strgk][1][0]])
-#                         #         bl[index[0],index[1]] = Z[k,index[0],index[1]]
-
-# plt.subplot(231)
-# m = Basemap(resolution='i',projection='stere', rsphere=6370000.0, \
-#         width=data1['width_meters'],height=data1['height_meters'],\
-#         lat_0=data1['cen_lat'],lon_0=data1['cen_lon'],lat_1=data1['truelat1'])
-
-# ##define parallels/meridians
-# m.drawparallels(np.arange(-90.,-60.,2.),color='k',labels=[0,0,0,0],linewidth=0.8,fontsize=10)
-# m.drawmeridians(np.arange(-180.,181.,5.),color='k',labels=[0,0,0,1],linewidth=0.8,fontsize=10)
-# m.drawcoastlines(linewidth=1.)
-
-# lons, lats = m.makegrid(data1['x_dim'], data1['y_dim']) # get lat/lons of ny by nx evenly space grid.
-# x, y = m(lons, lats) # compute map proj coordinates.
-
-# cs = m.pcolor(x,y,largeicebelow1,vmin=0,vmax=3);
-# # plt.colorbar(cs);
-# plt.title('Large ice below')
-
-# plt.subplot(232)
-# m = Basemap(resolution='i',projection='stere', rsphere=6370000.0, \
-#         width=data1['width_meters'],height=data1['height_meters'],\
-#         lat_0=data1['cen_lat'],lon_0=data1['cen_lon'],lat_1=data1['truelat1'])
-
-# ##define parallels/meridians
-# m.drawparallels(np.arange(-90.,-60.,2.),color='k',labels=[0,0,0,0],linewidth=0.8,fontsize=10)
-# m.drawmeridians(np.arange(-180.,181.,5.),color='k',labels=[0,0,0,1],linewidth=0.8,fontsize=10)
-# m.drawcoastlines(linewidth=1.)
-
-# lons, lats = m.makegrid(data1['x_dim'], data1['y_dim']) # get lat/lons of ny by nx evenly space grid.
-# x, y = m(lons, lats) # compute map proj coordinates.
-
-# cs = m.pcolor(x,y,liqbelow1,vmin=0,vmax=0.1);
-# # plt.colorbar(cs);
-# plt.title('Mean Liquid below')
-
-# plt.subplot(233)
-# m = Basemap(resolution='i',projection='stere', rsphere=6370000.0, \
-#         width=data1['width_meters'],height=data1['height_meters'],\
-#         lat_0=data1['cen_lat'],lon_0=data1['cen_lon'],lat_1=data1['truelat1'])
-
-# ##define parallels/meridians
-# m.drawparallels(np.arange(-90.,-60.,2.),color='k',labels=[0,0,0,0],linewidth=0.8,fontsize=10)
-# m.drawmeridians(np.arange(-180.,181.,5.),color='k',labels=[0,0,0,1],linewidth=0.8,fontsize=10)
-# m.drawcoastlines(linewidth=1.)
-
-# lons, lats = m.makegrid(data1['x_dim'], data1['y_dim']) # get lat/lons of ny by nx evenly space grid.
-# x, y = m(lons, lats) # compute map proj coordinates.
-
-# cs = m.pcolor(x,y,smicebelow1,vmin=0,vmax=3);
-# # plt.colorbar(cs);
-# plt.title('Small ice below')
-
-
-# plt.subplot(234)
-# m = Basemap(resolution='i',projection='stere', rsphere=6370000.0, \
-#         width=data1['width_meters'],height=data1['height_meters'],\
-#         lat_0=data1['cen_lat'],lon_0=data1['cen_lon'],lat_1=data1['truelat1'])
-
-# ##define parallels/meridians
-# m.drawparallels(np.arange(-90.,-60.,2.),color='k',labels=[0,0,0,0],linewidth=0.8,fontsize=10)
-# m.drawmeridians(np.arange(-180.,181.,5.),color='k',labels=[0,0,0,1],linewidth=0.8,fontsize=10)
-# m.drawcoastlines(linewidth=1.)
-
-# lons, lats = m.makegrid(data1['x_dim'], data1['y_dim']) # get lat/lons of ny by nx evenly space grid.
-# x, y = m(lons, lats) # compute map proj coordinates.
-
-# cs = m.pcolor(x,y,iceabove1,vmin=0,vmax=3);
-# # plt.colorbar(cs);
-# plt.title('All ice above')
-
-
-# plt.subplot(235)
-# m = Basemap(resolution='i',projection='stere', rsphere=6370000.0, \
-#         width=data1['width_meters'],height=data1['height_meters'],\
-#         lat_0=data1['cen_lat'],lon_0=data1['cen_lon'],lat_1=data1['truelat1'])
-
-# ##define parallels/meridians
-# m.drawparallels(np.arange(-90.,-60.,2.),color='k',labels=[0,0,0,0],linewidth=0.8,fontsize=10)
-# m.drawmeridians(np.arange(-180.,181.,5.),color='k',labels=[0,0,0,1],linewidth=0.8,fontsize=10)
-# m.drawcoastlines(linewidth=1.)
-
-# lons, lats = m.makegrid(data1['x_dim'], data1['y_dim']) # get lat/lons of ny by nx evenly space grid.
-# x, y = m(lons, lats) # compute map proj coordinates.
-
-# cs = m.pcolor(x,y,bl1_2,vmin=0,vmax=2500);
-# # plt.colorbar(cs);
-# plt.title('BL Height')
-
-# plt.show()
-
-
-# plt.subplot(1,2,1);plt.plot(theta[0:42,40:50,25],Z[0:42,40:50,25],'o--');plt.grid('on');plt.ylim([0,5000]);
-# plt.subplot(1,2,2);plt.plot(bl5_1[40:50,25]);plt.plot(bl5_2[40:50,25]); plt.grid('on');plt.ylim([0,5000]);
-# plt.show()
-
 
