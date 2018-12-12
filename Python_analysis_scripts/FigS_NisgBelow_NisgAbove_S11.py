@@ -629,7 +629,7 @@ x, y = m(lons, lats) # compute map proj coordinates.
 # contour levels
 mindat2 = 0
 #clevs2 = np.arange(-1,maxdat2 + 0.01,0.2)
-maxdat2 = 10
+maxdat2 = 15
 #clevs2 = np.arange(0,2500.01,500)
 
 # data = np.nanmean(data1['nisg80'][0:3,zind1,:,:],0)

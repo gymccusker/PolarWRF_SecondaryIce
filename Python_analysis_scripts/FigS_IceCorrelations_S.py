@@ -443,7 +443,7 @@ for t in range(0,np.size(time_sci)):
                 strgi = "%1.f" % (i+1) # string of longitude
                 for j in range(0,np.size(Z,2)):
                         strgj = "%1.f" % (j+1) # string of latitude
-        		heightindex = np.where(Z[t,:,j,i]<=3000.0)
+        		heightindex = np.where(Z[t,:,j,i]<=2500.0)
                         for k in range(2,np.size(Z,1)-3):
                                 strgk = "%1.f" % (k+1) # string of altitude
                                 if theta[t,k,j,i] < theta[t,k+1,j,i]-0.2:           # small inversion - typically ~500m
@@ -457,11 +457,14 @@ for t in range(0,np.size(time_sci)):
                                         allicebelow5[t,j,i] = np.nanmax(data5['qnisg'][t,0:k,j,i])/float(1e3)   # /L
                                         if np.size(data5['qnisg'][t,k:heightindex[0][-1],j,i])>0:
                                                 # iceabove5[t,j,i] = np.nanmax(data5['qnisg'][t,k:heightindex[0][-1],j,i])/float(1e3) # k to height index (3000m)
-                                                iceabove5[t,j,i] = np.nanmax(data5['qnisg'][t,k:k+1,j,i])/float(1e3) # k+1 only
+                                                iceabove5[t,j,i] = data5['qnisg'][t,k+1,j,i]/float(1e3) # k+1 only
                                         if np.nanpercentile(data5['qnisg'][t,0:k,j,i],99.7)>1.0:
                                                 blice5[t,j,i] = 1.0
-                                        if np.nanpercentile(data5['qnisg'][t,k:heightindex[0][-1],j,i],99.7)>1.0:
-                                                tropice5[t,j,i] = 1.0
+                                        if k>heightindex:
+                                        	if np.nanpercentile(data5['qnisg'][t,k:heightindex[0][-1],j,i],99.7)>1.0:
+                                            	    tropice5[t,j,i] = 1.0
+                                        else
+                                        	tropice5[t,j,i] = 0.0
                                         # if iceabove5[j,i]==np.nan:
                                         #         allicebelow5[j,i] = []
                                         #         iceabove5[j,i] = []
