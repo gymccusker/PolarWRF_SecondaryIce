@@ -568,7 +568,7 @@ ni5_array = [[ni5['1'],ni5['2'],ni5['3'],ni5['4'],ni5['5'],ni5['6'],ni5['7'],ni5
 fig = plt.figure(figsize=(8,5))
 
 # Also manually adjust the spacings which are used when creating subplots
-plt.gcf().subplots_adjust(top=0.96,bottom=0.04)
+plt.gcf().subplots_adjust(top=0.9,bottom=0.1)
 
 plt.subplot(121)
 plt.plot(iceabove,icebelow,'.',markersize=2)
@@ -588,7 +588,7 @@ plt.subplot(122)
 plt.plot(watBL,icebelow,'.',markersize=2)
 # plt.boxplot(ni5_array[0],whis=[5, 95]) # showfliers=False
 # plt.plot(watBL,line2,'r-')
-plt.plot(bins,ni5_nanpercentile,'o')
+plt.plot(bins,ni5_nanpercentile,'-o')
 plt.grid('on')
 # plt.ylim([0.0,1.0])
 plt.title('10xHM')
