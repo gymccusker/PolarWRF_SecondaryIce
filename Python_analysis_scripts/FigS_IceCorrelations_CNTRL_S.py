@@ -21,7 +21,7 @@ filename1 = '/data/scihub-users/giyoung/PWRF_V3.6.1/RUNS/MAC_WRF/31_DeMott_WATSA
 # filename2 = '/data/scihub-users/giyoung/PWRF_V3.6.1/RUNS/MAC_WRF/30_DeMott_WATSAT_HM_noThresh_eta70_MYNN/wrfout_d02_2015-11-27_00:00:00'
 # filename3 = '/data/scihub-users/giyoung/PWRF_V3.6.1/RUNS/MAC_WRF/36_DeMott_WATSAT_2xHM_noThresh_eta70_MYNN/wrfout_d02_2015-11-27_00:00:00'
 # filename4 = '/data/scihub-users/giyoung/PWRF_V3.6.1/RUNS/MAC_WRF/57_DeMott_WATSAT_5xHM_noThresh_eta70_MYNN/wrfout_d02_2015-11-27_00:00:00'
-filename5 = '/data/scihub-users/giyoung/PWRF_V3.6.1/RUNS/MAC_WRF/56_DeMott_WATSAT_10xHM_noThresh_eta70_MYNN/wrfout_d02_2015-11-27_00:00:00'
+# filename5 = '/data/scihub-users/giyoung/PWRF_V3.6.1/RUNS/MAC_WRF/56_DeMott_WATSAT_10xHM_noThresh_eta70_MYNN/wrfout_d02_2015-11-27_00:00:00'
 
 ###################################
 # Extract domain number: 
@@ -389,55 +389,55 @@ strg2 = 'W, $ms^{-1}$ \n At BL'
 # runlab4 = '5xHM'
 
 ###################################
-# FILE #5
+# FILE #1
 ###################################
-data5 = {}
-data5['theta'] = nc5.variables['T'][time_sci]+300 # potential temperature in K
-data5['p'] = (nc5.variables['P'][time_sci]+nc5.variables['PB'][time_sci])   # pressure in Pa
+data1 = {}
+data1['theta'] = nc1.variables['T'][time_sci]+300 # potential temperature in K
+data1['p'] = (nc1.variables['P'][time_sci]+nc1.variables['PB'][time_sci])   # pressure in Pa
 tempvar = constants.R/float(1005)
-tempvar0 = (data5['p']/100000)**tempvar       
-data5['Tk'] = tempvar0*data5['theta']
-data5['rho'] = data5['p']/(constants.R*data5['Tk'])
-data5['nisg80'] = nc5.variables['NISG80'][time_sci,:,:,:]*(data5['rho'])*(data5['rho'])
-# data5['nisg80'][data5['nisg80']<=0] = np.nan
-# data5['qliq'] = nc5.variables['QCLOUD'][time_sci,:,:,:] + nc5.variables['QRAIN'][time_sci,:,:,:]
-# data5['qliq'][data5['qliq']<0]=0
-ph = nc5.variables['PH'][time_sci]
-phb = nc5.variables['PHB'][time_sci]
+tempvar0 = (data1['p']/100000)**tempvar       
+data1['Tk'] = tempvar0*data1['theta']
+data1['rho'] = data1['p']/(constants.R*data1['Tk'])
+data1['nisg80'] = nc1.variables['NISG80'][time_sci,:,:,:]*(data1['rho'])*(data1['rho'])
+# data1['nisg80'][data1['nisg80']<=0] = np.nan
+# data1['qliq'] = nc1.variables['QCLOUD'][time_sci,:,:,:] + nc1.variables['QRAIN'][time_sci,:,:,:]
+# data1['qliq'][data1['qliq']<0]=0
+ph = nc1.variables['PH'][time_sci]
+phb = nc1.variables['PHB'][time_sci]
 tempvar1 = (ph+phb)/9.81
-data5['Zsci'] = 0.5*(tempvar1[:,0:-1,:,:]+tempvar1[:,1:,:,:])
+data1['Zsci'] = 0.5*(tempvar1[:,0:-1,:,:]+tempvar1[:,1:,:,:])
 
-data5['qcloud'] = nc5.variables['QCLOUD'][time_sci]# Qcloud mean over M218 flight times @ lon=-29 [z,lat,lon]
-data5['qcloud'][data5['qcloud']<0]=0
+data1['qcloud'] = nc1.variables['QCLOUD'][time_sci]# Qcloud mean over M218 flight times @ lon=-29 [z,lat,lon]
+data1['qcloud'][data1['qcloud']<0]=0
 
-data5['qnisg'] = (nc5.variables['QNICE'][time_sci,:,:,:]+
-        nc5.variables['QNSNOW'][time_sci,:,:,:]+
-        nc5.variables['QNGRAUPEL'][time_sci,:,:,:])*(data5['rho'])
+data1['qnisg'] = (nc1.variables['QNICE'][time_sci,:,:,:]+
+        nc1.variables['QNSNOW'][time_sci,:,:,:]+
+        nc1.variables['QNGRAUPEL'][time_sci,:,:,:])*(data1['rho'])
 
-data5['nisg50'] = data5['qnisg'] - (nc5.variables['NI50'][time_sci,:,:,:] - 
-        nc5.variables['NG50'][time_sci,:,:,:])*(data5['rho'])*(data5['rho'])
+data1['nisg50'] = data1['qnisg'] - (nc1.variables['NI50'][time_sci,:,:,:] - 
+        nc1.variables['NG50'][time_sci,:,:,:])*(data1['rho'])*(data1['rho'])
 
-data5['qrain'] = nc5.variables['QRAIN'][time_sci]# Qcloud mean over M218 flight times @ lon=-29 [z,lat,lon]
-data5['qrain'][data5['qrain']<0]=0
-data5['qliq'] = data5['qcloud'] + data5['qrain']
+data1['qrain'] = nc1.variables['QRAIN'][time_sci]# Qcloud mean over M218 flight times @ lon=-29 [z,lat,lon]
+data1['qrain'][data1['qrain']<0]=0
+data1['qliq'] = data1['qcloud'] + data1['qrain']
 
-w_theta5 = 0.5*(nc5.variables['W'][time_sci,0:-1,:,:] + nc5.variables['W'][time_sci,1:,:,:])
+w_theta1 = 0.5*(nc1.variables['W'][time_sci,0:-1,:,:] + nc1.variables['W'][time_sci,1:,:,:])
 
 ind = {}
-theta = data5['theta'][:,:,:,:]
-Z = data5['Zsci'][:,:,:,:]
-bl5_1 = np.zeros(shape=(np.size(Z,0),np.size(Z,2),np.size(Z,3)))
-bl5_2 = np.zeros(shape=(np.size(Z,0),np.size(Z,2),np.size(Z,3)))
-temp5 = np.zeros(shape=(np.size(Z,0),np.size(Z,2),np.size(Z,3)))
-w5 = np.zeros(shape=(np.size(Z,0),np.size(Z,2),np.size(Z,3)))
-blindex5 = np.zeros(shape=(np.size(Z,0),1,np.size(Z,2),np.size(Z,3)))
-allicebelow5 = np.zeros(shape=(np.size(Z,0),np.size(Z,2),np.size(Z,3)))
-smallicebelow5 = np.zeros(shape=(np.size(Z,0),np.size(Z,2),np.size(Z,3)))
-largeicebelow5 = np.zeros(shape=(np.size(Z,0),np.size(Z,2),np.size(Z,3)))
-liqbelow5 = np.zeros(shape=(np.size(Z,0),np.size(Z,2),np.size(Z,3)))
-iceabove5 = np.zeros(shape=(np.size(Z,0),np.size(Z,2),np.size(Z,3)))
-blice5 = np.zeros(shape=(np.size(Z,0),np.size(Z,2),np.size(Z,3)))
-tropice5 = np.zeros(shape=(np.size(Z,0),np.size(Z,2),np.size(Z,3)))
+theta = data1['theta'][:,:,:,:]
+Z = data1['Zsci'][:,:,:,:]
+bl1_1 = np.zeros(shape=(np.size(Z,0),np.size(Z,2),np.size(Z,3)))
+bl1_2 = np.zeros(shape=(np.size(Z,0),np.size(Z,2),np.size(Z,3)))
+temp1 = np.zeros(shape=(np.size(Z,0),np.size(Z,2),np.size(Z,3)))
+w1 = np.zeros(shape=(np.size(Z,0),np.size(Z,2),np.size(Z,3)))
+blindex1 = np.zeros(shape=(np.size(Z,0),1,np.size(Z,2),np.size(Z,3)))
+allicebelow1 = np.zeros(shape=(np.size(Z,0),np.size(Z,2),np.size(Z,3)))
+smallicebelow1 = np.zeros(shape=(np.size(Z,0),np.size(Z,2),np.size(Z,3)))
+largeicebelow1 = np.zeros(shape=(np.size(Z,0),np.size(Z,2),np.size(Z,3)))
+liqbelow1 = np.zeros(shape=(np.size(Z,0),np.size(Z,2),np.size(Z,3)))
+iceabove1 = np.zeros(shape=(np.size(Z,0),np.size(Z,2),np.size(Z,3)))
+blice1 = np.zeros(shape=(np.size(Z,0),np.size(Z,2),np.size(Z,3)))
+tropice1 = np.zeros(shape=(np.size(Z,0),np.size(Z,2),np.size(Z,3)))
 for t in range(0,np.size(time_sci)):
         for i in range(0,np.size(Z,3)):
                 strgi = "%1.f" % (i+1) # string of longitude
@@ -447,31 +447,31 @@ for t in range(0,np.size(time_sci)):
                         for k in range(2,np.size(Z,1)-3):
                                 strgk = "%1.f" % (k+1) # string of altitude
                                 if theta[t,k,j,i] < theta[t,k+1,j,i]-0.2:           # small inversion - typically ~500m
-                                        bl5_1[t,j,i] = Z[t,k,j,i]
+                                        bl1_1[t,j,i] = Z[t,k,j,i]
                                         break
                         for k in range(2,np.size(Z,1)-3):
                                 strgk = "%1.f" % (k+1) # string of altitude
                                 if theta[t,k,j,i] < theta[t,k+1,j,i]-0.4:           # large inversion - typically ~1500m
-                                        bl5_2[t,j,i] = np.squeeze(Z[t,k,j,i])
-        				w5[t,j,i] = w_theta5[t,k-1,j,i]
-                                        allicebelow5[t,j,i] = np.nanmax(data5['qnisg'][t,0:k,j,i])/float(1e3)   # /L
-                                        if np.size(data5['qnisg'][t,k:heightindex[0][-1],j,i])>0:
-                                                iceabove5[t,j,i] = np.nanmax(data5['qnisg'][t,k:heightindex[0][-1],j,i])/float(1e3) # k to height index (3000m)
-                                                # iceabove5[t,j,i] = data5['qnisg'][t,k+2,j,i]/float(1e3) # k+1 only
-                                        if np.nanpercentile(data5['qnisg'][t,0:k,j,i],99.7)>1.0:
-                                                blice5[t,j,i] = 1.0
-                                       	if np.nanpercentile(data5['qnisg'][t,k:heightindex[0][-1],j,i],99.7)>1.0:
-                                            	    tropice5[t,j,i] = 1.0
-                                        	# tropice5[t,j,i] = 0.0
-                                        # if iceabove5[j,i]==np.nan:
-                                        #         allicebelow5[j,i] = []
-                                        #         iceabove5[j,i] = []
+                                        bl1_2[t,j,i] = np.squeeze(Z[t,k,j,i])
+        				w1[t,j,i] = w_theta1[t,k-1,j,i]
+                                        allicebelow1[t,j,i] = np.nanmax(data1['qnisg'][t,0:k,j,i])/float(1e3)   # /L
+                                        if np.size(data1['qnisg'][t,k:heightindex[0][-1],j,i])>0:
+                                                iceabove1[t,j,i] = np.nanmax(data1['qnisg'][t,k:heightindex[0][-1],j,i])/float(1e3) # k to height index (3000m)
+                                                # iceabove1[t,j,i] = data1['qnisg'][t,k+2,j,i]/float(1e3) # k+1 only
+                                        if np.nanpercentile(data1['qnisg'][t,0:k,j,i],99.7)>1.0:
+                                                blice1[t,j,i] = 1.0
+                                       	if np.nanpercentile(data1['qnisg'][t,k:heightindex[0][-1],j,i],99.7)>1.0:
+                                            	    tropice1[t,j,i] = 1.0
+                                        	# tropice1[t,j,i] = 0.0
+                                        # if iceabove1[j,i]==np.nan:
+                                        #         allicebelow1[j,i] = []
+                                        #         iceabove1[j,i] = []
                                         break
 
-del nc5
-del data5
+del nc1
+del data1
 
-runlab5 = '10xHM'
+runlab1 = '10xHM'
 
 ###################################
 # LOAD FLIGHT DATA
@@ -517,26 +517,26 @@ plt.rc('legend',fontsize=SMALL_SIZE)
 # plt.rc('figure',titlesize=LARGE_SIZE)
 
 binwidth = 0.2
-bins = np.arange(-0.5,1.5,binwidth)
+bins = np.arange(-2.0,2.0,binwidth)
 
-ni5 = {}
-ni5_med = 0.
-ni5_nanmedian = 0.
+ni1 = {}
+ni1_med = 0.
+ni1_nanmedian = 0.
               
-# allicebelow5[allicebelow5<0.005] = np.nan
-# iceabove5[iceabove5<0.005] = np.nan
+# allicebelow1[allicebelow1<0.005] = np.nan
+# iceabove1[iceabove1<0.005] = np.nan
 
-icebelow = np.ndarray.flatten(allicebelow5)
-iceabove = np.ndarray.flatten(iceabove5)
-watBL = np.ndarray.flatten(w5)
+icebelow = np.ndarray.flatten(allicebelow1)
+iceabove = np.ndarray.flatten(iceabove1)
+watBL = np.ndarray.flatten(w1)
 
 # icebelow[icebelow<0.005] = np.nan
 # iceabove[iceabove<0.005] = np.nan
 
-iceindex = np.where(np.logical_and(np.ndarray.flatten(blice5)==1,np.ndarray.flatten(tropice5)==1))
-print("Percentage ice above+below BL:", np.float(np.size(iceindex[0]))/np.float(np.size(np.ndarray.flatten(blice5)))*100.0)
+iceindex = np.where(np.logical_and(np.ndarray.flatten(blice1)==1,np.ndarray.flatten(tropice1)==1))
+print("Percentage ice above+below BL:", np.float(np.size(iceindex[0]))/np.float(np.size(np.ndarray.flatten(blice1)))*100.0)
 
-# np.float((np.size(bliceindex[0]))/np.float(np.size(np.ndarray.flatten(tropice5))))*100.0
+# np.float((np.size(bliceindex[0]))/np.float(np.size(np.ndarray.flatten(tropice1))))*100.0
 
 
 mask1 = ~np.isnan(icebelow) & ~np.isnan(iceabove)
@@ -552,18 +552,17 @@ print("r-squared2:", r_value2**2)
 for i in range(0,len(bins)):
     strgi = "%1.f" % (i+1) # string of index number
     ind[strgi] = np.where(np.logical_and(watBL>=bins[i]-binwidth/2.0, watBL<bins[i]+binwidth/2.0))
-    ni5[strgi] = icebelow[ind[strgi]];
-    ni5[strgi] = ni5[strgi][~np.isnan(ni5[strgi])]
+    ni1[strgi] = icebelow[ind[strgi]];
+    ni1[strgi] = ni1[strgi][~np.isnan(ni1[strgi])]
     if i==0:
-        ni5_nanpercentile = np.nanpercentile(ni5[strgi],99.7)
-        # ni5_array = [[ni5[strgi]]]
+        ni1_nanpercentile = np.nanpercentile(ni1[strgi],99.7)
+        # ni1_array = [[ni1[strgi]]]
     if i>0:
-        ni5_med = np.nanpercentile(ni5[strgi],99.7)
-        ni5_nanpercentile = np.append(ni5_nanpercentile,ni5_med)  
-        # ni5_array = np.append(ni5_array,ni5[strgi])
+        ni1_med = np.nanpercentile(ni1[strgi],99.7)
+        ni1_nanpercentile = np.append(ni1_nanpercentile,ni1_med)  
+        # ni1_array = np.append(ni1_array,ni1[strgi])
 
-ni5_array = [[ni5['1'],ni5['2'],ni5['3'],ni5['4'],ni5['5'],ni5['6'],ni5['7'],ni5['8'],ni5['9'],ni5['10']]]
-# ,ni5['11'],ni5['12'],ni5['13'],ni5['14'],ni5['15'],ni5['16'],ni5['17'],ni5['18'],ni5['19'],ni5['20']]]
+ni1_array = [[ni1['1'],ni1['2'],ni1['3'],ni1['4'],ni1['5'],ni1['6'],ni1['7'],ni1['8'],ni1['9'],ni1['10'],ni1['11'],ni1['12'],ni1['13'],ni1['14'],ni1['15'],ni1['16'],ni1['17'],ni1['18'],ni1['19'],ni1['20']]]
 
 fig = plt.figure(figsize=(8,5))
 
@@ -586,9 +585,9 @@ plt.xlabel('$N_{isg}$ above BL, $L^{-1}$')
 
 plt.subplot(122)
 plt.plot(watBL,icebelow,'.',markersize=2)
-# plt.boxplot(ni5_array[0],whis=[5, 95]) # showfliers=False
+# plt.boxplot(ni1_array[0],whis=[5, 95]) # showfliers=False
 # plt.plot(watBL,line2,'r-')
-plt.plot(bins,ni5_nanpercentile,'-o')
+plt.plot(bins,ni1_nanpercentile,'-o')
 plt.grid('on')
 # plt.ylim([0.0,1.0])
 plt.title('10xHM')
