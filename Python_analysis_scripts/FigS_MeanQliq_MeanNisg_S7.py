@@ -577,7 +577,7 @@ lons, lats = m.makegrid(data1['x_dim'], data1['y_dim']) # get lat/lons of ny by 
 x, y = m(lons, lats) # compute map proj coordinates.
 
 # contour levels
-maxdat1 = 0.5
+maxdat1 = 0.3
 mindat1 = 0
 #clevs = np.arange(0.0,maxdat,200)
 
