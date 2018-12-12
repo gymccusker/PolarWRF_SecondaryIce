@@ -460,10 +460,8 @@ for t in range(0,np.size(time_sci)):
                                                 iceabove5[t,j,i] = data5['qnisg'][t,k+1,j,i]/float(1e3) # k+1 only
                                         if np.nanpercentile(data5['qnisg'][t,0:k,j,i],99.7)>1.0:
                                                 blice5[t,j,i] = 1.0
-                                        if k>heightindex:
-                                        	if np.nanpercentile(data5['qnisg'][t,k:heightindex[0][-1],j,i],99.7)>1.0:
+                                       	if np.nanpercentile(data5['qnisg'][t,k:heightindex[0][-1],j,i],99.7)>1.0:
                                             	    tropice5[t,j,i] = 1.0
-                                        else
                                         	tropice5[t,j,i] = 0.0
                                         # if iceabove5[j,i]==np.nan:
                                         #         allicebelow5[j,i] = []
