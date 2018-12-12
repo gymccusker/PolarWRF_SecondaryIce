@@ -599,13 +599,13 @@ x27,y27 = m(newlon27, newlat27)
 plt.plot(x27,y27,'r',linewidth=1)
 plt.annotate(runlab1,xy=(-78,-28),xytext=(-78,-28),fontsize=10)
 
-cbaxes = fig.add_axes([0.15,0.74,0.02, 0.2])  # This is the position for the colorbar
-cb = plt.colorbar(cs, cax = cbaxes)
-# cb = plt.colorbar(cs, ticks=clevs, cax = cbaxes)
-# tcks = np.power(10,clevs)
-# cb.ax.set_yticklabels(np.round(tcks,1))
-cb.ax.xaxis.set_label_position('top')
-cb.ax.axes.set_xlabel(strg1,color='k',fontsize=10)
+# cbaxes = fig.add_axes([0.15,0.74,0.02, 0.2])  # This is the position for the colorbar
+# cb = plt.colorbar(cs, cax = cbaxes)
+# # cb = plt.colorbar(cs, ticks=clevs, cax = cbaxes)
+# # tcks = np.power(10,clevs)
+# # cb.ax.set_yticklabels(np.round(tcks,1))
+# cb.ax.xaxis.set_label_position('top')
+# cb.ax.axes.set_xlabel(strg1,color='k',fontsize=10)
 
 ###################################
 
