@@ -635,7 +635,7 @@ data = liqbelow1 # bl1_2 #iwp1 #w1
 #data[data == 0] = np.nan
 # data[data > maxdat2] = maxdat2
 
-cs = m.pcolor(x,y,data,vmin=mindat2,vmax=maxdat2,cmap=mpl_cm.Blues)
+cs = m.pcolor(x,y,data,vmin=mindat2,vmax=maxdat2,cmap=mpl_cm.viridis)
 #cs = m.pcolor(x,y,data,vmin=0,vmax=2500,cmap=mpl_cm.viridis)
 
 p3 =  Polygon([(xd3_1,yd3_1),(xd3_2,yd3_2),(xd3_3,yd3_3),(xd3_4,yd3_4)],\
@@ -706,7 +706,7 @@ data = liqbelow2 # bl2_2 # iwp2 #w2
 #data[data == 0] = np.nan
 # data[data > maxdat2] = maxdat2
 
-cs = m.pcolor(x,y,data,vmin=mindat2,vmax=maxdat2,cmap=mpl_cm.Blues)
+cs = m.pcolor(x,y,data,vmin=mindat2,vmax=maxdat2,cmap=mpl_cm.viridis)
 #cs = m.pcolor(x,y,data,vmin=0,vmax=2500,cmap=mpl_cm.viridis)
 
 p3 =  Polygon([(xd3_1,yd3_1),(xd3_2,yd3_2),(xd3_3,yd3_3),(xd3_4,yd3_4)],\
@@ -774,7 +774,7 @@ data = liqbelow3 #bl3_2 # iwp3 #w3
 #data[data == 0] = np.nan
 # data[data > maxdat2] = maxdat2
 
-cs = m.pcolor(x,y,data,vmin=mindat2,vmax=maxdat2,cmap=mpl_cm.Blues)
+cs = m.pcolor(x,y,data,vmin=mindat2,vmax=maxdat2,cmap=mpl_cm.viridis)
 # cs = m.pcolor(x,y,data,vmin=0,vmax=2500,cmap=mpl_cm.viridis)
 
 p3 =  Polygon([(xd3_1,yd3_1),(xd3_2,yd3_2),(xd3_3,yd3_3),(xd3_4,yd3_4)],\
@@ -847,7 +847,7 @@ data = liqbelow4 # bl4_2 # iwp4 #w4
 #data[data == 0] = np.nan
 # data[data > maxdat2] = maxdat2
 
-cs = m.pcolor(x,y,data,vmin=mindat2,vmax=maxdat2,cmap=mpl_cm.Blues)
+cs = m.pcolor(x,y,data,vmin=mindat2,vmax=maxdat2,cmap=mpl_cm.viridis)
 #cs = m.pcolor(x,y,data,vmin=0,vmax=2500,cmap=mpl_cm.viridis)
 
 p3 =  Polygon([(xd3_1,yd3_1),(xd3_2,yd3_2),(xd3_3,yd3_3),(xd3_4,yd3_4)],\
@@ -913,7 +913,7 @@ data = liqbelow5 # bl5_2 #iwp5 #w5
 #data[data == 0] = np.nan
 # data[data > maxdat2] = maxdat2
 
-cs = m.pcolor(x,y,data,vmin=mindat2,vmax=maxdat2,cmap=mpl_cm.Blues)
+cs = m.pcolor(x,y,data,vmin=mindat2,vmax=maxdat2,cmap=mpl_cm.viridis)
 #cs = m.pcolor(x,y,data,vmin=0,vmax=2500,cmap=mpl_cm.viridis)
 p3 =  Polygon([(xd3_1,yd3_1),(xd3_2,yd3_2),(xd3_3,yd3_3),(xd3_4,yd3_4)],\
               facecolor='none',linestyle='--',edgecolor='k',linewidth=2)
