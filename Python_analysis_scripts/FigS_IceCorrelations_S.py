@@ -565,13 +565,13 @@ for i in range(0,len(bins)):
 ni5_array = [[ni5['1'],ni5['2'],ni5['3'],ni5['4'],ni5['5'],ni5['6'],ni5['7'],ni5['8'],ni5['9'],ni5['10']]]
 # ,ni5['11'],ni5['12'],ni5['13'],ni5['14'],ni5['15'],ni5['16'],ni5['17'],ni5['18'],ni5['19'],ni5['20']]]
 
-fig = plt.figure(figsize=(8,5))
+fig = plt.figure(figsize=(8,4))
 
 # Also manually adjust the spacings which are used when creating subplots
-plt.gcf().subplots_adjust(top=0.96)
+# plt.gcf().subplots_adjust(top=0.94)
 
 plt.subplot(121)
-plt.plot(iceabove,icebelow,'.',markersize=2)
+plt.plot(iceabove,icebelow)
 # plt.plot(iceabove,line1)
 plt.grid('on')
 #plt.ylim([0.0,1.0])
