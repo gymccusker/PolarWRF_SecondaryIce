@@ -516,7 +516,7 @@ plt.rc('ytick',labelsize=SMALL_SIZE)
 plt.rc('legend',fontsize=SMALL_SIZE)
 # plt.rc('figure',titlesize=LARGE_SIZE)
 
-binwidth = 0.2
+binwidth = 0.4
 bins = np.arange(-2.0,2.0,binwidth)
 
 ni5 = {}
@@ -546,7 +546,7 @@ slope1, intercept1, r_value1, p_value1, std_err1 = stats.linregress(iceabove[mas
 line1 = slope1*iceabove+intercept1
 print("r-squared1:", r_value1**2)
 r2_lab = "%.2f" % r_value1**2
-strg2 = 'r2 = '+ r2_lab
+strg2 = '$R^2$ = '+ r2_lab
 
 mask2 = ~np.isnan(icebelow) & ~np.isnan(watBL)
 slope2, intercept2, r_value2, p_value2, std_err2 = stats.linregress(watBL[mask2], icebelow[mask2])
@@ -566,7 +566,8 @@ for i in range(0,len(bins)):
         ni5_nanpercentile = np.append(ni5_nanpercentile,ni5_med)  
         # ni5_array = np.append(ni5_array,ni5[strgi])
 
-ni5_array = [[ni5['1'],ni5['2'],ni5['3'],ni5['4'],ni5['5'],ni5['6'],ni5['7'],ni5['8'],ni5['9'],ni5['10'],ni5['11'],ni5['12'],ni5['13'],ni5['14'],ni5['15'],ni5['16'],ni5['17'],ni5['18'],ni5['19'],ni5['20']]]
+ni5_array = [[ni5['1'],ni5['2'],ni5['3'],ni5['4'],ni5['5'],ni5['6'],ni5['7'],ni5['8'],ni5['9'],ni5['10']]]
+# ,ni5['11'],ni5['12'],ni5['13'],ni5['14'],ni5['15'],ni5['16'],ni5['17'],ni5['18'],ni5['19'],ni5['20']]]
 
 fig = plt.figure(figsize=(8,5))
 
@@ -585,8 +586,8 @@ ax = plt.gca();
 # ax.set_xscale("log", nonposy='clip'); plt.xlim([1e-10,4e2])
 plt.ylabel('Max $N_{isg}$ within BL, $L^{-1}$')
 plt.xlabel('$N_{isg}$ above BL, $L^{-1}$')
-plt.annotate(strg1,xy=(300,300),xytext=(301,301),fontsize=8)
-plt.annotate(strg2,xy=(300,280),xytext=(301,281),fontsize=8)
+plt.annotate(strg1,xy=(200,320),xytext=(201,321),fontsize=8)
+plt.annotate(strg2,xy=(200,300),xytext=(201,301),fontsize=8)
 
 plt.subplot(122)
 plt.plot(watBL,icebelow,'.',markersize=2)
