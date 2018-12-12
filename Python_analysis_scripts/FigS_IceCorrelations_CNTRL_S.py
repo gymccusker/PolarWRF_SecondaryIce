@@ -523,8 +523,8 @@ ni1 = {}
 ni1_med = 0.
 ni1_nanmedian = 0.
               
-# allicebelow1[allicebelow1<0.005] = np.nan
-# iceabove1[iceabove1<0.005] = np.nan
+icebelow[icebelow<=0.001] = np.nan
+iceabove1[iceabove1<=0.001] = np.nan
 
 icebelow = np.ndarray.flatten(allicebelow1)
 iceabove = np.ndarray.flatten(iceabove1)
