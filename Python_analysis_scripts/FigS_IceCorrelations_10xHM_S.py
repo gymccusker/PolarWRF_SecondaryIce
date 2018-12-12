@@ -517,7 +517,7 @@ plt.rc('legend',fontsize=SMALL_SIZE)
 # plt.rc('figure',titlesize=LARGE_SIZE)
 
 binwidth = 0.2
-bins = np.arange(-2.0,2.0,,binwidth)
+bins = np.arange(-2.0,2.0,binwidth)
 
 ni5 = {}
 ni5_med = 0.
