@@ -605,5 +605,5 @@ plt.xlabel('W, $ms^{-1}$')
 # ax.set_xticklabels(a)
 
 # ax.set_yscale("log", nonposy='clip');
-plt.savefig('../Figures/FigS_IceCorrelations_CNTRL.svg')
+plt.savefig('../Figures/FigS_IceCorrelations_CNTRL.png',dpi=300)
 plt.show()
