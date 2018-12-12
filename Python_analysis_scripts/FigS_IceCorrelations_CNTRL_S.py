@@ -535,6 +535,7 @@ watBL = np.ndarray.flatten(w1)
 
 iceindex = np.where(np.logical_and(np.ndarray.flatten(blice1)==1,np.ndarray.flatten(tropice1)==1))
 print("Percentage ice above+below BL:", np.float(np.size(iceindex[0]))/np.float(np.size(np.ndarray.flatten(blice1)))*100.0)
+perc_ice = np.float(np.size(iceindex[0]))/np.float(np.size(np.ndarray.flatten(blice1)))*100.0
 perc_ice_lab = "%.1f" % perc_ice
 strg1 = '% ice above+below = ' + perc_ice_lab + '%'
 # np.float((np.size(bliceindex[0]))/np.float(np.size(np.ndarray.flatten(tropice1))))*100.0
