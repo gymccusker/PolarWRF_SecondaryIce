@@ -10,6 +10,7 @@ import matplotlib
 import matplotlib.pyplot as plt
 import matplotlib.cm as mpl_cm
 from mpl_toolkits.basemap import Basemap, cm
+from matplotlib.patches import Polygon
 
 ###################################
 # Pick file
