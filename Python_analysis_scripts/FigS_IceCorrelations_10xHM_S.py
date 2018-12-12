@@ -546,7 +546,7 @@ slope1, intercept1, r_value1, p_value1, std_err1 = stats.linregress(iceabove[mas
 line1 = slope1*iceabove+intercept1
 print("r-squared1:", r_value1**2)
 r2_lab = "%.2f" % r_value1**2
-strg2 = 'r2 = ' r2_lab
+strg2 = 'r2 = '+ r2_lab
 
 mask2 = ~np.isnan(icebelow) & ~np.isnan(watBL)
 slope2, intercept2, r_value2, p_value2, std_err2 = stats.linregress(watBL[mask2], icebelow[mask2])
