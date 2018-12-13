@@ -571,10 +571,10 @@ for i in range(0,len(bins)):
 ni1_array = [[ni1['1'],ni1['2'],ni1['3'],ni1['4'],ni1['5'],ni1['6'],ni1['7'],ni1['8'],ni1['9'],ni1['10'],ni1['11'],ni1['12'],ni1['13']]]
 # ,ni1['14'],ni1['15'],ni1['16'],ni1['17'],ni1['18'],ni1['19'],ni1['20']]]
 
-fig = plt.figure(figsize=(8,5))
+fig = plt.figure(figsize=(8,4))
 
 # Also manually adjust the spacings which are used when creating subplots
-plt.gcf().subplots_adjust(top=0.9,bottom=0.1)
+plt.gcf().subplots_adjust(top=0.9,bottom=0.15)
 
 plt.subplot(121)
 plt.plot(iceabove,icebelow,'.',markersize=2)
@@ -588,8 +588,8 @@ ax = plt.gca();
 # ax.set_xscale("log", nonposy='clip'); plt.xlim([1e-10,4e2])
 plt.ylabel('Max $N_{isg}$ within BL, $L^{-1}$')
 plt.xlabel('$N_{isg}$ above BL, $L^{-1}$')
-plt.annotate(strg1,xy=(10,320),xytext=(10,321),fontsize=8)
-plt.annotate(strg2,xy=(15,300),xytext=(15,301),fontsize=8)
+#lt.annotate(strg1,xy=(10,320),xytext=(10,321),fontsize=8)
+plt.annotate(strg2,xy=(15,300),xytext=(15,301),fontsize=12)
 
 plt.subplot(122)
 plt.plot(watBL,icebelow,'.',markersize=2)
@@ -608,5 +608,5 @@ plt.xlabel('W, $ms^{-1}$')
 # ax.set_xticklabels(a)
 
 # ax.set_yscale("log", nonposy='clip');
-plt.savefig('../Figures/FigS_IceCorrelations_CNTRL.png',dpi=300)
+plt.savefig('../Figures/FigS_IceCorrelations_CNTRL_v2.png',dpi=600)
 plt.show()
