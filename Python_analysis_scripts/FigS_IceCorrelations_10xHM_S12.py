@@ -456,8 +456,8 @@ for t in range(0,np.size(time_sci)):
         				w5[t,j,i] = w_theta5[t,k-1,j,i]
                                         allicebelow5[t,j,i] = np.nanmax(data5['qnisg'][t,0:k,j,i])/float(1e3)   # /L
                                         if np.size(data5['qnisg'][t,k:heightindex[0][-1],j,i])>0:
-                                                iceabove5[t,j,i] = np.nanmax(data5['qnisg'][t,k:heightindex[0][-1],j,i])/float(1e3) # k to height index (3000m)
-                                                # iceabove5[t,j,i] = data5['qnisg'][t,k+2,j,i]/float(1e3) # k+1 only
+                                                # iceabove5[t,j,i] = np.nanmax(data5['qnisg'][t,k:heightindex[0][-1],j,i])/float(1e3) # k to height index (3000m)
+                                                iceabove5[t,j,i] = data5['qnisg'][t,k+1,j,i]/float(1e3) # k+1 only
                                         if np.nanpercentile(data5['qnisg'][t,0:k,j,i],99.7)>1.0:
                                                 blice5[t,j,i] = 1.0
                                        	if np.nanpercentile(data5['qnisg'][t,k:heightindex[0][-1],j,i],99.7)>1.0:
@@ -516,8 +516,8 @@ plt.rc('ytick',labelsize=SMALL_SIZE)
 plt.rc('legend',fontsize=SMALL_SIZE)
 # plt.rc('figure',titlesize=LARGE_SIZE)
 
-binwidth = 0.2
-bins = np.arange(-0.5,1.5,binwidth)
+binwidth = 0.4
+bins = np.arange(-2.0,3.0,binwidth)
 
 ni5 = {}
 ni5_med = 0.
@@ -535,7 +535,9 @@ watBL = np.ndarray.flatten(w5)
 
 iceindex = np.where(np.logical_and(np.ndarray.flatten(blice5)==1,np.ndarray.flatten(tropice5)==1))
 print("Percentage ice above+below BL:", np.float(np.size(iceindex[0]))/np.float(np.size(np.ndarray.flatten(blice5)))*100.0)
-
+perc_ice = np.float(np.size(iceindex[0]))/np.float(np.size(np.ndarray.flatten(blice5)))*100.0
+perc_ice_lab = "%.1f" % perc_ice
+strg1 = '% ice above+below = ' + perc_ice_lab + '%'
 # np.float((np.size(bliceindex[0]))/np.float(np.size(np.ndarray.flatten(tropice5))))*100.0
 
 
@@ -543,6 +545,8 @@ mask1 = ~np.isnan(icebelow) & ~np.isnan(iceabove)
 slope1, intercept1, r_value1, p_value1, std_err1 = stats.linregress(iceabove[mask1], icebelow[mask1])
 line1 = slope1*iceabove+intercept1
 print("r-squared1:", r_value1**2)
+r2_lab = "%.2f" % r_value1**2
+strg2 = '$R^2$ = '+ r2_lab
 
 mask2 = ~np.isnan(icebelow) & ~np.isnan(watBL)
 slope2, intercept2, r_value2, p_value2, std_err2 = stats.linregress(watBL[mask2], icebelow[mask2])
@@ -562,13 +566,13 @@ for i in range(0,len(bins)):
         ni5_nanpercentile = np.append(ni5_nanpercentile,ni5_med)  
         # ni5_array = np.append(ni5_array,ni5[strgi])
 
-ni5_array = [[ni5['1'],ni5['2'],ni5['3'],ni5['4'],ni5['5'],ni5['6'],ni5['7'],ni5['8'],ni5['9'],ni5['10']]]
-# ,ni5['11'],ni5['12'],ni5['13'],ni5['14'],ni5['15'],ni5['16'],ni5['17'],ni5['18'],ni5['19'],ni5['20']]]
+ni5_array = [[ni5['1'],ni5['2'],ni5['3'],ni5['4'],ni5['5'],ni5['6'],ni5['7'],ni5['8'],ni5['9'],ni5['10'],ni5['11'],ni5['12'],ni5['13']]]
+# ,ni5['14'],ni5['15'],ni5['16'],ni5['17'],ni5['18'],ni5['19'],ni5['20']]]
 
-fig = plt.figure(figsize=(8,5))
+fig = plt.figure(figsize=(8,4))
 
 # Also manually adjust the spacings which are used when creating subplots
-plt.gcf().subplots_adjust(top=0.96,bottom=0.04)
+plt.gcf().subplots_adjust(top=0.9,bottom=0.15)
 
 plt.subplot(121)
 plt.plot(iceabove,icebelow,'.',markersize=2)
@@ -582,13 +586,14 @@ ax = plt.gca();
 # ax.set_xscale("log", nonposy='clip'); plt.xlim([1e-10,4e2])
 plt.ylabel('Max $N_{isg}$ within BL, $L^{-1}$')
 plt.xlabel('$N_{isg}$ above BL, $L^{-1}$')
-
+#plt.annotate(strg1,xy=(120,340),xytext=(121,341),fontsize=8)
+plt.annotate(strg2,xy=(200,320),xytext=(201,321),fontsize=12)
 
 plt.subplot(122)
 plt.plot(watBL,icebelow,'.',markersize=2)
 # plt.boxplot(ni5_array[0],whis=[5, 95]) # showfliers=False
 # plt.plot(watBL,line2,'r-')
-plt.plot(bins,ni5_nanpercentile,'o')
+# plt.plot(bins,ni5_nanpercentile,'--o')
 plt.grid('on')
 # plt.ylim([0.0,1.0])
 plt.title('10xHM')
@@ -601,5 +606,5 @@ plt.xlabel('W, $ms^{-1}$')
 # ax.set_xticklabels(a)
 
 # ax.set_yscale("log", nonposy='clip');
-
+plt.savefig('../Figures/FigS12.png',dpi=600)
 plt.show()

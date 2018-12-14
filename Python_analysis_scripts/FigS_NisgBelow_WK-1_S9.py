@@ -188,7 +188,7 @@ for i in range(0,np.size(Z,2)):
                         if theta[k,j,i] < theta[k+1,j,i]-0.4:           # large inversion - typically ~1500m
                                 bl1_2[j,i] = Z[k,j,i]
 				w1[j,i] = w_theta1[k-1,j,i]
-                                allicebelow1[j,i] = np.nanmax(data1['qnisg'][timeindex,0:k,j,i])/float(1e3)		# /L
+                                allicebelow1[j,i] = np.nanpercentile(data1['qnisg'][timeindex,0:k,j,i],99.7)/float(1e3)
                                 break
 #del nc1
 # qnisg_above1 = data1['qnisg'][timeindex,blindex]/float(1e3)
@@ -269,7 +269,7 @@ for i in range(0,np.size(Z,2)):
                         if theta[k,j,i] < theta[k+1,j,i]-0.4:           # large inversion - typically ~1500m
                                 bl2_2[j,i] = Z[k,j,i]
                                 w2[j,i] = w_theta2[k-1,j,i]
-                                allicebelow2[j,i] = np.nanmax(data2['qnisg'][timeindex,0:k,j,i])/float(1e3)		# /L
+                                allicebelow2[j,i] = np.nanpercentile(data2['qnisg'][timeindex,0:k,j,i],99.7)/float(1e3)
                                 break
 
 del nc2
@@ -339,7 +339,7 @@ for i in range(0,np.size(Z,2)):
                         if theta[k,j,i] < theta[k+1,j,i]-0.4:           # large inversion - typically ~1500m
                                 bl3_2[j,i] = Z[k,j,i]
                                 w3[j,i] = w_theta3[k-1,j,i]
-                                allicebelow3[j,i] = np.nanmax(data3['qnisg'][timeindex,0:k,j,i])/float(1e3)		# /L
+                                allicebelow3[j,i] = np.nanpercentile(data3['qnisg'][timeindex,0:k,j,i],99.7)/float(1e3)
                                 break
 
 
@@ -410,7 +410,7 @@ for i in range(0,np.size(Z,2)):
                         if theta[k,j,i] < theta[k+1,j,i]-0.4:           # large inversion - typically ~1500m
                                 bl4_2[j,i] = Z[k,j,i]
                                 w4[j,i] = w_theta4[k-1,j,i]
-                                allicebelow4[j,i] = np.nanmax(data4['qnisg'][timeindex,0:k,j,i])/float(1e3)		# /L
+                                allicebelow4[j,i] = np.nanpercentile(data4['qnisg'][timeindex,0:k,j,i],99.7)/float(1e3)
                                 break
 
 del nc4
@@ -480,7 +480,7 @@ for i in range(0,np.size(Z,2)):
                         if theta[k,j,i] < theta[k+1,j,i]-0.4:           # large inversion - typically ~1500m
                                 bl5_2[j,i] = Z[k,j,i]
 				w5[j,i] = w_theta5[k-1,j,i]
-                                allicebelow5[j,i] = np.nanmax(data5['qnisg'][timeindex,0:k,j,i])/float(1e3)		# /L
+                                allicebelow5[j,i] = np.nanpercentile(data5['qnisg'][timeindex,0:k,j,i],99.7)/float(1e3)
                                 break
 
 del nc5
@@ -902,7 +902,7 @@ x27,y27 = m(newlon27, newlat27)
 plt.plot(x27,y27,'r',linewidth=1)
 plt.annotate(runlab5,xy=(-78,-28),xytext=(-78,-28),fontsize=10)
 
-plt.savefig('../Figures/FigS_MaxNisgBelow_Wk-1_v2.png',dpi=300)
+plt.savefig('../Figures/FigS_ExtremesNisgBelow_Wk-1_v3.png',dpi=600)
 plt.show()
 
 

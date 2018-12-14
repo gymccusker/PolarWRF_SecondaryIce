@@ -456,8 +456,8 @@ for t in range(0,np.size(time_sci)):
         				w1[t,j,i] = w_theta1[t,k-1,j,i]
                                         allicebelow1[t,j,i] = np.nanmax(data1['qnisg'][t,0:k,j,i])/float(1e3)   # /L
                                         if np.size(data1['qnisg'][t,k:heightindex[0][-1],j,i])>0:
-                                                iceabove1[t,j,i] = np.nanmax(data1['qnisg'][t,k:heightindex[0][-1],j,i])/float(1e3) # k to height index (3000m)
-                                                # iceabove1[t,j,i] = data1['qnisg'][t,k+2,j,i]/float(1e3) # k+1 only
+                                                # iceabove1[t,j,i] = np.nanmax(data1['qnisg'][t,k:heightindex[0][-1],j,i])/float(1e3) # k to height index (3000m)
+                                                iceabove1[t,j,i] = data1['qnisg'][t,k+1,j,i]/float(1e3) # k+1 only
                                         if np.nanpercentile(data1['qnisg'][t,0:k,j,i],99.7)>0.5:
                                                 blice1[t,j,i] = 1.0
                                        	if np.nanpercentile(data1['qnisg'][t,k:heightindex[0][-1],j,i],99.7)>0.5:
@@ -595,7 +595,7 @@ plt.subplot(122)
 plt.plot(watBL,icebelow,'.',markersize=2)
 # plt.boxplot(ni1_array[0],whis=[5, 95]) # showfliers=False
 # plt.plot(watBL,line2,'r-')
-plt.plot(bins,ni1_nanpercentile,'-o')
+# plt.plot(bins,ni1_nanpercentile,'--o')
 plt.grid('on')
 # plt.ylim([0.0,1.0])
 plt.title('CNTRL')
@@ -608,5 +608,5 @@ plt.xlabel('W, $ms^{-1}$')
 # ax.set_xticklabels(a)
 
 # ax.set_yscale("log", nonposy='clip');
-plt.savefig('../Figures/FigS_IceCorrelations_CNTRL_v2.png',dpi=600)
+plt.savefig('../Figures/FigS11.png',dpi=600)
 plt.show()

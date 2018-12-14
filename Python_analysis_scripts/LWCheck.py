@@ -205,6 +205,10 @@ lwup2a = nc2a.variables['LWUPBC'][:,:,:] - nc2a.variables['LWUPB'][:,:,:]
 lwdw2a_5ov1 = nc2a.variables['LWDNB'][:,43:123,81:145] - nc2a.variables['LWDNBC'][:,43:123,81:145]
 lwup2a_5ov1 = nc2a.variables['LWUPBC'][:,43:123,81:145] - nc2a.variables['LWUPB'][:,43:123,81:145]
 
+crf2_1km = np.nanmean(swsurf2) + np.nanmean(lwdw2) + np.nanmean(lwup2)
+crf2_5km = np.nanmean(swsurf2a) + np.nanmean(lwdw2a) + np.nanmean(lwup2a)
+crf2_5ov1km = np.nanmean(swsurf2a_5ov1) + np.nanmean(lwdw2a_5ov1) + np.nanmean(lwup2a_5ov1)
+
 swlab2 = "%2.3f" % np.nanmean(swsurf2)
 crflab2 = "%2.3f" % np.nanmean(crfsurfts2_1km)
 crflab2_5km = "%2.3f" % np.nanmean(crfsurfts2_5km)
@@ -269,6 +273,10 @@ lwdw3a = nc3a.variables['LWDNB'][:,:,:] - nc3a.variables['LWDNBC'][:,:,:]
 lwup3a = nc3a.variables['LWUPBC'][:,:,:] - nc3a.variables['LWUPB'][:,:,:] 
 lwdw3a_5ov1 = nc3a.variables['LWDNB'][:,43:123,81:145] - nc3a.variables['LWDNBC'][:,43:123,81:145]
 lwup3a_5ov1 = nc3a.variables['LWUPBC'][:,43:123,81:145] - nc3a.variables['LWUPB'][:,43:123,81:145]
+
+crf3_1km = np.nanmean(swsurf3) + np.nanmean(lwdw3) + np.nanmean(lwup3)
+crf3_5km = np.nanmean(swsurf3a) + np.nanmean(lwdw3a) + np.nanmean(lwup3a)
+crf3_5ov1km = np.nanmean(swsurf3a_5ov1) + np.nanmean(lwdw3a_5ov1) + np.nanmean(lwup3a_5ov1)
 
 swlab3 = "%2.3f" % np.nanmean(swsurf3)
 crflab3 = "%2.3f" % np.nanmean(crfsurfts3_1km)
@@ -336,6 +344,10 @@ lwup4a = nc4a.variables['LWUPBC'][:,:,:] - nc4a.variables['LWUPB'][:,:,:]
 lwdw4a_5ov1 = nc4a.variables['LWDNB'][:,43:123,81:145] - nc4a.variables['LWDNBC'][:,43:123,81:145]
 lwup4a_5ov1 = nc4a.variables['LWUPBC'][:,43:123,81:145] - nc4a.variables['LWUPB'][:,43:123,81:145]
 
+crf4_1km = np.nanmean(swsurf4) + np.nanmean(lwdw4) + np.nanmean(lwup4)
+crf4_5km = np.nanmean(swsurf4a) + np.nanmean(lwdw4a) + np.nanmean(lwup4a)
+crf4_5ov1km = np.nanmean(swsurf4a_5ov1) + np.nanmean(lwdw4a_5ov1) + np.nanmean(lwup4a_5ov1)
+
 swlab4 = "%2.3f" % np.nanmean(swsurf4)
 crflab4 = "%2.3f" % np.nanmean(crfsurfts4_1km)
 crflab4_5km = "%2.3f" % np.nanmean(crfsurfts4_5km)
@@ -401,6 +413,10 @@ lwup5a = nc5a.variables['LWUPBC'][:,:,:] - nc5a.variables['LWUPB'][:,:,:]
 lwdw5a_5ov1 = nc5a.variables['LWDNB'][:,43:123,81:145] - nc5a.variables['LWDNBC'][:,43:123,81:145]
 lwup5a_5ov1 = nc5a.variables['LWUPBC'][:,43:123,81:145] - nc5a.variables['LWUPB'][:,43:123,81:145]
 
+crf5_1km = np.nanmean(swsurf5) + np.nanmean(lwdw5) + np.nanmean(lwup5)
+crf5_5km = np.nanmean(swsurf5a) + np.nanmean(lwdw5a) + np.nanmean(lwup5a)
+crf5_5ov1km = np.nanmean(swsurf5a_5ov1) + np.nanmean(lwdw5a_5ov1) + np.nanmean(lwup5a_5ov1)
+
 swlab5 = "%2.3f" % np.nanmean(swsurf5)
 crflab5 = "%2.3f" % np.nanmean(crfsurfts5_1km)
 crflab5_5km = "%2.3f" % np.nanmean(crfsurfts5_5km)
@@ -423,25 +439,25 @@ print " LW_DW_5km = ", np.nanmean(lwdw1a), "; LW_DW_5km[1km] = ",np.nanmean(lwdw
 print " LW_UP_5km = ", np.nanmean(lwup1a), "; LW_UP_5km[1km] = ",np.nanmean(lwup1a_5ov1)," LW_UP_1km = ",np.nanmean(lwup1) 
 
 print runlab2,":"
-print " CRF_5km = ", np.nanmean(crfsurfts2_5km), "; CRF_5km[1km] = ",np.nanmean(crfsurfts2_5ov1km),"; CRF_1km = ",np.nanmean(crfsurfts2_1km)
+print " CRF_5km = ", np.nanmean(crf2_5km), "; CRF_5km[1km] = ",np.nanmean(crf2_5ov1km),"; CRF_1km = ",np.nanmean(crf2_1km)
 print " SW_DW_5km = ", np.nanmean(swsurf2a), "; SW_DW_5km[1km] = ",np.nanmean(swsurf2a_5ov1),"; SW_DW_1km = ",np.nanmean(swsurf2)
 print " LW_DW_5km = ", np.nanmean(lwdw2a), "; LW_DW_5km[1km] = ",np.nanmean(lwdw2a_5ov1),"; LW_DW_1km = ",np.nanmean(lwdw2)
 print " LW_UP_5km = ", np.nanmean(lwup2a), "; LW_UP_5km[1km] = ",np.nanmean(lwup2a_5ov1)," LW_UP_1km = ",np.nanmean(lwup2) 
 
 print runlab3,":"
-print " CRF_5km = ", np.nanmean(crfsurfts3_5km), "; CRF_5km[1km] = ",np.nanmean(crfsurfts3_5ov1km),"; CRF_1km = ",np.nanmean(crfsurfts3_1km)
+print " CRF_5km = ", np.nanmean(crf3_5km), "; CRF_5km[1km] = ",np.nanmean(crf3_5ov1km),"; CRF_1km = ",np.nanmean(crf3_1km)
 print " SW_DW_5km = ", np.nanmean(swsurf3a), "; SW_DW_5km[1km] = ",np.nanmean(swsurf3a_5ov1),"; SW_DW_1km = ",np.nanmean(swsurf3)
 print " LW_DW_5km = ", np.nanmean(lwdw3a), "; LW_DW_5km[1km] = ",np.nanmean(lwdw3a_5ov1),"; LW_DW_1km = ",np.nanmean(lwdw3)
 print " LW_UP_5km = ", np.nanmean(lwup3a), "; LW_UP_5km[1km] = ",np.nanmean(lwup3a_5ov1)," LW_UP_1km = ",np.nanmean(lwup3) 
 
 print runlab4,":"
-print " CRF_5km = ", np.nanmean(crfsurfts4_5km), "; CRF_5km[1km] = ",np.nanmean(crfsurfts4_5ov1km),"; CRF_1km = ",np.nanmean(crfsurfts4_1km)
+print " CRF_5km = ", np.nanmean(crf4_5km), "; CRF_5km[1km] = ",np.nanmean(crf4_5ov1km),"; CRF_1km = ",np.nanmean(crf4_1km)
 print " SW_DW_5km = ", np.nanmean(swsurf4a), "; SW_DW_5km[1km] = ",np.nanmean(swsurf4a_5ov1),"; SW_DW_1km = ",np.nanmean(swsurf4)
 print " LW_DW_5km = ", np.nanmean(lwdw4a), "; LW_DW_5km[1km] = ",np.nanmean(lwdw4a_5ov1),"; LW_DW_1km = ",np.nanmean(lwdw4)
 print " LW_UP_5km = ", np.nanmean(lwup4a), "; LW_UP_5km[1km] = ",np.nanmean(lwup4a_5ov1)," LW_UP_1km = ",np.nanmean(lwup4) 
 
 print runlab5,":"
-print " CRF_5km = ", np.nanmean(crfsurfts5_5km), "; CRF_5km[1km] = ",np.nanmean(crfsurfts5_5ov1km),"; CRF_1km = ",np.nanmean(crfsurfts5_1km)
+print " CRF_5km = ", np.nanmean(crf5_5km), "; CRF_5km[1km] = ",np.nanmean(crf5_5ov1km),"; CRF_1km = ",np.nanmean(crf5_1km)
 print " SW_DW_5km = ", np.nanmean(swsurf5a), "; SW_DW_5km[1km] = ",np.nanmean(swsurf5a_5ov1),"; SW_DW_1km = ",np.nanmean(swsurf5)
 print " LW_DW_5km = ", np.nanmean(lwdw5a), "; LW_DW_5km[1km] = ",np.nanmean(lwdw5a_5ov1),"; LW_DW_1km = ",np.nanmean(lwdw5)
 print " LW_UP_5km = ", np.nanmean(lwup5a), "; LW_UP_5km[1km] = ",np.nanmean(lwup5a_5ov1)," LW_UP_1km = ",np.nanmean(lwup5) 
