@@ -137,7 +137,7 @@ lat_cice = nc_seaice.variables['lat'][:]
 lon_cice = nc_seaice.variables['lon'][:]
 data_cice = np.squeeze(nc_seaice.variables['sic'][:])
    
-#============================== SEAICE
+#============================== ERA Interim
 
 
 filename_mslp = '/data/scihub-users/giyoung/MAC/Reanalyses/DATA/MSLP_27NOV2015_1800_EI_MSLP_CLIVARM.nc'
