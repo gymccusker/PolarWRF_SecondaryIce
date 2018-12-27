@@ -107,11 +107,11 @@ times.units = 'hours since 0001-01-01 00:00:00'
 times.calendar = 'gregorian' 
 
 # Fill in times. 
-dates = [] 
-for n in range(temp.shape[0]): 
-     dates.append(datetime(2015, 11, 27) + n * timedelta(hours=0)) 
-times[:] = date2num(dates, units = times.units, calendar = times.calendar) 
-print 'time values (in units %s): ' % times.units + '\n', times[:] 
+# dates = [] 
+# for n in range(temp.shape[0]): 
+#      dates.append(datetime(2015, 11, 27) + n * timedelta(hours=0)) 
+# times[:] = date2num(dates, units = times.units, calendar = times.calendar) 
+# print 'time values (in units %s): ' % times.units + '\n', times[:] 
 
 # # Fill arrays
 lats = np.arange(-90,91,2.5) 
