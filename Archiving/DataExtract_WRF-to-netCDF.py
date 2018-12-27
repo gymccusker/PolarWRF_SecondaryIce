@@ -11,6 +11,7 @@ import numpy as np
 import time 
 from datetime import datetime, timedelta 
 from netCDF4 import num2date, date2num 
+import constants
 
 ##--------------------------------------------------------------------------
 ##---------------				IN
@@ -49,7 +50,7 @@ data1['xlat'] = nc1.variables['XLAT'][:]
 data1['xlon'] = nc1.variables['XLONG'][:]
 
 ## Thermodynamic data
-data1['theta'] = nc1.variables['T'][t:]+300 # potential temperature in K
+data1['theta'] = nc1.variables['T'][:]+300 # potential temperature in K
 data1['p'] = (nc1.variables['P'][:]+nc1.variables['PB'][:])   # pressure in Pa
 tempvar = constants.R/float(1005)
 tempvar0 = (data1['p']/100000)**tempvar       
