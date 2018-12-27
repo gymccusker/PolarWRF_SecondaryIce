@@ -85,25 +85,28 @@ dataset.history = 'Created ' + time.ctime(time.time())
 dataset.source = 'netCDF4 python module tutorial' 
 
 
-level = dataset.createDimension('level', 10) 
-lat = dataset.createDimension('lat', 73)
-lon = dataset.createDimension('lon', 144) 
-time = dataset.createDimension('time', None)
+level = dataset.createDimension('level', np.size(data1['theta'],1)) 
+lat = dataset.createDimension('lat', np.size(data1['y_dim']))
+lon = dataset.createDimension('lon', np.size(data1['x_dim'])) 
+time = dataset.createDimension('time', np.size(data1['xlat'],0))
 
-
+## Dimensions variables
 times = dataset.createVariable('time', np.float64, ('time',)) 
 levels = dataset.createVariable('level', np.int32, ('level',)) 
 latitudes = dataset.createVariable('latitude', np.float32, ('lat',))
 longitudes = dataset.createVariable('longitude', np.float32, ('lon',)) 
-# Create the actual 4-d variable
-temp = dataset.createVariable('temp', np.float32, ('time','level','lat','lon')) 
+
+## Create 4-d variables
+temperature = dataset.createVariable('temperature', np.float32, ('time','level','lat','lon')) 
+theta = dataset.createVariable('potential_temperature', np.float32, ('time','level','lat','lon')) 
 
 # Variable Attributes  
 latitudes.units = 'degree_north'  
 longitudes.units = 'degree_east'  
-levels.units = 'hPa' 
-temp.units = 'K' 
-times.units = 'hours since 0001-01-01 00:00:00'  
+levels.units = 'm' 
+temperature.units = 'K' 
+theta.units = 'K' 
+times.units = 'hours since 2015-11-27 00:00:00'  
 times.calendar = 'gregorian' 
 
 # Fill in times. 
@@ -118,5 +121,6 @@ lats = np.arange(-90,91,2.5)
 lons = np.arange(-180,180,2.5) 
 latitudes[:] = lats  
 longitudes[:] = lons 
-
+temperature[:] = data1['Tk']
+theta[:] = data1['theta']
 dataset.close()
