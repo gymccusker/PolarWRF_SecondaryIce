@@ -117,10 +117,12 @@ times.calendar = 'gregorian'
 # print 'time values (in units %s): ' % times.units + '\n', times[:] 
 
 # # Fill arrays
-lats = np.arange(-90,91,2.5) 
-lons = np.arange(-180,180,2.5) 
+lats = data1['xlat']
+lons = data1['xlon']
 latitudes[:] = lats  
 longitudes[:] = lons 
 temperature[:] = data1['Tk']
 theta[:] = data1['theta']
+
+
 dataset.close()
