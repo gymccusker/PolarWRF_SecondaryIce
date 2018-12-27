@@ -117,12 +117,10 @@ times.calendar = 'gregorian'
 # print 'time values (in units %s): ' % times.units + '\n', times[:] 
 
 # # Fill arrays
-lats = data1['xlat']
-lons = data1['xlon']
-latitudes[:] = lats  
-longitudes[:] = lons 
-temperature[:] = data1['Tk']
-theta[:] = data1['theta']
+latitudes = data1['xlat']
+longitudes = data1['xlon']
+temperature = data1['Tk']
+theta = data1['theta']
 
 
 dataset.close()
