@@ -58,6 +58,7 @@ data1['Tk'] = tempvar0*data1['theta']	# temperature in K
 data1['rho'] = data1['p']/(constants.R*data1['Tk'])		# air density in kg/m3
 
 ## Interpolated fields
+tempvar1 = (ph+phb)/9.81
 data1['Z'] = np.nanmean(0.5*(tempvar1[0:len(tempvar1)-2,:,:]+tempvar1[1:len(tempvar1)-1,:,:]),0) # Z in m at theta mid-point
 data1['w'] = 0.5*(nc1.variables['W'][:,0:-1,:,:] + nc1.variables['W'][:,1:,:,:])
 
