@@ -70,7 +70,6 @@ data1['qnisg'] = (nc1.variables['QNICE'][:]+nc1.variables['QNSNOW'][:]+nc1.varia
 data1['nisg80'] = nc1.variables['NISG80'][:]*(data1['rho']) 	# Nisg>80 in kg-1
 data1['nisg50'] = data1['qnisg'] - (nc1.variables['NI50'][:] - nc1.variables['NG50'][:])*(data1['rho']) # small ice number concentration in kg-1
 data1['qrain'] = nc1.variables['QRAIN'][:]
-data1['qliq'] = data1['qcloud'] + data1['qrain']
 
 ##--------------------------------------------------------------------------
 ##--------------------------------------------------------------------------
@@ -78,7 +77,7 @@ data1['qliq'] = data1['qcloud'] + data1['qrain']
 ##--------------------------------------------------------------------------
 ##--------------------------------------------------------------------------
 
-dataset =  Dataset('OUT/test.nc', 'w', format ='NETCDF4_CLASSIC') 
+dataset =  Dataset('OUT/test1.nc', 'w', format ='NETCDF4_CLASSIC') 
 
 print dataset.file_format 
 
@@ -92,18 +91,18 @@ dataset.source = 'netCDF4 python'
 ###################################
 ## Data dimensions
 ###################################
-level = dataset.createDimension('level', np.size(data1['theta'],1)) 
-lat = dataset.createDimension('lat', np.size(data1['y_dim']))
-lon = dataset.createDimension('lon', np.size(data1['x_dim'])) 
 time = dataset.createDimension('time', np.size(data1['xlat'],0))
+level = dataset.createDimension('level', np.size(data1['theta'],1)) 
+lat = dataset.createDimension('lat', data1['y_dim'])
+lon = dataset.createDimension('lon', data1['x_dim']) 
 
 ###################################
 ## Dimensions variables
 ###################################
 times = dataset.createVariable('time', np.float64, ('time',)) 
 levels = dataset.createVariable('level', np.int32, ('level',)) 
-latitudes = dataset.createVariable('latitude', np.float32, ('lat',))
-longitudes = dataset.createVariable('longitude', np.float32, ('lon',)) 
+latitudes = dataset.createVariable('latitude', np.float32, ('lat', 'lon',))
+longitudes = dataset.createVariable('longitude', np.float32, ('lat','lon',)) 
 
 dx = dataset.createVariable('dx',np.int32)
 
@@ -164,17 +163,17 @@ qrain.units = 'kg kg-1'
 ###################################
 ## Fill arrays
 ###################################
-latitudes = data1['xlat']
-longitudes = data1['xlon']
-temperature = data1['Tk']
-theta = data1['theta']
-Z = data1['Z']
-P = data1['p']
-rho = data1['rho']
+latitudes[:] = data1['xlat'][:]
+longitudes[:] = data1['xlon'][:]
+temperature[:] = data1['Tk'][:]
+theta[:] = data1['theta'][:]
+Z[:] = data1['Z'][:]
+P[:] = data1['p'][:]
+rho[:] = data1['rho'][:]
 
-W = data1['w']
-qcloud = data1['qcloud']
-qrain = data1['qrain']
+W[:] = data1['w'][:]
+qcloud[:] = data1['qcloud'][:]
+qrain[:] = data1['qrain'][:]
 
 ###################################
 ## Write out file
