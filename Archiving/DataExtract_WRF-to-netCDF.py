@@ -14,7 +14,9 @@ from netCDF4 import num2date, date2num
 import constants
 
 ##--------------------------------------------------------------------------
+##--------------------------------------------------------------------------
 ##---------------				IN
+##--------------------------------------------------------------------------
 ##--------------------------------------------------------------------------
 
 ###################################
@@ -70,57 +72,101 @@ data1['nisg50'] = data1['qnisg'] - (nc1.variables['NI50'][:] - nc1.variables['NG
 data1['qrain'] = nc1.variables['QRAIN'][:]
 data1['qliq'] = data1['qcloud'] + data1['qrain']
 
-
+##--------------------------------------------------------------------------
 ##--------------------------------------------------------------------------
 ##---------------				OUT
+##--------------------------------------------------------------------------
 ##--------------------------------------------------------------------------
 
 dataset =  Dataset('OUT/test.nc', 'w', format ='NETCDF4_CLASSIC') 
 
 print dataset.file_format 
 
-# Global Attributes 
-dataset.description = 'test script'  
+###################################
+## Global Attributes 
+###################################
+dataset.description = 'CNTRL simulation from Young et al., 2016 (GRL) -- Nest (1 km grid size).'  
 dataset.history = 'Created ' + time.ctime(time.time())  
-dataset.source = 'netCDF4 python module tutorial' 
+dataset.source = 'netCDF4 python' 
 
-
+###################################
+## Data dimensions
+###################################
 level = dataset.createDimension('level', np.size(data1['theta'],1)) 
 lat = dataset.createDimension('lat', np.size(data1['y_dim']))
 lon = dataset.createDimension('lon', np.size(data1['x_dim'])) 
 time = dataset.createDimension('time', np.size(data1['xlat'],0))
 
+###################################
 ## Dimensions variables
+###################################
 times = dataset.createVariable('time', np.float64, ('time',)) 
 levels = dataset.createVariable('level', np.int32, ('level',)) 
 latitudes = dataset.createVariable('latitude', np.float32, ('lat',))
 longitudes = dataset.createVariable('longitude', np.float32, ('lon',)) 
 
-## Create 4-d variables
-temperature = dataset.createVariable('temperature', np.float32, ('time','level','lat','lon')) 
-theta = dataset.createVariable('potential_temperature', np.float32, ('time','level','lat','lon')) 
+dx = dataset.createVariable('dx',np.int32)
 
-# Variable Attributes  
-latitudes.units = 'degree_north'  
-longitudes.units = 'degree_east'  
-levels.units = 'm' 
-temperature.units = 'K' 
-theta.units = 'K' 
+# data1['dx'] = float(nc1.DX)
+# data1['dy'] = float(nc1.DY)
+# data1['x_dim'] = len(nc1.dimensions['west_east'])
+# data1['y_dim'] = len(nc1.dimensions['south_north'])
+# data1['width_meters']  = data1['dx'] * (data1['x_dim'] - 1)
+# data1['height_meters'] = data1['dy'] * (data1['y_dim'] - 1)
+
+###################################
+## Create 4-d variables
+###################################
+temperature = dataset.createVariable('air_temperature', np.float32, ('time','level','lat','lon')) 
+theta = dataset.createVariable('air_potential_temperature', np.float32, ('time','level','lat','lon')) 
+Z = dataset.createVariable('height', np.float32, ('time','level','lat','lon')) 
+P = dataset.createVariable('air_pressure', np.float32, ('time','level','lat','lon')) 
+rho = dataset.createVariable('air_density', np.float32, ('time','level','lat','lon')) 
+
+W = dataset.createVariable('vertical_wind_speed', np.float32, ('time','level','lat','lon')) 
+
+###################################
+## Variable Attributes  
+###################################
 times.units = 'hours since 2015-11-27 00:00:00'  
 times.calendar = 'gregorian' 
+levels.units = 'm' 
+latitudes.units = 'degree_north'  
+longitudes.units = 'degree_east'  
 
-# Fill in times. 
+dx.units = 'km'
+
+temperature.units = 'K' 
+theta.units = 'K' 
+Z.units = 'm'
+P.units = 'Pa'
+rho.units = 'kg m-3'
+
+W.units = 'm s-1'
+
+###################################
+## Fill in times
+###################################
 # dates = [] 
 # for n in range(temp.shape[0]): 
 #      dates.append(datetime(2015, 11, 27) + n * timedelta(hours=0)) 
 # times[:] = date2num(dates, units = times.units, calendar = times.calendar) 
 # print 'time values (in units %s): ' % times.units + '\n', times[:] 
 
-# # Fill arrays
+###################################
+## Fill arrays
+###################################
 latitudes = data1['xlat']
 longitudes = data1['xlon']
 temperature = data1['Tk']
 theta = data1['theta']
+Z = data1['Z']
+P = data1['p']
+rho = data1['rho']
 
+W = data1['w']
 
+###################################
+## Write out file
+###################################
 dataset.close()
