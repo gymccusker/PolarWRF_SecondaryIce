@@ -101,8 +101,8 @@ lon = dataset.createDimension('lon', data1['x_dim'])
 ###################################
 times = dataset.createVariable('time', np.float64, ('time',)) 
 levels = dataset.createVariable('level', np.int32, ('level',)) 
-latitudes = dataset.createVariable('latitude', np.float32, ('lat', 'lon',))
-longitudes = dataset.createVariable('longitude', np.float32, ('lat','lon',)) 
+latitudes = dataset.createVariable('latitude', np.float32, ('time','lat', 'lon',))
+longitudes = dataset.createVariable('longitude', np.float32, ('time','lat','lon',)) 
 
 dx = dataset.createVariable('dx',np.int32)
 
@@ -163,17 +163,17 @@ qrain.units = 'kg kg-1'
 ###################################
 ## Fill arrays
 ###################################
-latitudes[:] = data1['xlat'][:]
-longitudes[:] = data1['xlon'][:]
-temperature[:] = data1['Tk'][:]
-theta[:] = data1['theta'][:]
-Z[:] = data1['Z'][:]
-P[:] = data1['p'][:]
-rho[:] = data1['rho'][:]
+latitudes[:,:,:] = data1['xlat'][:,:,:]
+longitudes[:,:,:] = data1['xlon'][:,:,:]
+temperature[:,:,:,:] = data1['Tk'][:,:,:,:]
+theta = data1['theta']
+Z = data1['Z']
+P = data1['p']
+rho = data1['rho']
 
-W[:] = data1['w'][:]
-qcloud[:] = data1['qcloud'][:]
-qrain[:] = data1['qrain'][:]
+W = data1['w']
+qcloud = data1['qcloud']
+qrain = data1['qrain']
 
 ###################################
 ## Write out file
