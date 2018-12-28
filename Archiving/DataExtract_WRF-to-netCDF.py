@@ -167,7 +167,7 @@ latitudes[:,:,:] = data1['xlat'][:,:,:]
 longitudes[:,:,:] = data1['xlon'][:,:,:]
 temperature[:,:,:,:] = data1['Tk'][:,:,:,:]
 theta[:,:,:,:] = data1['theta'][:,:,:,:]
-Z[:,:,:,:] = data1['Z'][:,:,:,:]
+# Z[:,:,:,:] = data1['Z'][:,:,:,:]
 P[:,:,:,:] = data1['p'][:,:,:,:]
 rho[:,:,:,:] = data1['rho'][:,:,:,:]
 
