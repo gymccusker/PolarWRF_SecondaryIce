@@ -86,7 +86,7 @@ print dataset.file_format
 ## Global Attributes 
 ###################################
 dataset.description = 'CNTRL simulation from Young et al., 2016 (GRL) -- Nest (1 km grid size).'  
-dataset.history = 'Created ' + time.ctime(time.time())  
+# dataset.history = 'Created ' + time.ctime(time.time())  
 dataset.source = 'netCDF4 python' 
 
 ###################################
@@ -117,13 +117,19 @@ dx = dataset.createVariable('dx',np.int32)
 ###################################
 ## Create 4-d variables
 ###################################
-temperature = dataset.createVariable('air_temperature', np.float32, ('time','level','lat','lon')) 
-theta = dataset.createVariable('air_potential_temperature', np.float32, ('time','level','lat','lon')) 
-Z = dataset.createVariable('height', np.float32, ('time','level','lat','lon')) 
-P = dataset.createVariable('air_pressure', np.float32, ('time','level','lat','lon')) 
-rho = dataset.createVariable('air_density', np.float32, ('time','level','lat','lon')) 
+temperature = dataset.createVariable('air_temperature', np.float64, ('time','level','lat','lon')) 
+theta = dataset.createVariable('air_potential_temperature', np.float64, ('time','level','lat','lon')) 
+Z = dataset.createVariable('height', np.float64, ('time','level','lat','lon')) 
+P = dataset.createVariable('air_pressure', np.float64, ('time','level','lat','lon')) 
+rho = dataset.createVariable('air_density', np.float64, ('time','level','lat','lon')) 
 
-W = dataset.createVariable('vertical_wind_speed', np.float32, ('time','level','lat','lon')) 
+W = dataset.createVariable('vertical_wind_speed', np.float64, ('time','level','lat','lon')) 
+qcloud = dataset.createVariable('cloud_liquid_water_mixing_ratio', np.float64, ('time','level','lat','lon')) 
+qrain = dataset.createVariable('rain_water_mixing_ratio', np.float64, ('time','level','lat','lon')) 
+
+# data1['qnisg'] = (nc1.variables['QNICE'][:]+nc1.variables['QNSNOW'][:]+nc1.variables['QNGRAUPEL'][:]) # total ice number concentration in kg-1
+# data1['nisg80'] = nc1.variables['NISG80'][:]*(data1['rho']) 	# Nisg>80 in kg-1
+# data1['nisg50'] = data1['qnisg'] - (nc1.variables['NI50'][:] - nc1.variables['NG50'][:])*(data1['rho']) # small ice number concentration in kg-1
 
 ###################################
 ## Variable Attributes  
@@ -143,6 +149,8 @@ P.units = 'Pa'
 rho.units = 'kg m-3'
 
 W.units = 'm s-1'
+qcloud.units = 'kg kg-1'
+qrain.units = 'kg kg-1'
 
 ###################################
 ## Fill in times
@@ -165,6 +173,8 @@ P = data1['p']
 rho = data1['rho']
 
 W = data1['w']
+qcloud = data1['qcloud']
+qrain = data1['qrain']
 
 ###################################
 ## Write out file
