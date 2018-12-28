@@ -1,0 +1,57 @@
+{
+  "title": "Cascade: Africa 4km xfjea model run data",
+  "description": " Cascade was a NERC funded consortium project to study organized convection and scale interactions in the tropical atmosphere using large domain cloud system resolving model simulations. This dataset contains data from the xfjea simulation which ran using the Met Office Unified Model (UM) at 4km horizontal resolution over the domain 20W-20E, 5S-28N which encompasses the west african monsoon. Cascade Africa simulations are used to study African Easterly Waves.\n\nThis dataset contains 4km Africa model measurements from xfjea run.",
+  "authors": [
+    {
+      "firstname": "Joe",
+      "surname": "Bloggs"
+    },
+    {
+      "firstname": "",
+      "surname": ""
+    },
+    {
+      "firstname": "",
+      "surname": ""
+    }
+  ],
+  "bbox": {
+    "north": "38.0000",
+    "south": "5.0000°",
+    "east": "20.0000°",
+    "west": "-20.0000°"
+  },
+  "time_range": {
+    "start": "2006-07-25T00:00:00",
+    "end": "2006-09-03T23:59:59"
+  },
+  "lineage": "Data were generated using the Met Office Unified Model (UM) at 4km horizontal resolution over the domain 20W-20E, 5S-28N. Cascade data has been converted to CF-netCDF by the cascade team using one of two tools: UKMOIDL or xconv, then passed on to the BADC for archiving.",
+  "quality": "Data are as given by the data provider, no quality control has been performed by the Centre for Environmental Data Analysis (CEDA)",
+  "docs": [
+    {
+      "title": "",
+      "url": ""
+    }
+  ],
+  "project": {
+    "catalogue_url": "",
+    "title": "Cascade - Scale interactions in the tropical atmosphere",
+    "description": "Cascade was a NERC funded consortium project to study organized convection in the tropical atmosphere using large domain cloud system resolving model simulations.\n\nWithin the Cascade project a version of the Met Office Unified Model (UM) at horizontal resolutions of 1.5km - 40km was used Africa, Indian Ocean and West Pacific Ocean. The horizontal resolution allowed the individual cloud systems to simulate the large-scale organization. The combination of the high resolution and large domains allowed the upscale transports of heat, moisture and momentum and investigated the impact of these transports on the evolution of the synoptic and planetary scale systems.\n\nTwo domains of interest were chosen to represent continental and oceanic convection respectively. Simulations of the West African Monsoon region were used to understand the range of factors which influence the diurnal cycle of convection over complex topography and to identify the impact of the diurnal cycle and other mesoscale organization on the synoptic organization of convection by African Easterly Waves. Simulations of the Indian Ocean and West Pacific Warm Pool were used to investigate the role of mesoscale and synoptic scale organization on the evolution of the Madden-Julian Oscillation and the influence of the diurnal cycle (e.g. land-sea breeze circulations) on the maintenance of the climate of the Maritime Continent region. In addition, simulations over an idealized ocean surface were used to investigate the organization of convection by equatorially trapped wave modes.",
+    "PI": {
+      "firstname": "Joe",
+      "lastname": "Bloggs"
+    },
+    "funder": "",
+    "grant_number": ""
+  },
+  "instrument": {
+    "catalogue_url": "",
+    "title": "",
+    "description": ""
+  },
+  "computation": {
+    "catalogue_url": "",
+    "title": "Met Office operational unified model (UM) deployed on unknown computer",
+    "description": "Met Office operational unified model (UM) deployed on unknown computer"
+  }
+}
