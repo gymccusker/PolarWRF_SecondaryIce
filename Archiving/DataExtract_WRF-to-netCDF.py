@@ -166,14 +166,14 @@ qrain.units = 'kg kg-1'
 latitudes[:,:,:] = data1['xlat'][:,:,:]
 longitudes[:,:,:] = data1['xlon'][:,:,:]
 temperature[:,:,:,:] = data1['Tk'][:,:,:,:]
-theta = data1['theta']
-Z = data1['Z']
-P = data1['p']
-rho = data1['rho']
+theta[:,:,:,:] = data1['theta'][:,:,:,:]
+Z[:,:,:,:] = data1['Z'][:,:,:,:]
+P[:,:,:,:] = data1['p'][:,:,:,:]
+rho[:,:,:,:] = data1['rho'][:,:,:,:]
 
-W = data1['w']
-qcloud = data1['qcloud']
-qrain = data1['qrain']
+W[:,:,:,:] = data1['w'][:,:,:,:]
+qcloud[:,:,:,:] = data1['qcloud'][:,:,:,:]
+qrain[:,:,:,:] = data1['qrain'][:,:,:,:]
 
 ###################################
 ## Write out file
