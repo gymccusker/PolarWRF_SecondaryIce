@@ -61,7 +61,7 @@ data1['rho'] = data1['p']/(constants.R*data1['Tk'])		# air density in kg/m3
 
 ## Interpolated fields
 tempvar1 = (data1['p'])/9.81
-data1['Z'] = np.nanmean(0.5*(tempvar1[0:len(tempvar1)-2,:,:]+tempvar1[1:len(tempvar1)-1,:,:]),0) # Z in m at theta mid-point
+data1['Z'] = 0.5*(tempvar1[:,0:-1,:,:]+tempvar1[:,1:,:,:]) # Z in m at theta mid-point
 data1['w'] = 0.5*(nc1.variables['W'][:,0:-1,:,:] + nc1.variables['W'][:,1:,:,:])
 
 ## Cloud microphysics variables
@@ -99,7 +99,7 @@ lon = dataset.createDimension('lon', data1['x_dim'])
 ###################################
 ## Dimensions variables
 ###################################
-times = dataset.createVariable('time', np.float64, ('time',)) 
+times = dataset.createVariable('time', np.float32, ('time',)) 
 levels = dataset.createVariable('level', np.int32, ('level',)) 
 latitudes = dataset.createVariable('latitude', np.float32, ('time','lat', 'lon',))
 longitudes = dataset.createVariable('longitude', np.float32, ('time','lat','lon',)) 
@@ -116,15 +116,15 @@ dx = dataset.createVariable('dx',np.int32)
 ###################################
 ## Create 4-d variables
 ###################################
-temperature = dataset.createVariable('air_temperature', np.float64, ('time','level','lat','lon')) 
-theta = dataset.createVariable('air_potential_temperature', np.float64, ('time','level','lat','lon')) 
-Z = dataset.createVariable('height', np.float64, ('time','level','lat','lon')) 
-P = dataset.createVariable('air_pressure', np.float64, ('time','level','lat','lon')) 
-rho = dataset.createVariable('air_density', np.float64, ('time','level','lat','lon')) 
+temperature = dataset.createVariable('air_temperature', np.float32, ('time','level','lat','lon')) 
+theta = dataset.createVariable('air_potential_temperature', np.float32, ('time','level','lat','lon')) 
+Z = dataset.createVariable('height', np.float32, ('time','level','lat','lon')) 
+P = dataset.createVariable('air_pressure', np.float32, ('time','level','lat','lon')) 
+rho = dataset.createVariable('air_density', np.float32, ('time','level','lat','lon')) 
 
-W = dataset.createVariable('vertical_wind_speed', np.float64, ('time','level','lat','lon')) 
-qcloud = dataset.createVariable('cloud_liquid_water_mixing_ratio', np.float64, ('time','level','lat','lon')) 
-qrain = dataset.createVariable('rain_water_mixing_ratio', np.float64, ('time','level','lat','lon')) 
+W = dataset.createVariable('vertical_wind_speed', np.float32, ('time','level','lat','lon')) 
+qcloud = dataset.createVariable('cloud_liquid_water_mixing_ratio', np.float32, ('time','level','lat','lon')) 
+qrain = dataset.createVariable('rain_water_mixing_ratio', np.float32, ('time','level','lat','lon')) 
 
 # data1['qnisg'] = (nc1.variables['QNICE'][:]+nc1.variables['QNSNOW'][:]+nc1.variables['QNGRAUPEL'][:]) # total ice number concentration in kg-1
 # data1['nisg80'] = nc1.variables['NISG80'][:]*(data1['rho']) 	# Nisg>80 in kg-1
