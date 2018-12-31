@@ -68,14 +68,17 @@ data1['w'] = 0.5*(nc1.variables['W'][:,0:-1,:,:] + nc1.variables['W'][:,1:,:,:])
 
 ## Cloud microphysics variables
 data1['qcloud'] = nc1.variables['QCLOUD'][:]  # LW mixing ratio in kg/kg
+data1['qrain'] = nc1.variables['QRAIN'][:]
+
+data1['qisg'] = nc1.variables['QICE'][:]+nc1.variables['QSNOW'][:]+nc1.variables['QGRAUP'][:] # total ice mass mixing ratio, kg kg-1
 data1['qnisg'] = (nc1.variables['QNICE'][:]+nc1.variables['QNSNOW'][:]+nc1.variables['QNGRAUPEL'][:]) # total ice number concentration in kg-1
 data1['nisg80'] = nc1.variables['NISG80'][:]*(data1['rho']) 	# Nisg>80 in kg-1
 data1['nisg50'] = data1['qnisg'] - ((nc1.variables['NI50'][:] + nc1.variables['NG50'][:])*data1['rho']) # small ice number concentration in kg-1
-data1['qrain'] = nc1.variables['QRAIN'][:]
 
 ## Force small negative values to zero
 data1['qcloud'][data1['qcloud']<0] = 0
 data1['qrain'][data1['qrain']<0] = 0
+data1['qisg'][data1['qisg']<0] = 0
 data1['qnisg'][data1['qnisg']<0] = 0
 data1['nisg80'][data1['nisg80']<0] = 0
 data1['nisg50'][data1['nisg50']<0] = 0
@@ -157,9 +160,10 @@ rho = dataset.createVariable('air_density', np.float32, ('time','level','lat','l
 W = dataset.createVariable('vertical_wind_speed', np.float32, ('time','level','lat','lon')) 
 qcloud = dataset.createVariable('cloud_liquid_water_mixing_ratio', np.float32, ('time','level','lat','lon')) 
 qrain = dataset.createVariable('rain_water_mixing_ratio', np.float32, ('time','level','lat','lon')) 
-nisg =  dataset.createVariable('total_ice+snow+graupel_number_concentration', np.float32, ('time','level','lat','lon')) 
-nisg80 =  dataset.createVariable('ice+snow+graupel_number_concentration_greater_than_80micron', np.float32, ('time','level','lat','lon')) 
-nisg50 =  dataset.createVariable('ice+snow+graupel_number_concentration_smaller_than_50micron', np.float32, ('time','level','lat','lon')) 
+qrain = dataset.createVariable('cloud_ice_mixing_ratio', np.float32, ('time','level','lat','lon')) 
+nisg =  dataset.createVariable('number_concentration_of_ice_crystals_in_air', np.float32, ('time','level','lat','lon')) 
+nisg80 =  dataset.createVariable('number_concentration_of_ice_crystals_larger_than_80micron_in_air', np.float32, ('time','level','lat','lon')) 
+nisg50 =  dataset.createVariable('number_concentration_of_ice_crystals_smaller_than_50micron_in_air', np.float32, ('time','level','lat','lon')) 
 
 ###################################
 ## Variable Attributes  
@@ -188,6 +192,7 @@ rho.units = 'kg m-3'
 W.units = 'm s-1'
 qcloud.units = 'kg kg-1'
 qrain.units = 'kg kg-1'
+qisg.units = 'kg kg-1'
 nisg.units = 'kg-1'
 nisg80.units = 'kg-1'
 nisg50.units = 'kg-1'
@@ -233,6 +238,7 @@ rho[:,:,:,:] = data1['rho'][:,:,:,:]
 W[:,:,:,:] = data1['w'][:,:,:,:]
 qcloud[:,:,:,:] = data1['qcloud'][:,:,:,:]
 qrain[:,:,:,:] = data1['qrain'][:,:,:,:]
+qisg[:,:,:,:] = data1['qisg'][:,:,:,:]
 nisg[:,:,:,:] = data1['qnisg'][:,:,:,:]
 nisg80[:,:,:,:] = data1['nisg80'][:,:,:,:]
 nisg50[:,:,:,:] = data1['nisg50'][:,:,:,:]
