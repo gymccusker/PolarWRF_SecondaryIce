@@ -73,6 +73,9 @@ data1['nisg80'] = nc1.variables['NISG80'][:]*(data1['rho']) 	# Nisg>80 in kg-1
 data1['nisg50'] = data1['qnisg'] - (nc1.variables['NI50'][:] - nc1.variables['NG50'][:])*(data1['rho']) # small ice number concentration in kg-1
 data1['qrain'] = nc1.variables['QRAIN'][:]
 
+data1['swdnb'] = nc1.variables['SWDNB'][:,:,:] # instantaneous downwelling shortwave flux at surface, W m-2
+data1['swdnbc'] = nc1.variables['SWDNBC'][:,:,:] # instantaneous clear sky downwelling shortwave flux at surface, W m-2
+
 ##--------------------------------------------------------------------------
 ##--------------------------------------------------------------------------
 ##---------------				OUT
@@ -94,7 +97,7 @@ str_xdim = "%1i" % data1['x_dim'] # number of grid points in x
 str_ydim = "%1i" % data1['y_dim'] # number of grid points in y
 str_width = "%.1f" % data1['width_meters'] # domain width (x) in m
 str_height = "%.1f" % data1['height_meters'] # domain height (y) in m
-desc = 'CNTRL simulation from Young et al., 2016 (GRL) -- ' + str_domain + ' (' + str_dx + ' m) x/y resolution with ' + str_levels + ' vertical levels. Domain size = ' + str_xdim + ' x ' + str_ydim + ' grid points, equalling ' + str_width + ' x ' + str_height + ' m.'
+desc = 'CNTRL simulation from Young et al., 2016 (GRL) -- ' + str_domain + '. ' + str_dx + ' m x/y resolution with ' + str_levels + ' vertical levels. Domain size = ' + str_xdim + ' x ' + str_ydim + ' grid points, equalling ' + str_width + ' x ' + str_height + ' m.'
 dataset.description = desc
 # dataset.history = 'Created ' + time.ctime(time.time())  
 dataset.source = 'netCDF4 python' 
@@ -116,6 +119,12 @@ latitudes = dataset.createVariable('latitude', np.float32, ('time','lat', 'lon',
 longitudes = dataset.createVariable('longitude', np.float32, ('time','lat','lon',)) 
 
 ###################################
+## Create 3-d variables
+###################################
+swdnb = dataset.createVariable('surface_downwelling_shortwave_flux_in_air', np.float32, ('time','lat', 'lon',))
+swdnbc = dataset.createVariable('surface_downwelling_shortwave_flux_in_air_assuming_clear_sky', np.float32, ('time','lat', 'lon',))
+
+###################################
 ## Create 4-d variables
 ###################################
 temperature = dataset.createVariable('air_temperature', np.float32, ('time','level','lat','lon')) 
@@ -127,10 +136,9 @@ rho = dataset.createVariable('air_density', np.float32, ('time','level','lat','l
 W = dataset.createVariable('vertical_wind_speed', np.float32, ('time','level','lat','lon')) 
 qcloud = dataset.createVariable('cloud_liquid_water_mixing_ratio', np.float32, ('time','level','lat','lon')) 
 qrain = dataset.createVariable('rain_water_mixing_ratio', np.float32, ('time','level','lat','lon')) 
-
-# data1['qnisg'] = (nc1.variables['QNICE'][:]+nc1.variables['QNSNOW'][:]+nc1.variables['QNGRAUPEL'][:]) # total ice number concentration in kg-1
-# data1['nisg80'] = nc1.variables['NISG80'][:]*(data1['rho']) 	# Nisg>80 in kg-1
-# data1['nisg50'] = data1['qnisg'] - (nc1.variables['NI50'][:] - nc1.variables['NG50'][:])*(data1['rho']) # small ice number concentration in kg-1
+nisg =  dataset.createVariable('total_ice+snow+graupel_number_concentration', np.float32, ('time','level','lat','lon')) 
+nisg80 =  dataset.createVariable('ice+snow+graupel_number_concentration_greater_than_80micron', np.float32, ('time','level','lat','lon')) 
+nisg50 =  dataset.createVariable('ice+snow+graupel_number_concentration_smaller_than_50micron', np.float32, ('time','level','lat','lon')) 
 
 ###################################
 ## Variable Attributes  
@@ -141,6 +149,9 @@ levels.units = 'm'
 latitudes.units = 'degree_north'  
 longitudes.units = 'degree_east'  
 
+swdnb.units = 'W m-2'
+swdnbc.units = 'W m-2'
+
 temperature.units = 'K' 
 theta.units = 'K' 
 Z.units = 'm'
@@ -150,6 +161,9 @@ rho.units = 'kg m-3'
 W.units = 'm s-1'
 qcloud.units = 'kg kg-1'
 qrain.units = 'kg kg-1'
+nisg.units = 'kg-1'
+nisg80.units = 'kg-1'
+nisg50.units = 'kg-1'
 
 ###################################
 ## Fill in times
@@ -173,6 +187,10 @@ times[:] = tim[:]
 levels[:] = np.arange(0,np.size(data1['Z'],1))
 latitudes[:,:,:] = data1['xlat'][:,:,:]
 longitudes[:,:,:] = data1['xlon'][:,:,:]
+
+swdnb[:,:,:] = data1['swdnb'][:,:,:]
+swdnbc[:,:,:] = data1['swdnbc'][:,:,:]
+
 temperature[:,:,:,:] = data1['Tk'][:,:,:,:]
 theta[:,:,:,:] = data1['theta'][:,:,:,:]
 Z[:,:,:,:] = data1['Z'][:,:,:,:]
@@ -182,6 +200,9 @@ rho[:,:,:,:] = data1['rho'][:,:,:,:]
 W[:,:,:,:] = data1['w'][:,:,:,:]
 qcloud[:,:,:,:] = data1['qcloud'][:,:,:,:]
 qrain[:,:,:,:] = data1['qrain'][:,:,:,:]
+nisg[:,:,:,:] = data1['qnisg'][:,:,:,:]
+nisg80[:,:,:,:] = data1['nisg80'][:,:,:,:]
+nisg50[:,:,:,:] = data1['nisg50'][:,:,:,:]
 
 ###################################
 ## Write out file
