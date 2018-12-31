@@ -99,9 +99,6 @@ dataset.description = desc
 # dataset.history = 'Created ' + time.ctime(time.time())  
 dataset.source = 'netCDF4 python' 
 
-# data1['width_meters']  = data1['dx'] * (data1['x_dim'] - 1)
-# data1['height_meters'] = data1['dy'] * (data1['y_dim'] - 1)
-
 ###################################
 ## Data dimensions
 ###################################
@@ -117,8 +114,6 @@ times = dataset.createVariable('time', np.float32, ('time',))
 levels = dataset.createVariable('level', np.int32, ('level',)) 
 latitudes = dataset.createVariable('latitude', np.float32, ('time','lat', 'lon',))
 longitudes = dataset.createVariable('longitude', np.float32, ('time','lat','lon',)) 
-
-# dx = dataset.createVariable('dx',np.int32)
 
 ###################################
 ## Create 4-d variables
@@ -145,8 +140,6 @@ times.calendar = 'gregorian'
 levels.units = 'm' 
 latitudes.units = 'degree_north'  
 longitudes.units = 'degree_east'  
-
-dx.units = 'km'
 
 temperature.units = 'K' 
 theta.units = 'K' 
