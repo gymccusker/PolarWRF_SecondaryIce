@@ -61,8 +61,10 @@ data1['rho'] = data1['p']/(constants.R*data1['Tk'])		# air density in kg/m3
 
 ## Interpolated fields
 tempvar1 = (data1['p'])/9.81
-data1['Z'] = 0.5*(tempvar1[:,0:-1,:,:]+tempvar1[:,1:,:,:]) # Z in m at theta mid-point
+data1['Z'] = 0.5*(tempvar1[:,0:-1,:,:] + tempvar1[:,1:,:,:]) # Z in m at theta mid-point
+data1['Z'][:,69,:,:] = np.nan	# populate model top elements with nans
 data1['w'] = 0.5*(nc1.variables['W'][:,0:-1,:,:] + nc1.variables['W'][:,1:,:,:])
+data1['w'][:,69,:,:] = np.nan	# populate model top elements with nans
 
 ## Cloud microphysics variables
 data1['qcloud'] = nc1.variables['QCLOUD'][:]  # LW mixing ratio in kg/kg
@@ -163,6 +165,7 @@ qrain.units = 'kg kg-1'
 ###################################
 ## Fill arrays
 ###################################
+levels[:] = np.arange(0,np.size(data1['Z'],1))
 latitudes[:,:,:] = data1['xlat'][:,:,:]
 longitudes[:,:,:] = data1['xlon'][:,:,:]
 temperature[:,:,:,:] = data1['Tk'][:,:,:,:]
