@@ -86,15 +86,15 @@ print dataset.file_format
 ###################################
 ## Global Attributes 
 ###################################
-str_dx = "%1i" % data1['dx']/float(1000)	# x/y resolution in km
-if data1['dx'] == 1000.0: str_domain = 'Nest'
-if data1['dx'] == 5000.0: str_domain = 'Parent'
-str_levels = "%1i" % np.size(data1['theta'],1)
-str_xdim = "%1i" % data1['x_dim']
-str_ydim = "%1i" % data1['y_dim']
-str_width = "%1i" % data1['width_meters']/float(1000)
-str_height = "%1i" % data1['height_meters']/float(1000)
-desc = 'CNTRL simulation from Young et al., 2016 (GRL) -- ' + str_domain + ' (' + str_dx + ' km) x/y resolution with ' + str_levels + ' vertical levels. Domain size = ' + str_xdim + ' x ' + str_ydim + ' grid points, equalling ' + str_width + ' x ' + str_height + ' m.'
+str_dx = "%.1f" % data1['dx']	# x/y resolution in m
+if data1['dx'] == 1000.0: str_domain = 'Nest'	# domain option
+if data1['dx'] == 5000.0: str_domain = 'Parent' # domain option
+str_levels = "%1i" % np.size(data1['theta'],1) # number of vertical levels
+str_xdim = "%1i" % data1['x_dim'] # number of grid points in x
+str_ydim = "%1i" % data1['y_dim'] # number of grid points in y
+str_width = "%.1f" % data1['width_meters'] # domain width (x) in m
+str_height = "%.1f" % data1['height_meters'] # domain height (y) in m
+desc = 'CNTRL simulation from Young et al., 2016 (GRL) -- ' + str_domain + ' (' + str_dx + ' m) x/y resolution with ' + str_levels + ' vertical levels. Domain size = ' + str_xdim + ' x ' + str_ydim + ' grid points, equalling ' + str_width + ' x ' + str_height + ' m.'
 dataset.description = desc
 # dataset.history = 'Created ' + time.ctime(time.time())  
 dataset.source = 'netCDF4 python' 
