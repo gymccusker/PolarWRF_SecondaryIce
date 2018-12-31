@@ -64,8 +64,7 @@ data1['Z'] = np.zeros([np.size(data1['xlat'],0),69,np.size(data1['xlat'],1),np.s
 tempvar1 = (data1['p'])/9.81
 data1['Z'][:,:-1,:,:] = 0.5*(tempvar1[:,0:-1,:,:] + tempvar1[:,1:,:,:]) # Z in m at theta mid-point
 data1['Z'][:,68,:,:] = np.nan	# populate model top elements with nans
-data1['w'][:,:-1,:,:] = 0.5*(nc1.variables['W'][:,0:-1,:,:] + nc1.variables['W'][:,1:,:,:])
-
+data1['w'] = 0.5*(nc1.variables['W'][:,0:-1,:,:] + nc1.variables['W'][:,1:,:,:])
 
 ## Cloud microphysics variables
 data1['qcloud'] = nc1.variables['QCLOUD'][:]  # LW mixing ratio in kg/kg
@@ -87,9 +86,21 @@ print dataset.file_format
 ###################################
 ## Global Attributes 
 ###################################
-dataset.description = 'CNTRL simulation from Young et al., 2016 (GRL) -- Nest (1 km grid size).'  
+str_dx = "%1i" % data1['dx']/float(1000)	# x/y resolution in km
+if data1['dx'] == 1000.0: str_domain = 'Nest'
+if data1['dx'] == 5000.0: str_domain = 'Parent'
+str_levels = "%1i" % np.size(data1['theta'],1)
+str_xdim = "%1i" % data1['x_dim']
+str_ydim = "%1i" % data1['y_dim']
+str_width = "%1i" % data1['width_meters']/float(1000)
+str_height = "%1i" % data1['height_meters']/float(1000)
+desc = 'CNTRL simulation from Young et al., 2016 (GRL) -- ' + str_domain + ' (' + str_dx + " km) x/y resolution with " + str_levels + " vertical levels. Domain size = " + str_xdim + " x " + str_ydim + " grid points, equalling " + str_width + " x " + str_height " m."
+dataset.description = desc
 # dataset.history = 'Created ' + time.ctime(time.time())  
 dataset.source = 'netCDF4 python' 
+
+# data1['width_meters']  = data1['dx'] * (data1['x_dim'] - 1)
+# data1['height_meters'] = data1['dy'] * (data1['y_dim'] - 1)
 
 ###################################
 ## Data dimensions
@@ -107,14 +118,7 @@ levels = dataset.createVariable('level', np.int32, ('level',))
 latitudes = dataset.createVariable('latitude', np.float32, ('time','lat', 'lon',))
 longitudes = dataset.createVariable('longitude', np.float32, ('time','lat','lon',)) 
 
-dx = dataset.createVariable('dx',np.int32)
-
-# data1['dx'] = float(nc1.DX)
-# data1['dy'] = float(nc1.DY)
-# data1['x_dim'] = len(nc1.dimensions['west_east'])
-# data1['y_dim'] = len(nc1.dimensions['south_north'])
-# data1['width_meters']  = data1['dx'] * (data1['x_dim'] - 1)
-# data1['height_meters'] = data1['dy'] * (data1['y_dim'] - 1)
+# dx = dataset.createVariable('dx',np.int32)
 
 ###################################
 ## Create 4-d variables
@@ -171,7 +175,7 @@ latitudes[:,:,:] = data1['xlat'][:,:,:]
 longitudes[:,:,:] = data1['xlon'][:,:,:]
 temperature[:,:,:,:] = data1['Tk'][:,:,:,:]
 theta[:,:,:,:] = data1['theta'][:,:,:,:]
-# Z[:,:,:,:] = data1['Z'][:,:,:,:]
+Z[:,:,:,:] = data1['Z'][:,:,:,:]
 P[:,:,:,:] = data1['p'][:,:,:,:]
 rho[:,:,:,:] = data1['rho'][:,:,:,:]
 
