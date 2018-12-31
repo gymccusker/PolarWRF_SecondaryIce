@@ -94,7 +94,7 @@ str_xdim = "%1i" % data1['x_dim']
 str_ydim = "%1i" % data1['y_dim']
 str_width = "%1i" % data1['width_meters']/float(1000)
 str_height = "%1i" % data1['height_meters']/float(1000)
-desc = 'CNTRL simulation from Young et al., 2016 (GRL) -- ' + str_domain + ' (' + str_dx + " km) x/y resolution with " + str_levels + " vertical levels. Domain size = " + str_xdim + " x " + str_ydim + " grid points, equalling " + str_width + " x " + str_height " m."
+desc = 'CNTRL simulation from Young et al., 2016 (GRL) -- ' + str_domain + ' (' + str_dx + ' km) x/y resolution with ' + str_levels + ' vertical levels. Domain size = ' + str_xdim + ' x ' + str_ydim + ' grid points, equalling ' + str_width + ' x ' + str_height ' m.'
 dataset.description = desc
 # dataset.history = 'Created ' + time.ctime(time.time())  
 dataset.source = 'netCDF4 python' 
