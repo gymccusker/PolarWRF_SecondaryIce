@@ -154,15 +154,22 @@ qrain.units = 'kg kg-1'
 ###################################
 ## Fill in times
 ###################################
-# dates = [] 
-# for n in range(temp.shape[0]): 
-#      dates.append(datetime(2015, 11, 27) + n * timedelta(hours=0)) 
-# times[:] = date2num(dates, units = times.units, calendar = times.calendar) 
-# print 'time values (in units %s): ' % times.units + '\n', times[:] 
+dates = [] 
+for n in range(temp.shape[0]): 
+	dates.append(datetime(2015, 11, 27) + n * timedelta(hours=0)) 
+	times[:] = date2num(dates, units = times.units, calendar = times.calendar) 
+print 'time values (in units %s): ' % times.units + '\n', times[:] 
+
+wrftime = nc1.variables['Times']
+tim = np.zeros(np.size(data1['Tk'],0))
+for i in range(np.size(data1['Tk'],0)):
+	str_times = wrftime[i][11:]
+	tim[i] = (np.int(str_times[0])*600 + np.int(str_times[1])*60 + np.int(str_times[3])*10)/float(60)
 
 ###################################
 ## Fill arrays
 ###################################
+times[:] = tim[:]
 levels[:] = np.arange(0,np.size(data1['Z'],1))
 latitudes[:,:,:] = data1['xlat'][:,:,:]
 longitudes[:,:,:] = data1['xlon'][:,:,:]
