@@ -67,9 +67,9 @@ data1['Z'][:,68,:,:] = np.nan	# populate model top elements with nans
 data1['w'] = 0.5*(nc1.variables['W'][:,0:-1,:,:] + nc1.variables['W'][:,1:,:,:])
 
 ## Cloud microphysics variables
+data1['qvap'] = nc1.variables['QVAPOR'][:]   # water vapour mixing ratio, kg kg-1
 data1['qcloud'] = nc1.variables['QCLOUD'][:]  # LW mixing ratio in kg/kg
 data1['qrain'] = nc1.variables['QRAIN'][:]
-
 data1['qisg'] = nc1.variables['QICE'][:]+nc1.variables['QSNOW'][:]+nc1.variables['QGRAUP'][:] # total ice mass mixing ratio, kg kg-1
 data1['qnisg'] = (nc1.variables['QNICE'][:]+nc1.variables['QNSNOW'][:]+nc1.variables['QNGRAUPEL'][:]) # total ice number concentration in kg-1
 data1['nisg80'] = nc1.variables['NISG80'][:]*(data1['rho']) 	# Nisg>80 in kg-1
@@ -161,6 +161,7 @@ P = dataset.createVariable('air_pressure', np.float32, ('time','level','lat','lo
 rho = dataset.createVariable('air_density', np.float32, ('time','level','lat','lon')) 
 
 W = dataset.createVariable('vertical_wind_speed', np.float32, ('time','level','lat','lon')) 
+qvap = dataset.createVariable('humidity_mixing_ratio', np.float32, ('time','level','lat','lon')) 
 qcloud = dataset.createVariable('cloud_liquid_water_mixing_ratio', np.float32, ('time','level','lat','lon')) 
 qrain = dataset.createVariable('rain_water_mixing_ratio', np.float32, ('time','level','lat','lon')) 
 qisg = dataset.createVariable('cloud_ice_mixing_ratio', np.float32, ('time','level','lat','lon')) 
@@ -194,6 +195,7 @@ P.units = 'Pa'
 rho.units = 'kg m-3'
 
 W.units = 'm s-1'
+qvap.units = 'kg kg-1'
 qcloud.units = 'kg kg-1'
 qrain.units = 'kg kg-1'
 qisg.units = 'kg kg-1'
@@ -241,6 +243,7 @@ P[:,:,:,:] = data1['p'][:,:,:,:]
 rho[:,:,:,:] = data1['rho'][:,:,:,:]
 
 W[:,:,:,:] = data1['w'][:,:,:,:]
+qvap[:,:,:,:] = data1['qvap'][:,:,:,:]
 qcloud[:,:,:,:] = data1['qcloud'][:,:,:,:]
 qrain[:,:,:,:] = data1['qrain'][:,:,:,:]
 qisg[:,:,:,:] = data1['qisg'][:,:,:,:]
