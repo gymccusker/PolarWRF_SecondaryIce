@@ -70,11 +70,25 @@ data1['w'] = 0.5*(nc1.variables['W'][:,0:-1,:,:] + nc1.variables['W'][:,1:,:,:])
 data1['qcloud'] = nc1.variables['QCLOUD'][:]  # LW mixing ratio in kg/kg
 data1['qnisg'] = (nc1.variables['QNICE'][:]+nc1.variables['QNSNOW'][:]+nc1.variables['QNGRAUPEL'][:]) # total ice number concentration in kg-1
 data1['nisg80'] = nc1.variables['NISG80'][:]*(data1['rho']) 	# Nisg>80 in kg-1
-data1['nisg50'] = data1['qnisg'] - (nc1.variables['NI50'][:] - nc1.variables['NG50'][:])*(data1['rho']) # small ice number concentration in kg-1
+data1['nisg50'] = data1['qnisg'] - ((nc1.variables['NI50'][:] + nc1.variables['NG50'][:])*data1['rho']) # small ice number concentration in kg-1
 data1['qrain'] = nc1.variables['QRAIN'][:]
 
+## Force small negative values to zero
+data1['qcloud'][data1['qcloud']<0] = 0
+data1['qrain'][data1['qrain']<0] = 0
+data1['qnisg'][data1['qnisg']<0] = 0
+data1['nisg80'][data1['nisg80']<0] = 0
+data1['nisg50'][data1['nisg50']<0] = 0
+
+## Radiation fields
 data1['swdnb'] = nc1.variables['SWDNB'][:,:,:] # instantaneous downwelling shortwave flux at surface, W m-2
 data1['swdnbc'] = nc1.variables['SWDNBC'][:,:,:] # instantaneous clear sky downwelling shortwave flux at surface, W m-2
+data1['lwdnb'] = nc1.variables['LWDNB'][:,:,:] # instantaneous downwelling longwave flux at surface, W m-2
+data1['lwdnbc'] = nc1.variables['LWDNBC'][:,:,:] # instantaneous clear sky upwelling longwave flux at surface, W m-2
+data1['swupb'] = nc1.variables['SWUPB'][:,:,:] # instantaneous upwelling shortwave flux at surface, W m-2
+data1['swupbc'] = nc1.variables['SWUPBC'][:,:,:] # instantaneous clear sky upwelling shortwave flux at surface, W m-2
+data1['lwupb'] = nc1.variables['LWUPB'][:,:,:] # instantaneous upwelling longwave flux at surface, W m-2
+data1['lwupbc'] = nc1.variables['LWUPBC'][:,:,:] # instantaneous clear sky upwelling longwave flux at surface, W m-2
 
 ##--------------------------------------------------------------------------
 ##--------------------------------------------------------------------------
@@ -123,6 +137,13 @@ longitudes = dataset.createVariable('longitude', np.float32, ('time','lat','lon'
 ###################################
 swdnb = dataset.createVariable('surface_downwelling_shortwave_flux_in_air', np.float32, ('time','lat', 'lon',))
 swdnbc = dataset.createVariable('surface_downwelling_shortwave_flux_in_air_assuming_clear_sky', np.float32, ('time','lat', 'lon',))
+lwdnb = dataset.createVariable('surface_downwelling_longwave_flux_in_air', np.float32, ('time','lat', 'lon',))
+lwdnbc = dataset.createVariable('surface_downwelling_longwave_flux_in_air_assuming_clear_sky', np.float32, ('time','lat', 'lon',))
+swupb = dataset.createVariable('surface_upwelling_shortwave_flux_in_air', np.float32, ('time','lat', 'lon',))
+swupbc = dataset.createVariable('surface_upwelling_shortwave_flux_in_air_assuming_clear_sky', np.float32, ('time','lat', 'lon',))
+lwupb = dataset.createVariable('surface_upwelling_longwave_flux_in_air', np.float32, ('time','lat', 'lon',))
+lwupbc = dataset.createVariable('surface_upwelling_longwave_flux_in_air_assuming_clear_sky', np.float32, ('time','lat', 'lon',))
+
 
 ###################################
 ## Create 4-d variables
@@ -151,6 +172,12 @@ longitudes.units = 'degree_east'
 
 swdnb.units = 'W m-2'
 swdnbc.units = 'W m-2'
+lwdnb.units = 'W m-2'
+lwdnbc.units = 'W m-2'
+swupb.units = 'W m-2'
+swupbc.units = 'W m-2'
+lwupb.units = 'W m-2'
+lwupbc.units = 'W m-2'
 
 temperature.units = 'K' 
 theta.units = 'K' 
@@ -190,6 +217,12 @@ longitudes[:,:,:] = data1['xlon'][:,:,:]
 
 swdnb[:,:,:] = data1['swdnb'][:,:,:]
 swdnbc[:,:,:] = data1['swdnbc'][:,:,:]
+lwdnb[:,:,:] = data1['lwdnb'][:,:,:]
+lwdnbc[:,:,:] = data1['lwdnbc'][:,:,:]
+swupb[:,:,:] = data1['swupb'][:,:,:]
+swupbc[:,:,:] = data1['swupbc'][:,:,:]
+lwupb[:,:,:] = data1['lwupb'][:,:,:]
+lwupbc[:,:,:] = data1['lwupbc'][:,:,:]
 
 temperature[:,:,:,:] = data1['Tk'][:,:,:,:]
 theta[:,:,:,:] = data1['theta'][:,:,:,:]
