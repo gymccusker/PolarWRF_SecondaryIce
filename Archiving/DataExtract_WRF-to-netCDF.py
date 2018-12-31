@@ -93,6 +93,9 @@ data1['swupbc'] = nc1.variables['SWUPBC'][:,:,:] # instantaneous clear sky upwel
 data1['lwupb'] = nc1.variables['LWUPB'][:,:,:] # instantaneous upwelling longwave flux at surface, W m-2
 data1['lwupbc'] = nc1.variables['LWUPBC'][:,:,:] # instantaneous clear sky upwelling longwave flux at surface, W m-2
 
+## Surface fields
+data1['seaice'] = nc1.variables['SEAICE'][:] # sea ice concentration
+
 ##--------------------------------------------------------------------------
 ##--------------------------------------------------------------------------
 ##---------------				OUT
@@ -146,7 +149,7 @@ swupb = dataset.createVariable('surface_upwelling_shortwave_flux_in_air', np.flo
 swupbc = dataset.createVariable('surface_upwelling_shortwave_flux_in_air_assuming_clear_sky', np.float32, ('time','lat', 'lon',))
 lwupb = dataset.createVariable('surface_upwelling_longwave_flux_in_air', np.float32, ('time','lat', 'lon',))
 lwupbc = dataset.createVariable('surface_upwelling_longwave_flux_in_air_assuming_clear_sky', np.float32, ('time','lat', 'lon',))
-
+seaice = dataset.createVariable('sea_ice_area_fraction', np.float32, ('time','lat', 'lon',))
 
 ###################################
 ## Create 4-d variables
@@ -182,6 +185,7 @@ swupb.units = 'W m-2'
 swupbc.units = 'W m-2'
 lwupb.units = 'W m-2'
 lwupbc.units = 'W m-2'
+seaice.units = ''
 
 temperature.units = 'K' 
 theta.units = 'K' 
@@ -228,6 +232,7 @@ swupb[:,:,:] = data1['swupb'][:,:,:]
 swupbc[:,:,:] = data1['swupbc'][:,:,:]
 lwupb[:,:,:] = data1['lwupb'][:,:,:]
 lwupbc[:,:,:] = data1['lwupbc'][:,:,:]
+seaice[:,:,:] = data1['seaice'][:,:,:]
 
 temperature[:,:,:,:] = data1['Tk'][:,:,:,:]
 theta[:,:,:,:] = data1['theta'][:,:,:,:]
