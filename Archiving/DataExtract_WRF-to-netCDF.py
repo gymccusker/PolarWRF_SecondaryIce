@@ -135,7 +135,7 @@ if data1['dx'] == 5000.0: str_domain = 'Parent' # domain option
 ###################################
 ## Open File
 ###################################
-outfile = "".join(['OUT/',runlab,'_',str_domain])
+outfile = "".join(['OUT/',runlab,'_',str_domain,'.nc'])
 dataset =  Dataset(outfile, 'w', format ='NETCDF4_CLASSIC') 
 
 print dataset.file_format 
@@ -154,8 +154,12 @@ str_lonmin = "%.4f" % np.nanmin(data1['xlon']*-1)
 str_lonmax = "%.4f" % np.nanmax(data1['xlon']*-1)
 desc = runlab + ' simulation from Young et al., 2019 (GRL) -- ' + str_domain + ' domain. x/y grid size = ' + str_dx + ' m with ' + str_levels + ' vertical levels. Domain size = ' + str_xdim + ' x ' + str_ydim + ' grid points, equalling ' + str_width + ' x ' + str_height + ' m, from ' + str_latmax + ' degS to ' + str_latmin + ' degS and ' + str_lonmax + ' degW to ' + str_lonmin + ' degW.'
 dataset.description = desc
-# dataset.history = 'Created ' + time.ctime(time.time())  
-dataset.source = 'netCDF4 python' 
+dataset.history = 'Created ' + datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+dataset.source = 'Weather Research and Forecasting (WRF) model, version 3.6.1, with polar updates from the Byrd Polar Research Center (http://polarmet.osu.edu/PWRF/).' 
+dataset.references = 'First published in Young et al., 2019 (GRL): Radiative effects of secondary ice enhancement in coastal Antarctic clouds.'
+dataset.project = 'Microphysics of Antarctic Clouds (MAC), funded by the UK Natural Environment Research Council (Grant no. NE/K01305X/1).'
+dataset.comment = 'Other WRF variables from this simulation are archived locally at the British Antarctic Survey. Contact Gillian Young (G.Young1@leeds.ac.uk) for details.'
+dataset.institution = 'British Antarctic Survey.'
 
 ###################################
 ## Data dimensions
