@@ -22,7 +22,16 @@ import constants
 ###################################
 # Pick file
 ###################################
-filename1 = '/data/scihub-users/giyoung/PWRF_V3.6.1/RUNS/MAC_WRF/31_DeMott_WATSAT_eta70_MYNN/wrfout_d02_2015-11-27_00:00:00'
+# filename1 = '/data/scihub-users/giyoung/PWRF_V3.6.1/RUNS/MAC_WRF/31_DeMott_WATSAT_eta70_MYNN/wrfout_d02_2015-11-27_00:00:00'
+filename1 = '/data/scihub-users/giyoung/PWRF_V3.6.1/RUNS/MAC_WRF/31_DeMott_WATSAT_eta70_MYNN/wrfout_d01_2015-11-27_00:00:00'
+# filename1 = '/data/scihub-users/giyoung/PWRF_V3.6.1/RUNS/MAC_WRF/30_DeMott_WATSAT_HM_noThresh_eta70_MYNN/wrfout_d02_2015-11-27_00:00:00'
+# filename1 = '/data/scihub-users/giyoung/PWRF_V3.6.1/RUNS/MAC_WRF/30_DeMott_WATSAT_HM_noThresh_eta70_MYNN/wrfout_d01_2015-11-27_00:00:00'
+# filename1 = '/data/scihub-users/giyoung/PWRF_V3.6.1/RUNS/MAC_WRF/36_DeMott_WATSAT_2xHM_noThresh_eta70_MYNN/wrfout_d02_2015-11-27_00:00:00'
+# filename1 = '/data/scihub-users/giyoung/PWRF_V3.6.1/RUNS/MAC_WRF/36_DeMott_WATSAT_2xHM_noThresh_eta70_MYNN/wrfout_d01_2015-11-27_00:00:00'
+# filename1 = '/data/scihub-users/giyoung/PWRF_V3.6.1/RUNS/MAC_WRF/57_DeMott_WATSAT_5xHM_noThresh_eta70_MYNN/wrfout_d02_2015-11-27_00:00:00'
+# filename1 = '/data/scihub-users/giyoung/PWRF_V3.6.1/RUNS/MAC_WRF/57_DeMott_WATSAT_5xHM_noThresh_eta70_MYNN/wrfout_d01_2015-11-27_00:00:00'
+# filename1 = '/data/scihub-users/giyoung/PWRF_V3.6.1/RUNS/MAC_WRF/56_DeMott_WATSAT_10xHM_noThresh_eta70_MYNN/wrfout_d02_2015-11-27_00:00:00'
+# filename1 = '/data/scihub-users/giyoung/PWRF_V3.6.1/RUNS/MAC_WRF/56_DeMott_WATSAT_10xHM_noThresh_eta70_MYNN/wrfout_d01_2015-11-27_00:00:00'
 
 ###################################
 # LOAD NETCDF FILE
@@ -102,7 +111,7 @@ data1['seaice'] = nc1.variables['SEAICE'][:] # sea ice concentration
 ##--------------------------------------------------------------------------
 ##--------------------------------------------------------------------------
 
-dataset =  Dataset('OUT/test1.nc', 'w', format ='NETCDF4_CLASSIC') 
+dataset =  Dataset('OUT/testd01.nc', 'w', format ='NETCDF4_CLASSIC') 
 
 print dataset.file_format 
 
@@ -117,7 +126,11 @@ str_xdim = "%1i" % data1['x_dim'] # number of grid points in x
 str_ydim = "%1i" % data1['y_dim'] # number of grid points in y
 str_width = "%.1f" % data1['width_meters'] # domain width (x) in m
 str_height = "%.1f" % data1['height_meters'] # domain height (y) in m
-desc = 'CNTRL simulation from Young et al., 2016 (GRL) -- ' + str_domain + '. ' + str_dx + ' m x/y resolution with ' + str_levels + ' vertical levels. Domain size = ' + str_xdim + ' x ' + str_ydim + ' grid points, equalling ' + str_width + ' x ' + str_height + ' m.'
+str_latmin = "%.4f" % np.nanmin(data1['xlat']*-1)
+str_latmax = "%.4f" % np.nanmax(data1['xlat']*-1)
+str_lonmin = "%.4f" % np.nanmin(data1['xlon']*-1)
+str_lonmax = "%.4f" % np.nanmax(data1['xlon']*-1)
+desc = 'CNTRL simulation from Young et al., 2019 (GRL) -- ' + str_domain + ' domain. x/y grid size = ' + str_dx + ' with ' + str_levels + ' vertical levels. Domain size = ' + str_xdim + ' x ' + str_ydim + ' grid points, equalling ' + str_width + ' x ' + str_height + ' m, from ' + str_latmin + 'W to ' + str_latmax + 'W and ' + str_lonmin + 'S to ' + str_lonmax + 'S.'
 dataset.description = desc
 # dataset.history = 'Created ' + time.ctime(time.time())  
 dataset.source = 'netCDF4 python' 
