@@ -6,8 +6,8 @@
   a case study from the campaign (27-November-2015), comprising two separate flights 
   over the same region, with the Polar-optimised Weather Research and Forecasting 
   (PWRF) model. Two domains were simulated per run -- a parent domain with 5km grid
-  size and a nest with a 1km grid size. \n\n This dataset contains data from the 
-  CNTRL simulation's parent domain.(5km grid size)",
+  size and a nest with a 1km grid size. 
+  \n\n This dataset contains data from the CNTRL simulation parent domain (5km grid size).",
   "authors": [
     {
       "firstname": "Gillian",
@@ -32,8 +32,11 @@
     "start": "2015-11-27T00:00:00",
     "end": "2015-11-27T23:59:59"
   },
-  "lineage": "Data were generated using the Polar-optimised Weather Research and Forecasting (PWRF) model at 5km horizontal resolution over the domain 20W-20E, 5S-28N. MAC data has been converted to CF-netCDF by the team using python's netCDF-4 library, then passed on to the CEDA for archiving.",
-  "quality": "Data are as given by the data provider, no quality control has been performed by the Centre for Environmental Data Analysis (CEDA)",
+  "lineage": "Data were generated using the Polar-optimised Weather Research and Forecasting 
+  (PWRF) model at 5km horizontal resolution over the domain 20W-20E, 5S-28N. MAC data has been 
+  converted to CF-netCDF by the team using python's netCDF-4 library, then passed on to the CEDA for archiving.",
+  "quality": "Data are as given by the data provider, no quality control has been performed 
+  by the Centre for Environmental Data Analysis (CEDA)",
   "docs": [
     {
       "title": "",
@@ -43,7 +46,26 @@
   "project": {
     "catalogue_url": "",
     "title": "Microphysics of Antarctic Clouds",
-    "description": "MAC was a NERC funded consortium project to study organized convection in the tropical atmosphere using large domain cloud system resolving model simulations.\n\nWithin the Cascade project a version of the Met Office Unified Model (UM) at horizontal resolutions of 1.5km - 40km was used Africa, Indian Ocean and West Pacific Ocean. The horizontal resolution allowed the individual cloud systems to simulate the large-scale organization. The combination of the high resolution and large domains allowed the upscale transports of heat, moisture and momentum and investigated the impact of these transports on the evolution of the synoptic and planetary scale systems.\n\nTwo domains of interest were chosen to represent continental and oceanic convection respectively. Simulations of the West African Monsoon region were used to understand the range of factors which influence the diurnal cycle of convection over complex topography and to identify the impact of the diurnal cycle and other mesoscale organization on the synoptic organization of convection by African Easterly Waves. Simulations of the Indian Ocean and West Pacific Warm Pool were used to investigate the role of mesoscale and synoptic scale organization on the evolution of the Madden-Julian Oscillation and the influence of the diurnal cycle (e.g. land-sea breeze circulations) on the maintenance of the climate of the Maritime Continent region. In addition, simulations over an idealized ocean surface were used to investigate the organization of convection by equatorially trapped wave modes.",
+    "description": "The Microphysics of Antarctic Clouds (MAC) campaign was a NERC funded consortium project to make airborne
+    measurements of coastal Antarctic clouds to inform model parametrization improvements. Although there are 
+    many measurements of cloud microphysical properties at mid latitudes, these measurements are largely lacking
+    in Antarctica. With little observational data, our understanding of high latitude cloud physics is poor and 
+    is thought to be responsible for large model errors in the surface radiation balance over the Southern Ocean 
+    and the coast of Antarctica.
+
+    \n\n The airborne component of the MAC campaign took place in November and December 2015 based out of Halley 
+    research station. It used the BAS instrumented Twin Otter to take detailed measurements of the physical cloud 
+    properties – size spectrums and phase (whether the particles are ice or liquid) – and to study the environment 
+    around the clouds. 
+
+    \n\n Within MAC, model simulations were conducted with the Polar-optimised Weather Research and Forecasting (PWRF)
+    model (https://www.mmm.ucar.edu/weather-research-and-forecasting-model) at convection-permitting spatial resolution.
+    With grid sizes of 5 km and 1 km respectively for the parent domain and nest, all cloud microphysical processes
+    were represented by the microphysics scheme (Morrison et al., 2005 (JAS)) alone. Our aircraft measurements were
+    used for comparison with these simulations to identify model weakness and make appropriate cloud physics 
+    improvements. Specifically, the representation of secondary ice production via the rime-splintering, or Hallett-
+    Mossop, process was investigated as ice enhancement is a key contributor to cloud lifetime in Antarctica which
+    we poorly understand.",
     "PI": {
       "firstname": "Thomas",
       "lastname": "Lachlan-Cope"
@@ -58,7 +80,9 @@
   },
   "computation": {
     "catalogue_url": "",
-    "title": "Polar-optimised Weather Research and Forecasting (PWRF) model (version 3.6.1) on the ARCHER UK National Supercomputing Service (http://www.archer.ac.uk)",
-    "description": "Polar-optimised Weather Research and Forecasting (PWRF) model (version 3.6.1) on the ARCHER UK National Supercomputing Service (http://www.archer.ac.uk)"
+    "title": "Polar-optimised Weather Research and Forecasting (PWRF) model (version 3.6.1) on the ARCHER 
+    UK National Supercomputing Service (http://www.archer.ac.uk)",
+    "description": "Polar-optimised Weather Research and Forecasting (PWRF) model (version 3.6.1) on the 
+    ARCHER UK National Supercomputing Service (http://www.archer.ac.uk)"
   }
 }
