@@ -7,7 +7,7 @@
   over the same region, with the Polar-optimised Weather Research and Forecasting 
   (PWRF) model. Two domains were simulated per run -- a parent domain with 5km grid
   size and a nest with a 1km grid size. 
-  \n\n This dataset contains data from the CNTRL simulation parent domain (5km grid size).",
+  \n\n This dataset contains data from the CNTRL simulation nest domain (1km grid size).",
   "authors": [
     {
       "firstname": "Gillian",
@@ -23,17 +23,17 @@
     }
   ],
   "bbox": {
-    "north": "-68.9931°",
-    "south": "-78.9298°",
-    "east": "-53.3593°",
-    "west": "-6.6407°"
+    "north": "-72.9315°",
+    "south": "-76.8892°",
+    "east": "-33.9606°",
+    "west": "-20.4553°"
   },
   "time_range": {
     "start": "2015-11-27T00:00:00",
     "end": "2015-11-27T23:59:59"
   },
   "lineage": "Data were generated using the Polar-optimised Weather Research and Forecasting 
-  (PWRF) model with 5km horizontal grid size over the domain 53.4W-6.6W, 78.9S-69.0S. MAC data has been 
+  (PWRF) model with 1km horizontal grid size over the domain 34.0W-20.5W, 76.9S-72.9S. MAC data has been 
   converted to CF-netCDF by the team using python's netCDF-4 library, then passed on to the CEDA for archiving.",
   "quality": "Data are as given by the data provider, no quality control has been performed 
   by the Centre for Environmental Data Analysis (CEDA)",
