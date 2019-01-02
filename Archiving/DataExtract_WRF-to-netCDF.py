@@ -22,14 +22,14 @@ import constants
 ###################################
 # Pick file
 ###################################
-# filename1 = '/data/scihub-users/giyoung/PWRF_V3.6.1/RUNS/MAC_WRF/31_DeMott_WATSAT_eta70_MYNN/wrfout_d02_2015-11-27_00:00:00'
+filename1 = '/data/scihub-users/giyoung/PWRF_V3.6.1/RUNS/MAC_WRF/31_DeMott_WATSAT_eta70_MYNN/wrfout_d02_2015-11-27_00:00:00'
 # filename1 = '/data/scihub-users/giyoung/PWRF_V3.6.1/RUNS/MAC_WRF/31_DeMott_WATSAT_eta70_MYNN/wrfout_d01_2015-11-27_00:00:00'
 # filename1 = '/data/scihub-users/giyoung/PWRF_V3.6.1/RUNS/MAC_WRF/30_DeMott_WATSAT_HM_noThresh_eta70_MYNN/wrfout_d02_2015-11-27_00:00:00'
 # filename1 = '/data/scihub-users/giyoung/PWRF_V3.6.1/RUNS/MAC_WRF/30_DeMott_WATSAT_HM_noThresh_eta70_MYNN/wrfout_d01_2015-11-27_00:00:00'
 # filename1 = '/data/scihub-users/giyoung/PWRF_V3.6.1/RUNS/MAC_WRF/36_DeMott_WATSAT_2xHM_noThresh_eta70_MYNN/wrfout_d02_2015-11-27_00:00:00'
 # filename1 = '/data/scihub-users/giyoung/PWRF_V3.6.1/RUNS/MAC_WRF/36_DeMott_WATSAT_2xHM_noThresh_eta70_MYNN/wrfout_d01_2015-11-27_00:00:00'
 # filename1 = '/data/scihub-users/giyoung/PWRF_V3.6.1/RUNS/MAC_WRF/57_DeMott_WATSAT_5xHM_noThresh_eta70_MYNN/wrfout_d02_2015-11-27_00:00:00'
-filename1 = '/data/scihub-users/giyoung/PWRF_V3.6.1/RUNS/MAC_WRF/57_DeMott_WATSAT_5xHM_noThresh_eta70_MYNN/wrfout_d01_2015-11-27_00:00:00'
+# filename1 = '/data/scihub-users/giyoung/PWRF_V3.6.1/RUNS/MAC_WRF/57_DeMott_WATSAT_5xHM_noThresh_eta70_MYNN/wrfout_d01_2015-11-27_00:00:00'
 # filename1 = '/data/scihub-users/giyoung/PWRF_V3.6.1/RUNS/MAC_WRF/56_DeMott_WATSAT_10xHM_noThresh_eta70_MYNN/wrfout_d02_2015-11-27_00:00:00'
 # filename1 = '/data/scihub-users/giyoung/PWRF_V3.6.1/RUNS/MAC_WRF/56_DeMott_WATSAT_10xHM_noThresh_eta70_MYNN/wrfout_d01_2015-11-27_00:00:00'
 
@@ -125,17 +125,24 @@ data1['seaice'] = nc1.variables['SEAICE'][:] # sea ice concentration
 ##---------------				OUT
 ##--------------------------------------------------------------------------
 ##--------------------------------------------------------------------------
-
-dataset =  Dataset('OUT/testd01.nc', 'w', format ='NETCDF4_CLASSIC') 
-
-print dataset.file_format 
-
 ###################################
-## Global Attributes 
+## Global Attributes
 ###################################
 str_dx = "%.1f" % data1['dx']	# x/y resolution in m
 if data1['dx'] == 1000.0: str_domain = 'Nest'	# domain option
 if data1['dx'] == 5000.0: str_domain = 'Parent' # domain option
+
+###################################
+## Open File
+###################################
+outfile = "".join(['OUT/',runlab,'_',str_domain])
+dataset =  Dataset(outfile, 'w', format ='NETCDF4_CLASSIC') 
+
+print dataset.file_format 
+
+###################################
+## Global Attributes (Cont.)
+###################################
 str_levels = "%1i" % np.size(data1['theta'],1) # number of vertical levels
 str_xdim = "%1i" % data1['x_dim'] # number of grid points in x
 str_ydim = "%1i" % data1['y_dim'] # number of grid points in y
@@ -145,7 +152,7 @@ str_latmin = "%.4f" % np.nanmin(data1['xlat']*-1)
 str_latmax = "%.4f" % np.nanmax(data1['xlat']*-1)
 str_lonmin = "%.4f" % np.nanmin(data1['xlon']*-1)
 str_lonmax = "%.4f" % np.nanmax(data1['xlon']*-1)
-desc = runlab + ' simulation from Young et al., 2019 (GRL) -- ' + str_domain + ' domain. x/y grid size = ' + str_dx + ' with ' + str_levels + ' vertical levels. Domain size = ' + str_xdim + ' x ' + str_ydim + ' grid points, equalling ' + str_width + ' x ' + str_height + ' m, from ' + str_latmax + ' degS to ' + str_latmin + ' degS and ' + str_lonmax + ' degW to ' + str_lonmin + ' degW.'
+desc = runlab + ' simulation from Young et al., 2019 (GRL) -- ' + str_domain + ' domain. x/y grid size = ' + str_dx + ' m with ' + str_levels + ' vertical levels. Domain size = ' + str_xdim + ' x ' + str_ydim + ' grid points, equalling ' + str_width + ' x ' + str_height + ' m, from ' + str_latmax + ' degS to ' + str_latmin + ' degS and ' + str_lonmax + ' degW to ' + str_lonmin + ' degW.'
 dataset.description = desc
 # dataset.history = 'Created ' + time.ctime(time.time())  
 dataset.source = 'netCDF4 python' 
