@@ -22,7 +22,7 @@ import constants
 ###################################
 # Pick file
 ###################################
-# filename1 = '/data/scihub-users/giyoung/PWRF_V3.6.1/RUNS/MAC_WRF/31_DeMott_WATSAT_eta70_MYNN/wrfout_d02_2015-11-27_00:00:00'
+filename1 = '/data/scihub-users/giyoung/PWRF_V3.6.1/RUNS/MAC_WRF/31_DeMott_WATSAT_eta70_MYNN/wrfout_d02_2015-11-27_00:00:00'
 # filename1 = '/data/scihub-users/giyoung/PWRF_V3.6.1/RUNS/MAC_WRF/31_DeMott_WATSAT_eta70_MYNN/wrfout_d01_2015-11-27_00:00:00'
 # filename1 = '/data/scihub-users/giyoung/PWRF_V3.6.1/RUNS/MAC_WRF/30_DeMott_WATSAT_HM_noThresh_eta70_MYNN/wrfout_d02_2015-11-27_00:00:00'
 # filename1 = '/data/scihub-users/giyoung/PWRF_V3.6.1/RUNS/MAC_WRF/30_DeMott_WATSAT_HM_noThresh_eta70_MYNN/wrfout_d01_2015-11-27_00:00:00'
@@ -30,7 +30,7 @@ import constants
 # filename1 = '/data/scihub-users/giyoung/PWRF_V3.6.1/RUNS/MAC_WRF/36_DeMott_WATSAT_2xHM_noThresh_eta70_MYNN/wrfout_d01_2015-11-27_00:00:00'
 # filename1 = '/data/scihub-users/giyoung/PWRF_V3.6.1/RUNS/MAC_WRF/57_DeMott_WATSAT_5xHM_noThresh_eta70_MYNN/wrfout_d02_2015-11-27_00:00:00'
 # filename1 = '/data/scihub-users/giyoung/PWRF_V3.6.1/RUNS/MAC_WRF/57_DeMott_WATSAT_5xHM_noThresh_eta70_MYNN/wrfout_d01_2015-11-27_00:00:00'
-filename1 = '/data/scihub-users/giyoung/PWRF_V3.6.1/RUNS/MAC_WRF/56_DeMott_WATSAT_10xHM_noThresh_eta70_MYNN/wrfout_d02_2015-11-27_00:00:00'
+# filename1 = '/data/scihub-users/giyoung/PWRF_V3.6.1/RUNS/MAC_WRF/56_DeMott_WATSAT_10xHM_noThresh_eta70_MYNN/wrfout_d02_2015-11-27_00:00:00'
 # filename1 = '/data/scihub-users/giyoung/PWRF_V3.6.1/RUNS/MAC_WRF/56_DeMott_WATSAT_10xHM_noThresh_eta70_MYNN/wrfout_d01_2015-11-27_00:00:00'
 
 runlabel_start = filename1.find('/MAC_WRF/') + 9
@@ -180,33 +180,65 @@ longitudes = dataset.createVariable('longitude', np.float32, ('time','lat','lon'
 ###################################
 ## Create 3-d variables
 ###################################
-swdnb = dataset.createVariable('surface_downwelling_shortwave_flux_in_air', np.float32, ('time','lat', 'lon',))
-swdnbc = dataset.createVariable('surface_downwelling_shortwave_flux_in_air_assuming_clear_sky', np.float32, ('time','lat', 'lon',))
-lwdnb = dataset.createVariable('surface_downwelling_longwave_flux_in_air', np.float32, ('time','lat', 'lon',))
-lwdnbc = dataset.createVariable('surface_downwelling_longwave_flux_in_air_assuming_clear_sky', np.float32, ('time','lat', 'lon',))
-swupb = dataset.createVariable('surface_upwelling_shortwave_flux_in_air', np.float32, ('time','lat', 'lon',))
-swupbc = dataset.createVariable('surface_upwelling_shortwave_flux_in_air_assuming_clear_sky', np.float32, ('time','lat', 'lon',))
-lwupb = dataset.createVariable('surface_upwelling_longwave_flux_in_air', np.float32, ('time','lat', 'lon',))
-lwupbc = dataset.createVariable('surface_upwelling_longwave_flux_in_air_assuming_clear_sky', np.float32, ('time','lat', 'lon',))
-seaice = dataset.createVariable('sea_ice_area_fraction', np.float32, ('time','lat', 'lon',))
+swdnb = dataset.createVariable('dwsws', np.float32, ('time','lat', 'lon',))
+swdnbc = dataset.createVariable('dwswsc', np.float32, ('time','lat', 'lon',))
+lwdnb = dataset.createVariable('dwlws', np.float32, ('time','lat', 'lon',))
+lwdnbc = dataset.createVariable('dwlwsc', np.float32, ('time','lat', 'lon',))
+swupb = dataset.createVariable('upsws', np.float32, ('time','lat', 'lon',))
+swupbc = dataset.createVariable('upswsc', np.float32, ('time','lat', 'lon',))
+lwupb = dataset.createVariable('uplws', np.float32, ('time','lat', 'lon',))
+lwupbc = dataset.createVariable('uplwsc', np.float32, ('time','lat', 'lon',))
+seaice = dataset.createVariable('seaice', np.float32, ('time','lat', 'lon',))
 
 ###################################
 ## Create 4-d variables
 ###################################
-temperature = dataset.createVariable('air_temperature', np.float32, ('time','level','lat','lon')) 
-theta = dataset.createVariable('air_potential_temperature', np.float32, ('time','level','lat','lon')) 
+temperature = dataset.createVariable('temp', np.float32, ('time','level','lat','lon')) 
+theta = dataset.createVariable('theta', np.float32, ('time','level','lat','lon')) 
 Z = dataset.createVariable('height', np.float32, ('time','level','lat','lon')) 
-P = dataset.createVariable('air_pressure', np.float32, ('time','level','lat','lon')) 
+P = dataset.createVariable('pressure', np.float32, ('time','level','lat','lon')) 
 rho = dataset.createVariable('air_density', np.float32, ('time','level','lat','lon')) 
 
 W = dataset.createVariable('vertical_wind_speed', np.float32, ('time','level','lat','lon')) 
-qvap = dataset.createVariable('humidity_mixing_ratio', np.float32, ('time','level','lat','lon')) 
-qcloud = dataset.createVariable('cloud_liquid_water_mixing_ratio', np.float32, ('time','level','lat','lon')) 
-qrain = dataset.createVariable('rain_water_mixing_ratio', np.float32, ('time','level','lat','lon')) 
-qisg = dataset.createVariable('cloud_ice_mixing_ratio', np.float32, ('time','level','lat','lon')) 
-nisg =  dataset.createVariable('number_concentration_of_ice_crystals_in_air', np.float32, ('time','level','lat','lon')) 
-nisg80 =  dataset.createVariable('number_concentration_of_ice_crystals_larger_than_80micron_in_air', np.float32, ('time','level','lat','lon')) 
-nisg50 =  dataset.createVariable('number_concentration_of_ice_crystals_smaller_than_50micron_in_air', np.float32, ('time','level','lat','lon')) 
+qvap = dataset.createVariable('qvapor', np.float32, ('time','level','lat','lon')) 
+qcloud = dataset.createVariable('qcloud', np.float32, ('time','level','lat','lon')) 
+qrain = dataset.createVariable('qrain', np.float32, ('time','level','lat','lon')) 
+qisg = dataset.createVariable('qice', np.float32, ('time','level','lat','lon')) 
+nisg =  dataset.createVariable('nisg', np.float32, ('time','level','lat','lon')) 
+nisg80 =  dataset.createVariable('nisg80', np.float32, ('time','level','lat','lon')) 
+nisg50 =  dataset.createVariable('nisg50', np.float32, ('time','level','lat','lon')) 
+
+###################################
+## Create 3-d variables
+# ###################################
+# swdnb = dataset.createVariable('surface_downwelling_shortwave_flux_in_air', np.float32, ('time','lat', 'lon',))
+# swdnbc = dataset.createVariable('surface_downwelling_shortwave_flux_in_air_assuming_clear_sky', np.float32, ('time','lat', 'lon',))
+# lwdnb = dataset.createVariable('surface_downwelling_longwave_flux_in_air', np.float32, ('time','lat', 'lon',))
+# lwdnbc = dataset.createVariable('surface_downwelling_longwave_flux_in_air_assuming_clear_sky', np.float32, ('time','lat', 'lon',))
+# swupb = dataset.createVariable('surface_upwelling_shortwave_flux_in_air', np.float32, ('time','lat', 'lon',))
+# swupbc = dataset.createVariable('surface_upwelling_shortwave_flux_in_air_assuming_clear_sky', np.float32, ('time','lat', 'lon',))
+# lwupb = dataset.createVariable('surface_upwelling_longwave_flux_in_air', np.float32, ('time','lat', 'lon',))
+# lwupbc = dataset.createVariable('surface_upwelling_longwave_flux_in_air_assuming_clear_sky', np.float32, ('time','lat', 'lon',))
+# seaice = dataset.createVariable('sea_ice_area_fraction', np.float32, ('time','lat', 'lon',))
+
+# ###################################
+# ## Create 4-d variables
+# ###################################
+# temperature = dataset.createVariable('air_temperature', np.float32, ('time','level','lat','lon')) 
+# theta = dataset.createVariable('air_potential_temperature', np.float32, ('time','level','lat','lon')) 
+# Z = dataset.createVariable('height', np.float32, ('time','level','lat','lon')) 
+# P = dataset.createVariable('air_pressure', np.float32, ('time','level','lat','lon')) 
+# rho = dataset.createVariable('air_density', np.float32, ('time','level','lat','lon')) 
+
+# W = dataset.createVariable('vertical_wind_speed', np.float32, ('time','level','lat','lon')) 
+# qvap = dataset.createVariable('humidity_mixing_ratio', np.float32, ('time','level','lat','lon')) 
+# qcloud = dataset.createVariable('cloud_liquid_water_mixing_ratio', np.float32, ('time','level','lat','lon')) 
+# qrain = dataset.createVariable('rain_water_mixing_ratio', np.float32, ('time','level','lat','lon')) 
+# qisg = dataset.createVariable('cloud_ice_mixing_ratio', np.float32, ('time','level','lat','lon')) 
+# nisg =  dataset.createVariable('number_concentration_of_ice_crystals_in_air', np.float32, ('time','level','lat','lon')) 
+# nisg80 =  dataset.createVariable('number_concentration_of_ice_crystals_larger_than_80micron_in_air', np.float32, ('time','level','lat','lon')) 
+# nisg50 =  dataset.createVariable('number_concentration_of_ice_crystals_smaller_than_50micron_in_air', np.float32, ('time','level','lat','lon'))
+
 
 ###################################
 ## Variable Attributes  
