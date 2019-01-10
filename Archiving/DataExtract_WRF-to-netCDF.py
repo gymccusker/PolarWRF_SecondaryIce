@@ -180,65 +180,64 @@ longitudes = dataset.createVariable('longitude', np.float32, ('time','lat','lon'
 ###################################
 ## Create 3-d variables
 ###################################
-swdnb = dataset.createVariable('dwsws', np.float32, ('time','lat', 'lon',))
-swdnbc = dataset.createVariable('dwswsc', np.float32, ('time','lat', 'lon',))
+swdnb = dataset.createVariable('swdnb', np.float32, ('time','lat', 'lon',))
+swdnbc = dataset.createVariable('swdnbc', np.float32, ('time','lat', 'lon',))
 lwdnb = dataset.createVariable('dwlws', np.float32, ('time','lat', 'lon',))
-lwdnbc = dataset.createVariable('dwlwsc', np.float32, ('time','lat', 'lon',))
-swupb = dataset.createVariable('upsws', np.float32, ('time','lat', 'lon',))
-swupbc = dataset.createVariable('upswsc', np.float32, ('time','lat', 'lon',))
-lwupb = dataset.createVariable('uplws', np.float32, ('time','lat', 'lon',))
-lwupbc = dataset.createVariable('uplwsc', np.float32, ('time','lat', 'lon',))
+lwdnbc = dataset.createVariable('lwdnb', np.float32, ('time','lat', 'lon',))
+swupb = dataset.createVariable('swupb', np.float32, ('time','lat', 'lon',))
+swupbc = dataset.createVariable('swupbc', np.float32, ('time','lat', 'lon',))
+lwupb = dataset.createVariable('lwupb', np.float32, ('time','lat', 'lon',))
+lwupbc = dataset.createVariable('lwupbc', np.float32, ('time','lat', 'lon',))
 seaice = dataset.createVariable('seaice', np.float32, ('time','lat', 'lon',))
 
 ###################################
 ## Create 4-d variables
 ###################################
-temperature = dataset.createVariable('temp', np.float32, ('time','level','lat','lon')) 
+temperature = dataset.createVariable('temperature', np.float32, ('time','level','lat','lon')) 
 theta = dataset.createVariable('theta', np.float32, ('time','level','lat','lon')) 
-Z = dataset.createVariable('height', np.float32, ('time','level','lat','lon')) 
-P = dataset.createVariable('pressure', np.float32, ('time','level','lat','lon')) 
-rho = dataset.createVariable('air_density', np.float32, ('time','level','lat','lon')) 
+height = dataset.createVariable('height', np.float32, ('time','level','lat','lon')) 
+pressure = dataset.createVariable('pressure', np.float32, ('time','level','lat','lon')) 
+rho = dataset.createVariable('rho', np.float32, ('time','level','lat','lon')) 
 
 W = dataset.createVariable('vertical_wind_speed', np.float32, ('time','level','lat','lon')) 
-qvap = dataset.createVariable('qvapor', np.float32, ('time','level','lat','lon')) 
+qvapor = dataset.createVariable('qvapor', np.float32, ('time','level','lat','lon')) 
 qcloud = dataset.createVariable('qcloud', np.float32, ('time','level','lat','lon')) 
 qrain = dataset.createVariable('qrain', np.float32, ('time','level','lat','lon')) 
-qisg = dataset.createVariable('qice', np.float32, ('time','level','lat','lon')) 
+qisg = dataset.createVariable('qisg', np.float32, ('time','level','lat','lon')) 
 nisg =  dataset.createVariable('nisg', np.float32, ('time','level','lat','lon')) 
 nisg80 =  dataset.createVariable('nisg80', np.float32, ('time','level','lat','lon')) 
 nisg50 =  dataset.createVariable('nisg50', np.float32, ('time','level','lat','lon')) 
 
 ###################################
-## Create 3-d variables
+## 3-d variables: standard names
 # ###################################
-# swdnb = dataset.createVariable('surface_downwelling_shortwave_flux_in_air', np.float32, ('time','lat', 'lon',))
-# swdnbc = dataset.createVariable('surface_downwelling_shortwave_flux_in_air_assuming_clear_sky', np.float32, ('time','lat', 'lon',))
-# lwdnb = dataset.createVariable('surface_downwelling_longwave_flux_in_air', np.float32, ('time','lat', 'lon',))
-# lwdnbc = dataset.createVariable('surface_downwelling_longwave_flux_in_air_assuming_clear_sky', np.float32, ('time','lat', 'lon',))
-# swupb = dataset.createVariable('surface_upwelling_shortwave_flux_in_air', np.float32, ('time','lat', 'lon',))
-# swupbc = dataset.createVariable('surface_upwelling_shortwave_flux_in_air_assuming_clear_sky', np.float32, ('time','lat', 'lon',))
-# lwupb = dataset.createVariable('surface_upwelling_longwave_flux_in_air', np.float32, ('time','lat', 'lon',))
-# lwupbc = dataset.createVariable('surface_upwelling_longwave_flux_in_air_assuming_clear_sky', np.float32, ('time','lat', 'lon',))
-# seaice = dataset.createVariable('sea_ice_area_fraction', np.float32, ('time','lat', 'lon',))
+swdnb.standard_name = 'surface_downwelling_shortwave_flux_in_air'
+swdnbc.standard_name = 'surface_downwelling_shortwave_flux_in_air_assuming_clear_sky'
+lwdnb.standard_name = 'surface_downwelling_longwave_flux_in_air'
+lwdnbc.standard_name = 'surface_downwelling_longwave_flux_in_air_assuming_clear_sky'
+swupb.standard_name = 'surface_upwelling_shortwave_flux_in_air'
+swupbc.standard_name = 'surface_upwelling_shortwave_flux_in_air_assuming_clear_sky'
+lwupb.standard_name = 'surface_upwelling_longwave_flux_in_air'
+lwupbc.standard_name = 'surface_upwelling_longwave_flux_in_air_assuming_clear_sky'
+seaice.standard_name = 'sea_ice_area_fraction'
 
 # ###################################
 # ## Create 4-d variables
 # ###################################
-# temperature = dataset.createVariable('air_temperature', np.float32, ('time','level','lat','lon')) 
-# theta = dataset.createVariable('air_potential_temperature', np.float32, ('time','level','lat','lon')) 
-# Z = dataset.createVariable('height', np.float32, ('time','level','lat','lon')) 
-# P = dataset.createVariable('air_pressure', np.float32, ('time','level','lat','lon')) 
-# rho = dataset.createVariable('air_density', np.float32, ('time','level','lat','lon')) 
+temperature.standard_name = 'air_temperature'
+theta.standard_name = 'air_potential_temperature'
+height.standard_name = 'height'
+pressure.standard_name = 'air_pressure'
+rho.standard_name = 'air_density'
 
-# W = dataset.createVariable('vertical_wind_speed', np.float32, ('time','level','lat','lon')) 
-# qvap = dataset.createVariable('humidity_mixing_ratio', np.float32, ('time','level','lat','lon')) 
-# qcloud = dataset.createVariable('cloud_liquid_water_mixing_ratio', np.float32, ('time','level','lat','lon')) 
-# qrain = dataset.createVariable('rain_water_mixing_ratio', np.float32, ('time','level','lat','lon')) 
-# qisg = dataset.createVariable('cloud_ice_mixing_ratio', np.float32, ('time','level','lat','lon')) 
-# nisg =  dataset.createVariable('number_concentration_of_ice_crystals_in_air', np.float32, ('time','level','lat','lon')) 
-# nisg80 =  dataset.createVariable('number_concentration_of_ice_crystals_larger_than_80micron_in_air', np.float32, ('time','level','lat','lon')) 
-# nisg50 =  dataset.createVariable('number_concentration_of_ice_crystals_smaller_than_50micron_in_air', np.float32, ('time','level','lat','lon'))
-
+W.standard_name = 'vertical_wind_speed'
+qvapor.standard_name = 'humidity_mixing_ratio'
+qcloud.standard_name = 'cloud_liquid_water_mixing_ratio'
+qrain.standard_name = 'rain_water_mixing_ratio'
+qisg.standard_name = 'cloud_ice_mixing_ratio'
+nisg.standard_name = 'number_concentration_of_ice_crystals_in_air'
+nisg80.long_name = 'number_concentration_of_ice_crystals_larger_than_80micron_in_air'
+nisg50.long_name = 'number_concentration_of_ice_crystals_smaller_than_50micron_in_air'
 
 ###################################
 ## Variable Attributes  
@@ -261,12 +260,12 @@ seaice.units = ''
 
 temperature.units = 'K' 
 theta.units = 'K' 
-Z.units = 'm'
-P.units = 'Pa'
+height.units = 'm'
+pressure.units = 'Pa'
 rho.units = 'kg m-3'
 
 W.units = 'm s-1'
-qvap.units = 'kg kg-1'
+qvapor.units = 'kg kg-1'
 qcloud.units = 'kg kg-1'
 qrain.units = 'kg kg-1'
 qisg.units = 'kg kg-1'
@@ -309,12 +308,12 @@ seaice[:,:,:] = data1['seaice'][:,:,:]
 
 temperature[:,:,:,:] = data1['Tk'][:,:,:,:]
 theta[:,:,:,:] = data1['theta'][:,:,:,:]
-Z[:,:,:,:] = data1['Z'][:,:,:,:]
-P[:,:,:,:] = data1['p'][:,:,:,:]
+height[:,:,:,:] = data1['Z'][:,:,:,:]
+pressure[:,:,:,:] = data1['p'][:,:,:,:]
 rho[:,:,:,:] = data1['rho'][:,:,:,:]
 
 W[:,:,:,:] = data1['w'][:,:,:,:]
-qvap[:,:,:,:] = data1['qvap'][:,:,:,:]
+qvapor[:,:,:,:] = data1['qvap'][:,:,:,:]
 qcloud[:,:,:,:] = data1['qcloud'][:,:,:,:]
 qrain[:,:,:,:] = data1['qrain'][:,:,:,:]
 qisg[:,:,:,:] = data1['qisg'][:,:,:,:]
