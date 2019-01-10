@@ -273,6 +273,20 @@ nisg.units = 'kg-1'
 nisg80.units = 'kg-1'
 nisg50.units = 'kg-1'
 
+
+###################################
+## Ice comments
+###################################
+qisg.comment = 'Sum of ice + snow + graupel particle categories'
+nisg.comment = 'Sum of ice + snow + graupel particle categories'
+nisg80.comment = 'Sum of ice + snow + graupel particle categories. Particle sizes calculated online following the assumption that each hydrometeor class is represented by a Gamma distribution.'
+nisg50.comment = 'Sum of ice + snow + graupel particle categories. Particle sizes calculated online following the assumption that each hydrometeor class is represented by a Gamma distribution.'
+
+###################################
+## Switch off automatic filling 
+###################################
+dataset.set_fill_off()
+
 ###################################
 ## Fill in times
 ###################################
