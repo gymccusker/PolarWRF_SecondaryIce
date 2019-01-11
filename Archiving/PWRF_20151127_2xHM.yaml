@@ -1,5 +1,5 @@
 {
-  "title": "Microphysics of Antarctic Clouds: CNTRL run metadata",
+  "title": "Microphysics of Antarctic Clouds: 2xHM run metadata",
   "description": "The NERC-funded Microphysics of Antarctic Clouds (MAC) project was 
   centred on an aircraft campaign measuring clouds, aerosols, and boundary layer
   properties over the Weddell Sea, Antarctica. These data are simulations of
@@ -7,10 +7,11 @@
   over the same region, with the Polar-optimised Weather Research and Forecasting 
   (PWRF) model. Each simulation used two domains -- a parent domain with 5km grid
   size and a nest with a 1km grid size. 
-  \n\n This dataset contains data from the CNTRL simulation parent and nested domains. 
-  \n\n Physics options were as default in the PWRF model's Morrison microphysics scheme, 
-  with an approximation of the DeMott et al., 2010 (PNAS) parametrization used for primary 
-  ice nucleation. 
+  \n\n This dataset contains data from the 2xHM simulation parent and nested domains. 
+  \n\n Thresholds restricting Hallett-Mossop secondary ice production in the PWRF model's 
+  Morrison microphysics scheme were removed, and the corresponding ice multiplication factor
+  was increased by a factor of 2. An approximation of the DeMott et al., 2010 (PNAS) 
+  parametrization used for primary ice nucleation. 
   \n\n Methodology and further details can be found in Young et al., 2019 (GRL): 
   Radiative effects of secondary ice enhancement in coastal Antarctic clouds.",
   "authors": [
