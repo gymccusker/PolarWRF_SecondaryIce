@@ -36,7 +36,7 @@
   },
   "time_range": {
     "start": "2015-11-27T00:00:00",
-    "end": "2015-11-27T23:59:59"
+    "end": "2015-11-27T23:30:00"
   },
   "lineage": "Data were generated using the Polar-optimised Weather Research and Forecasting 
   (PWRF) model with 5km horizontal grid size over the domain 53.4W-6.6W, 78.9S-69.0S. WRF data has been 
