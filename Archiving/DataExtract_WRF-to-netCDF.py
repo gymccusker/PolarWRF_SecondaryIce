@@ -162,6 +162,11 @@ dataset.comment = 'Other WRF variables from this simulation are archived locally
 dataset.institution = 'British Antarctic Survey.'
 
 ###################################
+## Switch off automatic filling 
+###################################
+dataset.set_fill_off()
+
+###################################
 ## Data dimensions
 ###################################
 time = dataset.createDimension('time', np.size(data1['xlat'],0))
@@ -172,41 +177,41 @@ lon = dataset.createDimension('lon', data1['x_dim'])
 ###################################
 ## Dimensions variables
 ###################################
-times = dataset.createVariable('time', np.float32, ('time',)) 
-levels = dataset.createVariable('level', np.int32, ('level',)) 
-latitudes = dataset.createVariable('latitude', np.float32, ('time','lat', 'lon',))
-longitudes = dataset.createVariable('longitude', np.float32, ('time','lat','lon',)) 
+times = dataset.createVariable('time', np.float32, ('time',),fill_value='-9999') 
+levels = dataset.createVariable('level', np.int32, ('level',),fill_value='-9999') 
+latitudes = dataset.createVariable('latitude', np.float32, ('time','lat', 'lon',),fill_value='-9999')
+longitudes = dataset.createVariable('longitude', np.float32, ('time','lat','lon',),fill_value='-9999') 
 
 ###################################
 ## Create 3-d variables
 ###################################
-swdnb = dataset.createVariable('swdnb', np.float32, ('time','lat', 'lon',))
-swdnbc = dataset.createVariable('swdnbc', np.float32, ('time','lat', 'lon',))
-lwdnb = dataset.createVariable('dwlws', np.float32, ('time','lat', 'lon',))
-lwdnbc = dataset.createVariable('lwdnb', np.float32, ('time','lat', 'lon',))
-swupb = dataset.createVariable('swupb', np.float32, ('time','lat', 'lon',))
-swupbc = dataset.createVariable('swupbc', np.float32, ('time','lat', 'lon',))
-lwupb = dataset.createVariable('lwupb', np.float32, ('time','lat', 'lon',))
-lwupbc = dataset.createVariable('lwupbc', np.float32, ('time','lat', 'lon',))
-seaice = dataset.createVariable('seaice', np.float32, ('time','lat', 'lon',))
+swdnb = dataset.createVariable('swdnb', np.float32, ('time','lat', 'lon',),fill_value='-9999')
+swdnbc = dataset.createVariable('swdnbc', np.float32, ('time','lat', 'lon',),fill_value='-9999')
+lwdnb = dataset.createVariable('lwdnb', np.float32, ('time','lat', 'lon',),fill_value='-9999')
+lwdnbc = dataset.createVariable('lwdnbc', np.float32, ('time','lat', 'lon',),fill_value='-9999')
+swupb = dataset.createVariable('swupb', np.float32, ('time','lat', 'lon',),fill_value='-9999')
+swupbc = dataset.createVariable('swupbc', np.float32, ('time','lat', 'lon',),fill_value='-9999')
+lwupb = dataset.createVariable('lwupb', np.float32, ('time','lat', 'lon',),fill_value='-9999')
+lwupbc = dataset.createVariable('lwupbc', np.float32, ('time','lat', 'lon',),fill_value='-9999')
+seaice = dataset.createVariable('seaice', np.float32, ('time','lat', 'lon',),fill_value='-9999')
 
 ###################################
 ## Create 4-d variables
 ###################################
-temperature = dataset.createVariable('temperature', np.float32, ('time','level','lat','lon')) 
-theta = dataset.createVariable('theta', np.float32, ('time','level','lat','lon')) 
-height = dataset.createVariable('height', np.float32, ('time','level','lat','lon')) 
-pressure = dataset.createVariable('pressure', np.float32, ('time','level','lat','lon')) 
-rho = dataset.createVariable('rho', np.float32, ('time','level','lat','lon')) 
+temperature = dataset.createVariable('temperature', np.float32, ('time','level','lat','lon'),fill_value='-9999') 
+theta = dataset.createVariable('theta', np.float32, ('time','level','lat','lon'),fill_value='-9999') 
+height = dataset.createVariable('height', np.float32, ('time','level','lat','lon'),fill_value='-9999') 
+pressure = dataset.createVariable('pressure', np.float32, ('time','level','lat','lon'),fill_value='-9999') 
+rho = dataset.createVariable('rho', np.float32, ('time','level','lat','lon'),fill_value='-9999') 
 
-W = dataset.createVariable('vertical_wind_speed', np.float32, ('time','level','lat','lon')) 
-qvapor = dataset.createVariable('qvapor', np.float32, ('time','level','lat','lon')) 
-qcloud = dataset.createVariable('qcloud', np.float32, ('time','level','lat','lon')) 
-qrain = dataset.createVariable('qrain', np.float32, ('time','level','lat','lon')) 
-qisg = dataset.createVariable('qisg', np.float32, ('time','level','lat','lon')) 
-nisg =  dataset.createVariable('nisg', np.float32, ('time','level','lat','lon')) 
-nisg80 =  dataset.createVariable('nisg80', np.float32, ('time','level','lat','lon')) 
-nisg50 =  dataset.createVariable('nisg50', np.float32, ('time','level','lat','lon')) 
+W = dataset.createVariable('W', np.float32, ('time','level','lat','lon'),fill_value='-9999') 
+qvapor = dataset.createVariable('qvapor', np.float32, ('time','level','lat','lon'),fill_value='-9999') 
+qcloud = dataset.createVariable('qcloud', np.float32, ('time','level','lat','lon'),fill_value='-9999') 
+qrain = dataset.createVariable('qrain', np.float32, ('time','level','lat','lon'),fill_value='-9999') 
+qisg = dataset.createVariable('qisg', np.float32, ('time','level','lat','lon'),fill_value='-9999') 
+nisg =  dataset.createVariable('nisg', np.float32, ('time','level','lat','lon'),fill_value='-9999') 
+nisg80 =  dataset.createVariable('nisg80', np.float32, ('time','level','lat','lon'),fill_value='-9999') 
+nisg50 =  dataset.createVariable('nisg50', np.float32, ('time','level','lat','lon'),fill_value='-9999') 
 
 ###################################
 ## 3-d variables: standard names
@@ -281,11 +286,6 @@ qisg.comment = 'Sum of ice + snow + graupel particle categories'
 nisg.comment = 'Sum of ice + snow + graupel particle categories'
 nisg80.comment = 'Sum of ice + snow + graupel particle categories. Particle sizes calculated online following the assumption that each hydrometeor class is represented by a Gamma distribution.'
 nisg50.comment = 'Sum of ice + snow + graupel particle categories. Particle sizes calculated online following the assumption that each hydrometeor class is represented by a Gamma distribution.'
-
-###################################
-## Switch off automatic filling 
-###################################
-dataset.set_fill_off()
 
 ###################################
 ## Fill in times
