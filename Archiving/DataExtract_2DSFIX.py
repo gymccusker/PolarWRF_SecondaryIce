@@ -29,7 +29,9 @@ import matplotlib.pyplot as plt
 # filename1 = '/data/scihub-users/giyoung/MAC/FlightData/Processed2DS/UMAN_2DS_20151130_r0_Flight222.nc'
 # filename1 = '/data/scihub-users/giyoung/MAC/FlightData/Processed2DS/UMAN_2DS_20151203_r0_Flight223.nc'
 # filename1 = '/data/scihub-users/giyoung/MAC/FlightData/Processed2DS/UMAN_2DS_20151206_r0_Flight224.nc'
-filename1 = '/data/scihub-users/giyoung/MAC/FlightData/Processed2DS/UMAN_2DS_20151207_r0_Flight226.nc'
+filename1 = '/data/scihub-users/giyoung/MAC/FlightData/Processed2DS/UMAN_2DS_20151207_r1_Flight225.nc'
+# filename1 = '/data/scihub-users/giyoung/MAC/FlightData/Processed2DS/UMAN_2DS_20151207_r0_Flight226.nc'
+
 
 # UMAN_2DS_20151208_r0_Flight227.nc
 # UMAN_2DS_20151209_r0_Flight228.nc
@@ -39,7 +41,7 @@ filename1 = '/data/scihub-users/giyoung/MAC/FlightData/Processed2DS/UMAN_2DS_201
 # UMAN_2DS_20151211_r0_Flight232.nc
 # UMAN_2DS_20151212_r0_Flight233.nc
 # UMAN_2DS_20151213_r0_Flight234.nc
-# UMAN_2DS_20151207_r1_Flight225.nc  UMAN_2DS_20151214_r0_Flight235.nc
+# UMAN_2DS_20151214_r0_Flight235.nc
 
 ###################################
 # LOAD NETCDF FILE
