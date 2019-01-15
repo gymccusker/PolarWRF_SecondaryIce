@@ -25,6 +25,17 @@ import matplotlib.pyplot as plt
 # filename1 = '/data/scihub-users/giyoung/MAC/FlightData/Processed2DS/UMAN_2DS_20151127_r0_Flight218.nc'
 filename1 = '/data/scihub-users/giyoung/MAC/FlightData/Processed2DS/UMAN_2DS_20151127_r1_Flight219.nc'
 
+
+# UMAN_2DS_20151127_r0_Flight218.nc  UMAN_2DS_20151208_r0_Flight227.nc
+# UMAN_2DS_20151127_r1_Flight219.nc  UMAN_2DS_20151209_r0_Flight228.nc
+# UMAN_2DS_20151128_r0_Flight220.nc  UMAN_2DS_20151209_r0_Flight229.nc
+# UMAN_2DS_20151129_r0_Flight221.nc  UMAN_2DS_20151210_r0_Flight230.nc
+# UMAN_2DS_20151130_r0_Flight222.nc  UMAN_2DS_20151211_r0_Flight231.nc
+# UMAN_2DS_20151203_r0_Flight223.nc  UMAN_2DS_20151211_r0_Flight232.nc
+# UMAN_2DS_20151206_r0_Flight224.nc  UMAN_2DS_20151212_r0_Flight233.nc
+# UMAN_2DS_20151207_r0_Flight226.nc  UMAN_2DS_20151213_r0_Flight234.nc
+# UMAN_2DS_20151207_r1_Flight225.nc  UMAN_2DS_20151214_r0_Flight235.nc
+
 ###################################
 # LOAD NETCDF FILE
 ###################################
@@ -48,7 +59,7 @@ flightno = filename1[flightno_start:flightno_end]
 ###################################
 ## Open File
 ###################################
-outfile = "".join(['OUT/UMAN_2DS_20151127_r1_Flight',flightno,'.nc'])
+outfile = "".join(['OUT/UMAN_2DS_20151127_r',revis,'_Flight',flightno,'.nc'])
 dataset =  Dataset(outfile, 'w', format ='NETCDF4_CLASSIC') 
 
 print dataset.file_format 
