@@ -1,7 +1,6 @@
 ##--------------------------------------------------------------------------
 ##
-##			Script to read in WRF output files, extract necessary data,
-##			then save into new NetCDF file (reduces file size for archiving)
+##			Script to read in 2DS output files and fix for CF-compliance
 ##					-- GYoung
 ##
 ##--------------------------------------------------------------------------
