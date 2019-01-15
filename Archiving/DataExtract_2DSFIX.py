@@ -29,11 +29,10 @@ import matplotlib.pyplot as plt
 # filename1 = '/data/scihub-users/giyoung/MAC/FlightData/Processed2DS/UMAN_2DS_20151130_r0_Flight222.nc'
 # filename1 = '/data/scihub-users/giyoung/MAC/FlightData/Processed2DS/UMAN_2DS_20151203_r0_Flight223.nc'
 # filename1 = '/data/scihub-users/giyoung/MAC/FlightData/Processed2DS/UMAN_2DS_20151206_r0_Flight224.nc'
-filename1 = '/data/scihub-users/giyoung/MAC/FlightData/Processed2DS/UMAN_2DS_20151207_r1_Flight225.nc'
+# filename1 = '/data/scihub-users/giyoung/MAC/FlightData/Processed2DS/UMAN_2DS_20151207_r1_Flight225.nc'
 # filename1 = '/data/scihub-users/giyoung/MAC/FlightData/Processed2DS/UMAN_2DS_20151207_r0_Flight226.nc'
+filename1 = '/data/scihub-users/giyoung/MAC/FlightData/Processed2DS/UMAN_2DS_20151208_r0_Flight227.nc'
 
-
-# UMAN_2DS_20151208_r0_Flight227.nc
 # UMAN_2DS_20151209_r0_Flight228.nc
 # UMAN_2DS_20151209_r0_Flight229.nc
 # UMAN_2DS_20151210_r0_Flight230.nc
