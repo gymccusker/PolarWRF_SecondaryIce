@@ -23,8 +23,8 @@ import matplotlib.pyplot as plt
 # Pick file
 ###################################
 # filename1 = '/data/scihub-users/giyoung/MAC/FlightData/Processed2DS/UMAN_2DS_20151127_r0_Flight218.nc'
-filename1 = '/data/scihub-users/giyoung/MAC/FlightData/Processed2DS/UMAN_2DS_20151127_r1_Flight219.nc'
-
+# filename1 = '/data/scihub-users/giyoung/MAC/FlightData/Processed2DS/UMAN_2DS_20151127_r1_Flight219.nc'
+filename1 = '/data/scihub-users/giyoung/MAC/FlightData/Processed2DS/UMAN_2DS_20151128_r0_Flight220.nc'
 
 # UMAN_2DS_20151127_r0_Flight218.nc  UMAN_2DS_20151208_r0_Flight227.nc
 # UMAN_2DS_20151127_r1_Flight219.nc  UMAN_2DS_20151209_r0_Flight228.nc
