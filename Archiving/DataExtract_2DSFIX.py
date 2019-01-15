@@ -31,6 +31,15 @@ filename1 = '/data/scihub-users/giyoung/MAC/FlightData/Processed2DS/UMAN_2DS_201
 
 nc1 = Dataset(filename1, 'r')
 
+revis_start = filename1.find('/UMAN_2DS_') + 20
+revis_end = filename1.find('_Flight',revis_start)
+revis = filename1[revis_start:revis_end]
+revis = str(int(revis)+1)
+ 
+flightno_start = filename1.find('/UMAN_2DS_') + 28
+flightno_end = filename1.find('.nc',flightno_start)
+flightno = filename1[flightno_start:flightno_end]
+
 ##--------------------------------------------------------------------------
 ##--------------------------------------------------------------------------
 ##---------------				OUT
@@ -43,15 +52,6 @@ outfile = "".join(['OUT/UMAN_2DS_20151127_r1_Flight',flightno,'.nc'])
 dataset =  Dataset(outfile, 'w', format ='NETCDF4_CLASSIC') 
 
 print dataset.file_format 
-
-revis_start = filename1.find('/UMAN_2DS_') + 20
-revis_end = filename1.find('_Flight',revis_start)
-revis = filename1[revis_start:revis_end]
-revis = str(int(revis)+1)
- 
-flightno_start = filename1.find('/UMAN_2DS_') + 28
-flightno_end = filename1.find('.nc',flightno_start)
-flightno = filename1[flightno_start:flightno_end]
 
 ###################################
 ## Global Attributes
