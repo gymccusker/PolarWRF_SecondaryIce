@@ -67,7 +67,7 @@ day = date[6:]
 ###################################
 ## Open File
 ###################################
-outfile = "".join(['OUT/UMAN_2DS_20151127_r',revis,'_Flight',flightno,'.nc'])
+outfile = "".join(['OUT/UMAN_2DS_',date,'_r',revis,'_Flight',flightno,'.nc'])
 dataset =  Dataset(outfile, 'w', format ='NETCDF4_CLASSIC') 
 
 print dataset.file_format 
