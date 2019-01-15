@@ -1,0 +1,80 @@
+{
+  "title": "Microphysics of Antarctic Clouds (MAC): cloud particle concentration measurements from the University of Manchester's 
+  2-Dimensional Stereo (2DS) particle imaging probe (SPEC Inc.) on board the British Antarctic Survey Twin Otter aircraft",
+  "description": "This dataset contains cloud particle number and mass measurements concentration measurements from the 
+  University of Manchester's 2-Dimensional Stereo (2DS, SPEC Inc.) probe mounted on board the British Antarctic Survey 
+  Twin Otter aircraft durning Microphysics of Antarctic Clouds (MAC) campaign. 
+  \n\nMAC took place during November and December 2015, based out of the Halley Research Station on the Brunt Ice Shelf. This 
+  dataset includes data from the 18 MAC flights (flight numbers 218 to 235) over which the 2DS was taking measurements. 
+  The instrument was mounted on the aircraft wing. Data processing was performed to derive size- and circularity-segregated 
+  number and mass concentrations as in Crosier et al. (2011, 2014). Particles with inter-arrival times < 1E-6s have been 
+  rejected. The sample area was calculated using the all-in approach (Heymsfield and Parrish, 
+  doi: http://dx.doi.org/10.1175/1520-0450(1978)017<1566:ACTFIT>2.0.CO;2, 1978). Particles in contact with the edge of the 
+  sample array have been rejected.
+  \n\nThe MAC campaign was funded by the Natural Environment Research Council (NERC, grant: NE/K01305X/1). ",
+  "authors": [
+    {
+      "firstname": "Sebastian",
+      "surname": "O'Shea"
+    },
+    {
+      "firstname": "",
+      "surname": ""
+    },
+    {
+      "firstname": "",
+      "surname": ""
+    }
+  ],
+  "bbox": {
+    "north": "-72.500°",
+    "south": "\t -76.500°",
+    "east": "\t -25.0000°",
+    "west": "-39.0000°"
+  },
+  "time_range": {
+    "start": "2015-11-27T13:00:00",
+    "end": "2015-12-14T17:15:00"
+  },
+  "lineage": "Data were collected, quality controlled, and prepared for archiving by the instrument scientists before 
+  upload to the Centre for Environmental Data Analysis (CEDA) for long term archiving.",
+  "quality": "Data are as given by the data provider, no quality control has been performed by the Centre for Environmental 
+  Data Analysis (CEDA)",
+  "docs": [],
+  "project": {
+    "catalogue_url": "",
+    "title": "Microphysics of Antarctic Clouds (MAC)",
+    "description": "The Microphysics of Antarctic Clouds (MAC) campaign was a NERC funded consortium project to 
+    make airborne measurements of coastal Antarctic clouds to inform model parametrization improvements. Although 
+    there are many measurements of cloud microphysical properties at mid latitudes, these measurements are largely 
+    lacking in Antarctica. With little observational data, our understanding of high latitude cloud physics is poor 
+    and is thought to be responsible for large model errors in the surface radiation balance over the Southern Ocean 
+    and the coast of Antarctica.
+
+    \n\n The airborne component of the MAC campaign took place in November and December 2015 based out of Halley 
+    research station. It used the British Antarctic Survey's instrumented Twin Otter aircraft to take detailed 
+    measurements of the physical cloud properties – size spectrums and phase (whether the particles are ice or 
+    liquid) – and the environment around the clouds. Within MAC, the University of Manchester's 2DS was fitted to 
+    the Twin Otter aircraft to make cloud particle measurements at high spatial and temporal resolution, thus providing
+    more information about the phase distribution of the sampled clouds.",
+    "PI": {
+      "firstname": "Thomas",
+      "lastname": "Lachlan-Cope"
+    },
+    "funder": "Natural Environment Research Council",
+    "grant_number": "NE/K01305X/1"
+  },
+  "instrument": {
+    "catalogue_url": "",
+    "title": "University of Manchester: 2-Dimensional Stereo (2DS) particle imaging probe (SPEC Inc.) on board the 
+    British Antarctic Survey Twin Otter aircraft",
+    "description": "Microphysics of Antarctic Clouds (MAC): cloud particle concentration measurements from the 
+    University of Manchester 2-Dimensional Stereo (2DS) particle imaging probe (SPEC Inc.) on board the 
+    British Antarctic Survey Twin Otter aircraft"
+  },
+  "computation": {
+    "catalogue_url": "",
+    "title": "",
+    "description": ""
+  }
+}
