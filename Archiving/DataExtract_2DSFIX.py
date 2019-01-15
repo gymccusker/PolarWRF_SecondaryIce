@@ -51,6 +51,14 @@ flightno_start = filename1.find('/UMAN_2DS_') + 28
 flightno_end = filename1.find('.nc',flightno_start)
 flightno = filename1[flightno_start:flightno_end]
 
+date_start = filename1.find('/UMAN_2DS_') + 10
+date_end = filename1.find('_r',date_start)
+date = filename1[date_start:date_end]
+
+year = date[0:4]
+month = date[4:6]
+day = date[6:]
+
 ##--------------------------------------------------------------------------
 ##--------------------------------------------------------------------------
 ##---------------				OUT
@@ -67,7 +75,7 @@ print dataset.file_format
 ###################################
 ## Global Attributes
 ###################################
-dataset.title = 'University of Manchester 2DS observations on board the MASIN research aircraft, flight number Flight' + flightno + '.'
+dataset.title = 'University of Manchester 2DS observations on board the MASIN research aircraft, flight number Flight' + flightno + ' (' + year + '-' + month + '-' + day + ').'
 dataset.history = 'Revision number ' + revis + ', created ' + datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 dataset.source = nc1.source
 dataset.references = nc1.references
@@ -96,7 +104,7 @@ time_mid = dataset.createVariable('Time_mid', np.float64, ('Time_mid',),fill_val
 time_mid.scale_factor = float(1)
 time_mid.add_offset = float(0)
 time_mid.comment = 'None'
-time_mid.units = 'seconds since 2015-11-27 00:00:00' 
+time_mid.units = ['seconds since ' + year + '-' + month + '-' + day + ' 00:00:00']
 time_mid.long_name = 'Mid_point_of_time_bin' 
 time_mid[:] = nc1.variables['Time_mid'][:]
 
@@ -105,7 +113,7 @@ time_edge = dataset.createVariable('Time_edge', np.float64, ('Time_edge',),fill_
 time_edge.scale_factor = float(1)
 time_edge.add_offset = float(0)
 time_edge.comment = 'None'
-time_edge.units = 'seconds since 2015-11-27 00:00:00' 
+time_edge.units = ['seconds since ' + year + '-' + month + '-' + day + ' 00:00:00']
 time_edge.long_name = 'Edge_point_of_time_bin' 
 time_edge[:] = nc1.variables['Time_edge'][:]
 
