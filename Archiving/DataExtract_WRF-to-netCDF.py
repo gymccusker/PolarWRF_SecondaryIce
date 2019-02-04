@@ -270,7 +270,7 @@ swupb.units = 'W m-2'
 swupbc.units = 'W m-2'
 lwupb.units = 'W m-2'
 lwupbc.units = 'W m-2'
-seaice.units = 'dimensionless'
+seaice.units = '1'
 
 temperature.units = 'K' 
 theta.units = 'K' 
