@@ -135,7 +135,7 @@ if data1['dx'] == 5000.0: str_domain = 'Parent' # domain option
 ###################################
 ## Open File
 ###################################
-outfile = "".join(['OUT/',runlab,'_',str_domain,'.nc'])
+outfile = "".join(['OUT/',runlab,'_',str_domain,'_r1.nc'])
 dataset =  Dataset(outfile, 'w', format ='NETCDF4_CLASSIC') 
 
 print dataset.file_format 
@@ -160,6 +160,7 @@ dataset.references = 'First published in Young et al., 2019 (GRL): Radiative eff
 dataset.project = 'Microphysics of Antarctic Clouds (MAC), funded by the UK Natural Environment Research Council (Grant no. NE/K01305X/1).'
 dataset.comment = 'Other WRF variables from this simulation are archived locally at the British Antarctic Survey. Contact Gillian Young (G.Young1@leeds.ac.uk) for details.'
 dataset.institution = 'British Antarctic Survey.'
+dataset.conventions = 'CF-1.6'
 
 ###################################
 ## Switch off automatic filling 
@@ -214,8 +215,16 @@ nisg80 =  dataset.createVariable('nisg80', np.float32, ('time','level','lat','lo
 nisg50 =  dataset.createVariable('nisg50', np.float32, ('time','level','lat','lon'),fill_value='-9999') 
 
 ###################################
+## Dimensions variables: standard names
+###################################
+times.standard_name = 'time'
+levels.long_name = 'model_level'
+latitudes.standard_name = 'latitude'
+longitudes.standard_name = 'longitude'
+
+###################################
 ## 3-d variables: standard names
-# ###################################
+###################################
 swdnb.standard_name = 'surface_downwelling_shortwave_flux_in_air'
 swdnbc.standard_name = 'surface_downwelling_shortwave_flux_in_air_assuming_clear_sky'
 lwdnb.standard_name = 'surface_downwelling_longwave_flux_in_air'
@@ -235,12 +244,12 @@ height.standard_name = 'height'
 pressure.standard_name = 'air_pressure'
 rho.standard_name = 'air_density'
 
-W.standard_name = 'vertical_wind_speed'
+W.long_name = 'vertical_wind_speed'
 qvapor.standard_name = 'humidity_mixing_ratio'
 qcloud.standard_name = 'cloud_liquid_water_mixing_ratio'
-qrain.standard_name = 'rain_water_mixing_ratio'
+qrain.long_name = 'rain_water_mixing_ratio'
 qisg.standard_name = 'cloud_ice_mixing_ratio'
-nisg.standard_name = 'number_concentration_of_ice_crystals_in_air'
+nisg.long_name = 'number_concentration_of_ice_crystals_in_air'
 nisg80.long_name = 'number_concentration_of_ice_crystals_larger_than_80micron_in_air'
 nisg50.long_name = 'number_concentration_of_ice_crystals_smaller_than_50micron_in_air'
 
@@ -261,7 +270,7 @@ swupb.units = 'W m-2'
 swupbc.units = 'W m-2'
 lwupb.units = 'W m-2'
 lwupbc.units = 'W m-2'
-seaice.units = ''
+seaice.units = 'dimensionless'
 
 temperature.units = 'K' 
 theta.units = 'K' 
