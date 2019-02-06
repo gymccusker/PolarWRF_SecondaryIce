@@ -208,7 +208,7 @@ lat.add_offset = float(0)
 lat.units = 'degree_north' 
 lat[:] = latitude[:]
 lat.standard_name = 'latitude'
-lat.long_name = 'Latitude measured by the MASIN OXTS System'
+lat.long_name = 'Latitude measured by the BAS Twin Otter MASIN OXTS System'
 
 #### LON
 lon = dataset.createVariable('LON', np.float64, ('Time_edge',),fill_value='-9999') 
@@ -217,7 +217,7 @@ lon.add_offset = float(0)
 lon.units = 'degree_east' 
 lon[:] = longitude[:]
 lon.standard_name = 'longitude'
-lon.long_name = 'Longitude measured by the MASIN OXTS System'
+lon.long_name = 'Longitude measured by the BAS Twin Otter MASIN OXTS System'
 
 #### ALT
 alt = dataset.createVariable('ALT', np.float64, ('Time_edge',),fill_value='-9999') 
@@ -226,7 +226,7 @@ alt.add_offset = float(0)
 alt.units = 'm' 
 alt[:] = altitude[:]
 alt.standard_name = 'altitude'
-alt.long_name = 'Ellipsoid altitude measured by the MASIN OXTS System'
+alt.long_name = 'Ellipsoid altitude measured by the BAS Twin Otter MASIN OXTS System'
 
 ###################################
 ## Create number concentrations
