@@ -76,7 +76,7 @@ filename_core = askopenfilename() # show an "Open" dialog box and return the pat
 
 print(filename_core)
 
-nc_core = NetCDFFile(filename_core, 'r')
+nc_core = Dataset(filename_core, 'r')
 # dat = np.load(filename1).item()
 
 # Time
