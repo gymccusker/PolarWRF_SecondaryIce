@@ -108,12 +108,18 @@ iend = np.where(nc1.variables['Time_edge'][:] >= core_time[-1])
 
 altitude[istart[0][-1]:iend[0][0]+1] = core_alt[:]
 latitude[istart[0][-1]:iend[0][0]+1] = core_lat[:]
-longitude[istart[0][-1]:iend[0][0]+1] = core_lat[:]
+longitude[istart[0][-1]:iend[0][0]+1] = core_lon[:]
 
 altitude[0:istart[0][-1]] = -9999
 altitude[iend[0][0]:] = -9999
 
-plt.plot(nc1.variables['Time_edge'][:],altitude);plt.show()
+latitude[0:istart[0][-1]] = -9999
+latitude[iend[0][0]:] = -9999
+
+longitude[0:istart[0][-1]] = -9999
+longitude[iend[0][0]:] = -9999
+
+# plt.plot(nc1.variables['Time_edge'][:],altitude);plt.show()
 
 ##--------------------------------------------------------------------------
 ##--------------------------------------------------------------------------
@@ -191,6 +197,17 @@ size_edge.comment = 'None'
 size_edge.units = 'micron' 
 size_edge.long_name = 'Edge_point_of_size_bin' 
 size_edge[:] = nc1.variables['Size_edge'][:]
+
+###################################
+## Create position information
+###################################
+#### LAT
+lat = dataset.createVariable('LAT', np.float64, ('Time_edge',),fill_value='-9999') 
+lat.scale_factor = float(1)
+lat.add_offset = float(0)
+lat.units = 'degree_north' 
+lat[:] = latitude[:]
+lat.standard_name = 'latitude'
 
 ###################################
 ## Create number concentrations
