@@ -24,8 +24,8 @@ from tkFileDialog import askopenfilename
 ###################################
 # Pick file
 ###################################
-filename1 = '/data/scihub-users/giyoung/MAC/FlightData/Processed2DS/UMAN_2DS_20151127_r0_Flight218.nc'
-# filename1 = '/data/scihub-users/giyoung/MAC/FlightData/Processed2DS/UMAN_2DS_20151127_r1_Flight219.nc'
+# filename1 = '/data/scihub-users/giyoung/MAC/FlightData/Processed2DS/UMAN_2DS_20151127_r0_Flight218.nc'
+filename1 = '/data/scihub-users/giyoung/MAC/FlightData/Processed2DS/UMAN_2DS_20151127_r1_Flight219.nc'
 # filename1 = '/data/scihub-users/giyoung/MAC/FlightData/Processed2DS/UMAN_2DS_20151128_r0_Flight220.nc'
 # filename1 = '/data/scihub-users/giyoung/MAC/FlightData/Processed2DS/UMAN_2DS_20151129_r0_Flight221.nc'
 # filename1 = '/data/scihub-users/giyoung/MAC/FlightData/Processed2DS/UMAN_2DS_20151130_r0_Flight222.nc'
@@ -379,12 +379,10 @@ psd_mass_hi[:] = nc1.variables['PSD_Mass_HI'][:]
 dataset.close()
 
 
-plt.subplot(411)
-plt.plot(nc_core.variables['Time'][:],nc_core.variables['ALT_OXTS'])
-plt.subplot(412)
-plt.plot(dataset.variables['Time_edge'][:],dataset.variables['ALT'])
-plt.subplot(413)
-plt.plot(nc.variables['Time_edge'][:],nc.variables['ALT'])
-plt.subplot(414)
-plt.plot(nc.variables['Time_mid'][:],nc.variables['NC_All'])
-plt.show()
+# plt.subplot(311)
+# plt.plot(nc_core.variables['Time'][:],nc_core.variables['ALT_OXTS'])
+# plt.subplot(312)
+# plt.plot(nc.variables['Time_edge'][:],nc.variables['ALT'])
+# plt.subplot(313)
+# plt.plot(nc.variables['Time_mid'][:],nc.variables['NC_All'])
+# plt.show()
