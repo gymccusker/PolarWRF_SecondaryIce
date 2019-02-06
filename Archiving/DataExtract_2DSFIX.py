@@ -11,6 +11,8 @@ import time
 from datetime import datetime, timedelta 
 from netCDF4 import num2date, date2num 
 import matplotlib.pyplot as plt
+from Tkinter import Tk
+from tkFileDialog import askopenfilename
 # import constants
 
 ##--------------------------------------------------------------------------
@@ -22,7 +24,7 @@ import matplotlib.pyplot as plt
 ###################################
 # Pick file
 ###################################
-# filename1 = '/data/scihub-users/giyoung/MAC/FlightData/Processed2DS/UMAN_2DS_20151127_r0_Flight218.nc'
+filename1 = '/data/scihub-users/giyoung/MAC/FlightData/Processed2DS/UMAN_2DS_20151127_r0_Flight218.nc'
 # filename1 = '/data/scihub-users/giyoung/MAC/FlightData/Processed2DS/UMAN_2DS_20151127_r1_Flight219.nc'
 # filename1 = '/data/scihub-users/giyoung/MAC/FlightData/Processed2DS/UMAN_2DS_20151128_r0_Flight220.nc'
 # filename1 = '/data/scihub-users/giyoung/MAC/FlightData/Processed2DS/UMAN_2DS_20151129_r0_Flight221.nc'
@@ -39,10 +41,10 @@ import matplotlib.pyplot as plt
 # filename1 = '/data/scihub-users/giyoung/MAC/FlightData/Processed2DS/UMAN_2DS_20151211_r0_Flight232.nc'
 # filename1 = '/data/scihub-users/giyoung/MAC/FlightData/Processed2DS/UMAN_2DS_20151212_r0_Flight233.nc'
 # filename1 = '/data/scihub-users/giyoung/MAC/FlightData/Processed2DS/UMAN_2DS_20151213_r0_Flight234.nc'
-filename1 = '/data/scihub-users/giyoung/MAC/FlightData/Processed2DS/UMAN_2DS_20151214_r0_Flight235.nc'
+# filename1 = '/data/scihub-users/giyoung/MAC/FlightData/Processed2DS/UMAN_2DS_20151214_r0_Flight235.nc'
 
 ###################################
-# LOAD NETCDF FILE
+# LOAD 2DS NETCDF FILE
 ###################################
 
 nc1 = Dataset(filename1, 'r')
@@ -63,6 +65,39 @@ date = filename1[date_start:date_end]
 year = date[0:4]
 month = date[4:6]
 day = date[6:]
+
+###################################
+# LOAD CORE NETCDF FILE -- for position information
+###################################
+
+Tk().withdraw() # we don't want a full GUI, so keep the root window from appearing
+print('Choose core data (.netCDF) file:')
+filename_core = askopenfilename() # show an "Open" dialog box and return the path to the selected file
+
+print(filename_core)
+
+nc_core = NetCDFFile(filename_core, 'r')
+# dat = np.load(filename1).item()
+
+# Time
+core_time = nc_core.variables['Time'][:] # time [seconds from midnight]
+core_times = (1.0*core_time)/3600 # convert time to floating point
+
+# Position
+core_lat = nc_core.variables['LAT_OXTS'][:] # latitude [deg N]
+# lat_flag = nc.variables['LAT_OXTS_FLAG'][:] # lat flag
+core_lon = nc_core.variables['LON_OXTS'][:] # longitude [deg E]
+# lon_flag = nc.variables['LON_OXTS_FLAG'][:] # lon flag
+core_alt = nc_core.variables['ALT_OXTS'][:] # altitude [m]
+
+# ###################################
+# # Construct new time binning
+# ###################################
+
+tstart = np.array((core_time[0],nc1.variables['Time_mid'][0]))
+tend = np.array((core_time[-1],nc1.variables['Time_mid'][-1]))
+
+timebase = np.arange(np.max(tstart),np.min(tend),0.00027775940744659766)
 
 ##--------------------------------------------------------------------------
 ##--------------------------------------------------------------------------
