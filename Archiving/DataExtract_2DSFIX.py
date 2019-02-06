@@ -142,7 +142,7 @@ dataset.history = 'Revision number ' + revis + ', created ' + datetime.now().str
 dataset.source = nc1.source
 dataset.references = nc1.references
 dataset.project = 'Microphysics of Antarctic Clouds (MAC), funded by the UK Natural Environment Research Council (Grant no. NE/K01305X/1).'
-dataset.comment = nc1.comment
+dataset.comment = nc1.comment + ' Position information included from the BAS Twin Otter OXTS system.'
 dataset.institution = nc1.institution
 dataset.conventions = 'CF-1.6'
 
@@ -377,3 +377,14 @@ psd_mass_hi[:] = nc1.variables['PSD_Mass_HI'][:]
 ## Write out file
 ###################################
 dataset.close()
+
+
+plt.subplot(411)
+plt.plot(nc_core.variables['Time'][:],nc_core.variables['ALT_OXTS'])
+plt.subplot(412)
+plt.plot(dataset.variables['Time_edge'][:],dataset.variables['ALT'])
+plt.subplot(413)
+plt.plot(nc.variables['Time_edge'][:],nc.variables['ALT'])
+plt.subplot(414)
+plt.plot(nc.variables['Time_mid'][:],nc.variables['NC_All'])
+plt.show()
