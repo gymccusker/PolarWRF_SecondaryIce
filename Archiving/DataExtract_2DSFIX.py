@@ -90,8 +90,38 @@ core_lon = nc_core.variables['LON_OXTS'][:] # longitude [deg E]
 # lon_flag = nc.variables['LON_OXTS_FLAG'][:] # lon flag
 core_alt = nc_core.variables['ALT_OXTS'][:] # altitude [m]
 
+# # ###################################
+# # # Construct new time binning - M218
+# # ###################################
+
+# tstart = np.array((core_time[0],nc1.variables['Time_edge'][0]))
+# tend = np.array((core_time[-1],nc1.variables['Time_edge'][-1]))
+
+# timebase = np.arange(np.max(tstart),np.min(tend),1.0)
+
+# altitude = np.zeros(len(nc1.variables['Time_edge']))
+# latitude = np.zeros(len(nc1.variables['Time_edge']))
+# longitude = np.zeros(len(nc1.variables['Time_edge']))
+
+# istart = np.where(nc1.variables['Time_edge'][:] <= core_time[0])
+# iend = np.where(nc1.variables['Time_edge'][:] >= core_time[-1])
+
+# altitude[istart[0][-1]:iend[0][0]+1] = core_alt[:]
+# latitude[istart[0][-1]:iend[0][0]+1] = core_lat[:]
+# longitude[istart[0][-1]:iend[0][0]+1] = core_lon[:]
+
+# altitude[0:istart[0][-1]] = -9999
+# altitude[iend[0][0]:] = -9999
+
+# latitude[0:istart[0][-1]] = -9999
+# latitude[iend[0][0]:] = -9999
+
+# longitude[0:istart[0][-1]] = -9999
+# longitude[iend[0][0]:] = -9999
+
+
 # ###################################
-# # Construct new time binning
+# # Construct new time binning - M219
 # ###################################
 
 tstart = np.array((core_time[0],nc1.variables['Time_edge'][0]))
@@ -103,23 +133,21 @@ altitude = np.zeros(len(nc1.variables['Time_edge']))
 latitude = np.zeros(len(nc1.variables['Time_edge']))
 longitude = np.zeros(len(nc1.variables['Time_edge']))
 
-istart = np.where(nc1.variables['Time_edge'][:] <= core_time[0])
+istart = np.where(nc1.variables['Time_edge'][0] >= core_time[:])
 iend = np.where(nc1.variables['Time_edge'][:] >= core_time[-1])
 
-altitude[istart[0][-1]:iend[0][0]+1] = core_alt[:]
-latitude[istart[0][-1]:iend[0][0]+1] = core_lat[:]
-longitude[istart[0][-1]:iend[0][0]+1] = core_lon[:]
+altitude[:iend[0][0]+1] = core_alt[istart[0][-1]:]
+latitude[:iend[0][0]+1] = core_lat[istart[0][-1]:]
+longitude[:iend[0][0]+1] = core_lon[istart[0][-1]:]
 
-altitude[0:istart[0][-1]] = -9999
+# altitude[0:istart[0][-1]] = -9999
 altitude[iend[0][0]:] = -9999
 
-latitude[0:istart[0][-1]] = -9999
+# latitude[0:istart[0][-1]] = -9999
 latitude[iend[0][0]:] = -9999
 
-longitude[0:istart[0][-1]] = -9999
+# longitude[0:istart[0][-1]] = -9999
 longitude[iend[0][0]:] = -9999
-
-# plt.plot(nc1.variables['Time_edge'][:],altitude);plt.show()
 
 ##--------------------------------------------------------------------------
 ##--------------------------------------------------------------------------
