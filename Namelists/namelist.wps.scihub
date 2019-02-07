@@ -1,0 +1,37 @@
+&share
+ wrf_core = 'ARW',
+ max_dom = 1,
+ start_date = '2015-11-26_00:00:00','2015-11-26_00:00:00','2015-11-26_00:00:00'
+ end_date   = '2015-11-28_00:00:00','2015-11-28_00:00:00','2015-11-26_06:00:00'
+ interval_seconds = 21600
+ io_form_geogrid = 2,
+/
+
+&geogrid
+ parent_id         =   1,  1,
+ parent_grid_ratio =   1,  5,
+ i_parent_start    =   1,  85,
+ j_parent_start    =   1,  44,
+ e_we              =  201, 326,
+ e_sn              =  201, 406,
+ geog_data_res = '10m','2m',
+ dx = 5000,
+ dy = 5000,
+ map_proj = 'polar',
+ ref_lat   =  -74.20,
+ ref_lon   =  -30.00,
+ truelat1  = -60.0,
+ truelat2  =  0.0,
+ stand_lon = -30.0,
+ geog_data_path = '/data/scihub-users/jask/WRF/geog'
+/
+
+&ungrib
+ out_format = 'WPS',
+ prefix = 'FILE',
+/
+
+&metgrid
+ fg_name = 'FILE'
+ io_form_metgrid = 2, 
+/
